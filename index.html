@@ -4,8 +4,8 @@
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icona.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#f3f6f8;--surface:#fff;--surface-2:#eaf0f4;--fg:#14232e;--muted:#5b6b77;--line:#d8e1e8;--accent:#0b6e99;--accent-ink:#fff;--accent-soft:#dcedf5;--good:#1e7e34;--good-soft:#e3f3e7;--warn:#a15c00;--warn-soft:#fff1dc;--bad:#b02a37;--bad-soft:#fbe7e9;--wa:#1f8f4e;--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#0e161c;--surface:#16222b;--surface-2:#1d2c37;--fg:#e4edf2;--muted:#93a5b2;--line:#2a3b47;--accent:#4fb3dd;--accent-ink:#06202c;--accent-soft:#173949;--good:#5cc67a;--good-soft:#163323;--warn:#f0a94a;--warn-soft:#3a2a12;--bad:#f07a86;--bad-soft:#3d1a1f;--wa:#4cc983;color-scheme:dark}}
+:root{--bg:#f5f1ea;--surface:#fffdf9;--surface-2:#efe8dc;--fg:#1d2a31;--muted:#646b6e;--line:#e3dacb;--mare:#0b6e99;--mare-soft:#dcedf5;--sole:#b86e00;--sole-soft:#fdeed3;--corallo:#c2452d;--corallo-soft:#fbe3dc;--pineta:#2b7a4b;--pineta-soft:#dff1e5;--ametista:#6a4fb0;--ametista-soft:#ebe5f7;--accent:#0b6e99;--accent-ink:#fff;--accent-soft:#dcedf5;--good:#1e7e34;--good-soft:#e3f3e7;--warn:#a15c00;--warn-soft:#fff1dc;--bad:#b02a37;--bad-soft:#fbe7e9;--wa:#1f8f4e;--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0e161c;--surface:#16222b;--surface-2:#1d2c37;--mare:#4fb3dd;--mare-soft:#173949;--sole:#f0ad4e;--sole-soft:#3a2a12;--corallo:#f08a72;--corallo-soft:#3d1f19;--pineta:#5cc67a;--pineta-soft:#163323;--ametista:#a993ee;--ametista-soft:#2a2245;--fg:#e4edf2;--muted:#93a5b2;--line:#2a3b47;--accent:#4fb3dd;--accent-ink:#06202c;--accent-soft:#173949;--good:#5cc67a;--good-soft:#163323;--warn:#f0a94a;--warn-soft:#3a2a12;--bad:#f07a86;--bad-soft:#3d1a1f;--wa:#4cc983;color-scheme:dark}}
 *{box-sizing:border-box}html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
 [hidden]{display:none!important}
@@ -63,6 +63,23 @@ td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:l
 .login h1{font-family:var(--display);margin:0;font-size:26px}
 .login input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
 .err{color:var(--bad);font-size:14px;min-height:20px}
+/* colori per sezione */
+#s-oggi,#s-prev{--c:var(--mare);--cs:var(--mare-soft)}#s-prezzi{--c:var(--sole);--cs:var(--sole-soft)}#s-rec{--c:var(--corallo);--cs:var(--corallo-soft)}#s-osp{--c:var(--pineta);--cs:var(--pineta-soft)}#s-ris{--c:var(--ametista);--cs:var(--ametista-soft)}
+nav button[data-tab=oggi],nav button[data-tab=prev]{--c:var(--mare)}nav button[data-tab=prezzi]{--c:var(--sole)}nav button[data-tab=rec]{--c:var(--corallo)}nav button[data-tab=osp]{--c:var(--pineta)}nav button[data-tab=ris]{--c:var(--ametista)}
+nav button::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:7px;vertical-align:1px;opacity:.55}
+nav button[aria-selected="true"]{border-bottom-color:var(--c)}nav button[aria-selected="true"]::before{opacity:1}
+section.tab > div:first-child h2::before{content:'';display:inline-block;width:6px;height:20px;border-radius:3px;background:var(--c);margin-right:10px;vertical-align:-3px}
+.tile{border-top:3px solid var(--c,var(--line))}.tile .v{color:var(--c,var(--fg))}.tile.loss{border-top-color:var(--corallo)}.tile.loss .v{color:var(--corallo)}
+.todo .t-rec{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-prev{--c:var(--mare);--cs:var(--mare-soft)}.todo .t-prezzi{--c:var(--sole);--cs:var(--sole-soft)}.todo .t-osp{--c:var(--pineta);--cs:var(--pineta-soft)}
+.todo button{border-left-color:var(--c)}.todo button.on{background:var(--cs);border-color:transparent;border-left-color:var(--c)}.todo .n{color:var(--c)}
+.req{border-left:4px solid var(--st,var(--line))}
+.st-attesa{--st:var(--sole)}.st-risposto{--st:var(--mare)}.st-prenotato,.st-ok{--st:var(--pineta)}.st-non_interessato{--st:var(--line)}.st-bad{--st:var(--corallo)}.st-invito{--st:var(--mare)}
+.av{flex:none;width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;font-size:12px;font-weight:700;letter-spacing:.02em}
+.chip.l-IT{background:var(--pineta-soft);color:var(--pineta)}.chip.l-DE{background:var(--sole-soft);color:var(--sole)}.chip.l-EN{background:var(--mare-soft);color:var(--mare)}.chip.l-FR{background:var(--ametista-soft);color:var(--ametista)}
+#tiles .tile:nth-child(2),#ris-tiles .tile:nth-child(2){--c:var(--sole)}#tiles .tile:nth-child(3),#ris-tiles .tile:nth-child(3){--c:var(--pineta)}#tiles .tile:nth-child(4),#ris-tiles .tile:nth-child(4){--c:var(--ametista)}#ris-tiles .tile:nth-child(1){--c:var(--mare)}
+.tools{flex-wrap:wrap}.tools .btn{white-space:nowrap}
+@media (max-width:520px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile .v{font-size:22px}#agg{display:none}}
+.gain{background:var(--sole-soft)}.gain b{color:var(--sole)}
 .inst{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);border-radius:12px;padding:12px 14px;font-size:14px}
 .inst img{width:40px;height:40px;border-radius:9px;flex:none}
 .inst span{flex:1;min-width:200px}
@@ -222,7 +239,7 @@ var INTENTI = { prenotare:'vuole prenotare', domanda:'ha una domanda', non_inter
 function card(p){
   var s = STATI[p.stato] || STATI.attesa, aperto = p.stato === 'attesa' || p.stato === 'risposto';
   var osp = p.adulti + ' adulti' + (p.bambini ? ' + bambini (' + esc(p.bambini) + ' anni)' : '');
-  return '<article class="req' + (aperto ? '' : ' done') + '"><div><div class="who">' + esc(p.nome) + ' <span class="chip ' + p.canale + '">' + (p.canale === 'wa' ? 'WhatsApp' : 'Chat del sito') + '</span><span class="chip">' + esc(p.lingua) + '</span><span class="pill ' + s[0] + '">' + s[1] + '</span></div>'
+  return '<article class="req st-' + p.stato + (aperto ? '' : ' done') + '"><div><div class="who">' + av(p.nome) + esc(p.nome) + ' <span class="chip ' + p.canale + '">' + (p.canale === 'wa' ? 'WhatsApp' : 'Chat del sito') + '</span>' + lchip(p.lingua) + '<span class="pill ' + s[0] + '">' + s[1] + '</span></div>'
     + '<div class="meta">' + gg(p.arrivo) + ' – ' + gg(p.partenza) + ' ' + String(p.partenza).slice(0, 4) + ' · ' + notti(p.arrivo, p.partenza) + ' notti · ' + osp + ' · ' + esc(p.tratt) + '</div>'
     + '<div class="meta">' + esc(p.contatto) + ' · richiesta il ' + gg(p.ricevuta) + (p.sollecito ? ' · sollecito inviato il ' + gg(p.sollecito) : '') + '</div></div>'
     + '<div class="price">' + eur(p.prezzo, true) + '</div>'
@@ -231,6 +248,8 @@ function card(p){
       : '<button class="btn" data-id="' + p.id + '" data-stato="' + (p.sollecito ? 'follow_up_inviato' : 'offerta_inviata') + '" type="button">Annulla</button>') + '</div>'
     + (p.msg ? '<details><summary>Messaggio di sollecito inviato</summary><p>' + esc(p.msg) + '</p></details>' : '') + '</article>';
 }
+function av(nome){ var s = String(nome || '?'), h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; var p = s.replace(/^(famiglia|familie|famille|family)\s+/i, '').split(/\s+/).filter(Boolean); var ini = (p[0] || '?').charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : ''); return '<span class="av" style="background:hsl(' + h + ' 60% 88%);color:hsl(' + h + ' 55% 28%)" aria-hidden="true">' + esc(ini.toUpperCase()) + '</span>'; }
+function lchip(l){ return '<span class="chip l-' + esc(l) + '">' + esc(l) + '</span>'; }
 function tiles(arr, cls){ return arr.map(function(t){ return '<div class="tile ' + (cls || '') + '"><div class="v">' + t[0] + '</div><div class="l">' + t[1] + '</div></div>'; }).join(''); }
 
 function render(){
@@ -247,10 +266,10 @@ function render(){
   $('#b-prezzi').textContent = alza.length + imposta.length; $('#b-prezzi').hidden = !(alza.length + imposta.length);
   $('#todo').innerHTML = [
     [bassi.length, 'Ospiti scontenti da richiamare', bassi.length ? 'Chiamali prima che scrivano online' : 'Nessuno, ottimo', bassi.length ? 'warn' : 'good', 'rec'],
-    [aperti.length, 'Preventivi aperti', risposti.length ? risposti.length + ' cliente' + (risposti.length > 1 ? 'i hanno' : ' ha') + ' risposto: ricontattalo' : 'Segna chi ha prenotato per fermare i solleciti', risposti.length ? 'good' : '', 'prev'],
+    [aperti.length, 'Preventivi aperti', risposti.length ? risposti.length + (risposti.length > 1 ? ' clienti hanno risposto: ricontattali' : ' cliente ha risposto: ricontattalo') : 'Segna chi ha prenotato per fermare i solleciti', risposti.length ? 'good' : '', 'prev'],
     [alza.length + imposta.length, 'Prezzi da sistemare', alza.length + ' da alzare, ' + imposta.length + ' senza prezzo' + (extra ? ' · +' + extra + ' € per camera' : ''), 'warn', 'prezzi'],
     [vogliono.length, 'Ospiti che vogliono tornare', vogliono.length ? 'Mandagli il preventivo oggi' : D.ospiti.length + ' inviti inviati, nessuna risposta per ora', vogliono.length ? 'good' : '', 'osp']
-  ].map(function(x){ return '<button class="' + x[3] + '" data-go="' + x[4] + '" type="button"><span class="n">' + x[0] + '</span><span><span class="t">' + x[1] + '</span><br><span class="d">' + x[2] + '</span></span></button>'; }).join('');
+  ].map(function(x){ return '<button class="t-' + x[4] + (x[0] ? ' on' : '') + '" data-go="' + x[4] + '" type="button"><span class="n">' + x[0] + '</span><span><span class="t">' + x[1] + '</span><br><span class="d">' + x[2] + '</span></span></button>'; }).join('');
   $('#tiles').innerHTML = tiles([[R.richieste, 'richieste di preventivo negli ultimi 30 giorni'], [eur(R.valore), 'valore dei preventivi inviati'], [R.prenotati ? eur(R.valorePrenotati) : '–', 'prenotazioni confermate dai preventivi'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato alla reception']]);
   $('#ultime').innerHTML = P.length ? P.slice(0, 3).map(card).join('') : '<div class="empty">Nessuna richiesta per ora. Appena un cliente scrive su WhatsApp o nella chat del sito la trovi qui.</div>';
   $('#prev').innerHTML = P.length ? P.map(card).join('') : '<div class="empty">Nessuna richiesta di preventivo.</div>';
@@ -266,10 +285,10 @@ function render(){
 
   var voti = D.recensioni.filter(function(r){ return r.voto; }).map(function(r){ return r.voto; });
   $('#rec-tiles').innerHTML = tiles([[D.recensioni.length, 'richieste di voto inviate'], [voti.length, 'voti ricevuti'], [voti.length ? (voti.reduce(function(a, b){ return a + b; }, 0) / voti.length).toFixed(1).replace('.', ',') + ' / 5' : '–', 'voto medio'], [bassi.length, 'ospiti scontenti segnalati']]);
-  $('#rec-bad').innerHTML = bassi.length ? bassi.map(function(r){ return '<div class="req"><div><div class="who">' + esc(r.nome) + ' <span class="pill p-bad">' + r.voto + ' ★</span></div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + ' · ' + esc(r.email) + '</div></div></div>'; }).join('')
+  $('#rec-bad').innerHTML = bassi.length ? bassi.map(function(r){ return '<div class="req st-bad"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' <span class="pill p-bad">' + r.voto + ' ★</span></div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + ' · ' + esc(r.email) + '</div></div></div>'; }).join('')
     : '<div class="empty">Nessun ospite scontento da richiamare. Quando arriva un voto da 1 a 3 stelle lo trovi qui e ricevi anche un’email.</div>';
-  $('#rec-list').innerHTML = D.recensioni.length ? D.recensioni.map(function(r){ return '<div class="req"><div><div class="who">' + esc(r.nome) + ' <span class="chip">' + esc(r.lingua) + '</span></div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + '</div></div><div><span class="pill ' + (r.voto ? (r.voto >= 4 ? 'p-ok' : 'p-bad') : 'p-wait') + '">' + (r.voto ? r.voto + ' ★' : 'In attesa del voto') + '</span></div></div>'; }).join('') : '<div class="empty">Nessuna richiesta di voto inviata.</div>';
-  $('#osp').innerHTML = D.ospiti.length ? D.ospiti.map(function(o){ var on = o.stato === 'interessato'; return '<div class="req"><div><div class="who">' + esc(o.nome) + ' <span class="chip">' + esc(o.lingua) + '</span><span class="pill ' + (on ? 'p-ok' : (o.stato === 'invito_inviato' ? 'p-info' : 'p-no')) + '">' + (on ? 'Vuole il preventivo' : (o.stato === 'invito_inviato' ? 'Invito inviato' : 'Da invitare a gennaio')) + '</span></div><div class="meta">Ultimo soggiorno: ' + esc(o.ultimo) + ' · ' + esc(o.comp) + '</div>' + (o.note ? '<div class="meta">Nota della reception: ' + esc(o.note) + '</div>' : '') + (on ? '<div class="meta">' + esc(o.email) + '</div>' : '') + '</div></div>'; }).join('') : '<div class="empty">Nessun ospite in archivio.</div>';
+  $('#rec-list').innerHTML = D.recensioni.length ? D.recensioni.map(function(r){ return '<div class="req ' + (r.voto ? (r.voto >= 4 ? 'st-ok' : 'st-bad') : 'st-attesa') + '"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' ' + lchip(r.lingua) + '</div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + '</div></div><div><span class="pill ' + (r.voto ? (r.voto >= 4 ? 'p-ok' : 'p-bad') : 'p-wait') + '">' + (r.voto ? r.voto + ' ★' : 'In attesa del voto') + '</span></div></div>'; }).join('') : '<div class="empty">Nessuna richiesta di voto inviata.</div>';
+  $('#osp').innerHTML = D.ospiti.length ? D.ospiti.map(function(o){ var on = o.stato === 'interessato'; return '<div class="req ' + (on ? 'st-ok' : (o.stato === 'invito_inviato' ? 'st-invito' : 'st-non_interessato')) + '"><div><div class="who">' + av(o.nome) + esc(o.nome) + ' ' + lchip(o.lingua) + '<span class="pill ' + (on ? 'p-ok' : (o.stato === 'invito_inviato' ? 'p-info' : 'p-no')) + '">' + (on ? 'Vuole il preventivo' : (o.stato === 'invito_inviato' ? 'Invito inviato' : 'Da invitare a gennaio')) + '</span></div><div class="meta">Ultimo soggiorno: ' + esc(o.ultimo) + ' · ' + esc(o.comp) + '</div>' + (o.note ? '<div class="meta">Nota della reception: ' + esc(o.note) + '</div>' : '') + (on ? '<div class="meta">' + esc(o.email) + '</div>' : '') + '</div></div>'; }).join('') : '<div class="empty">Nessun ospite in archivio.</div>';
 
   $('#ris-tiles').innerHTML = tiles([[R.richieste, 'richieste gestite'], [eur(R.valore), 'valore dei preventivi'], [R.prenotati, 'prenotazioni segnate da te'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato']]);
   $('#perdite').innerHTML = tiles([[eur(L.inSospeso), L.nSospeso + ' preventivi senza risposta da oltre 7 giorni dopo il sollecito'], [eur(L.persi), L.nPersi + ' preventivi segnati come non interessati'], ['+' + L.prezzi + ' €', 'per camera non incassati nelle date con prezzo sotto la zona']], 'loss');
