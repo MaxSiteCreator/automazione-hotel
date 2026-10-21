@@ -70,7 +70,7 @@ nav button::before{content:'';display:inline-block;width:8px;height:8px;border-r
 nav button[aria-selected="true"]{border-bottom-color:var(--c)}nav button[aria-selected="true"]::before{opacity:1}
 section.tab > div:first-child h2::before{content:'';display:inline-block;width:6px;height:20px;border-radius:3px;background:var(--c);margin-right:10px;vertical-align:-3px}
 .tile{border-top:3px solid var(--c,var(--line))}.tile .v{color:var(--c,var(--fg))}.tile.loss{border-top-color:var(--corallo)}.tile.loss .v{color:var(--corallo)}
-.todo .t-rec{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-prev{--c:var(--mare);--cs:var(--mare-soft)}.todo .t-prezzi{--c:var(--sole);--cs:var(--sole-soft)}.todo .t-osp{--c:var(--pineta);--cs:var(--pineta-soft)}.todo .t-hotel{--c:var(--laguna);--cs:var(--laguna-soft)}
+.todo .t-rec{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-prev{--c:var(--mare);--cs:var(--mare-soft)}.todo .t-prezzi{--c:var(--sole);--cs:var(--sole-soft)}.todo .t-osp{--c:var(--pineta);--cs:var(--pineta-soft)}.todo .t-hotel{--c:var(--laguna);--cs:var(--laguna-soft)}.todo .t-prob{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-extra{--c:var(--laguna);--cs:var(--laguna-soft)}
 .todo button{border-left-color:var(--c)}.todo button.on{background:var(--cs);border-color:transparent;border-left-color:var(--c)}.todo .n{color:var(--c)}
 .req{border-left:4px solid var(--st,var(--line))}
 .st-attesa,.st-manuale{--st:var(--sole)}.st-manuale .pill.p-wait{background:var(--corallo-soft);color:var(--corallo)}.st-risposto{--st:var(--mare)}.st-prenotato,.st-ok{--st:var(--pineta)}.st-non_interessato{--st:var(--line)}.st-bad{--st:var(--corallo)}.st-invito{--st:var(--mare)}
@@ -134,6 +134,13 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
 .resa .big{font-family:var(--display);font-size:34px;font-weight:700;color:var(--ametista);line-height:1}
 .resa .x{font-family:var(--display);font-size:22px;font-weight:700;color:var(--good)}
 .resa p{margin:0;flex:1;min-width:240px;font-size:14px}
+.filtri{display:flex;gap:8px;flex-wrap:wrap}
+.filtri button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 14px;cursor:pointer}
+.filtri button span{display:inline-block;min-width:20px;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--surface-2);font-size:12px;line-height:20px;text-align:center}
+.filtri button[aria-pressed="true"]{background:var(--mare);border-color:var(--mare);color:#fff}.filtri button[aria-pressed="true"] span{background:rgba(255,255,255,.25);color:#fff}
+.fatto{grid-column:1/-1;background:var(--good-soft);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}.fatto b{font-family:var(--display);font-size:20px;color:var(--good)}.fatto span{color:var(--fg);font-size:14px}
+.req .actions .btn{white-space:nowrap}
+
 
 </style></head><body>
 
@@ -159,8 +166,8 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
     <button role="tab" data-tab="hotel" aria-selected="false">In hotel<span class="badge" id="b-hotel"></span></button>
     <button role="tab" data-tab="prev" aria-selected="false">Preventivi<span class="badge" id="b-prev"></span></button>
     <button role="tab" data-tab="prezzi" aria-selected="false">Prezzi<span class="badge" id="b-prezzi"></span></button>
-    <button role="tab" data-tab="rec" aria-selected="false">Recensioni</button>
-    <button role="tab" data-tab="osp" aria-selected="false">Ospiti che tornano</button>
+    <button role="tab" data-tab="rec" aria-selected="false">Recensioni<span class="badge" id="b-rec"></span></button>
+    <button role="tab" data-tab="osp" aria-selected="false">Ospiti che tornano<span class="badge" id="b-osp"></span></button>
     <button role="tab" data-tab="ris" aria-selected="false">Risultati</button>
   </nav></div></header>
 <main class="wrap">
@@ -179,7 +186,8 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
     <div><h3>In arrivo</h3><div class="list" id="hotel-arrivi"></div></div>
   </section>
   <section class="tab" id="s-prev" hidden>
-    <div><h2>Preventivi</h2><p class="sub">Segna "Prenotato" o "Non interessato" appena lo sai: l'assistente smette di mandare solleciti a quel cliente.</p></div>
+    <div><h2>Preventivi</h2><p class="sub">In "Da rispondere" trovi solo i clienti che aspettano te: appena rispondi o segni "Prenotato" spariscono da qui. Segnare "Prenotato" o "Non interessato" ferma anche i solleciti.</p></div>
+    <div class="filtri" id="prev-filtri" role="group" aria-label="Filtra i preventivi"></div>
     <div class="list" id="prev"></div>
   </section>
   <section class="tab" id="s-prezzi" hidden>
@@ -254,7 +262,7 @@ function chiama(corpo){
 function mostraLogin(msg){ $('#app').hidden = true; $('#zelda').hidden = true; $('#login').hidden = false; $('#err').textContent = msg || ''; ($('#utente').value ? $('#pwd') : $('#utente')).focus(); }
 function carica(){
   $('#b-agg').disabled = true;
-  return chiama({azione:'dati'}).then(function(d){ D = d; ULTIMO = Date.now(); $('#login').hidden = true; $('#app').hidden = false; $('#zelda').hidden = false; render(); zeldaNome(); avvioAutomatico(); mostraInstalla(); statoNotifiche(); $('#agg').textContent = 'Aggiornato alle ' + new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}); })
+  return chiama({azione:'dati'}).then(function(d){ D = d; ULTIMO = Date.now(); $('#login').hidden = true; $('#app').hidden = false; $('#zelda').hidden = false; render(); chiudiNotifiche(); zeldaNome(); avvioAutomatico(); mostraInstalla(); statoNotifiche(); $('#agg').textContent = 'Aggiornato alle ' + new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}); })
   .catch(function(e){ if (e.auth) { salvaAccesso(false); mostraLogin('Nome utente o password non validi.'); } else toast('Non riesco a caricare i dati. Controlla la connessione e premi Aggiorna.'); })
   .then(function(){ $('#b-agg').disabled = false; });
 }
@@ -316,6 +324,29 @@ function inviaBozza(btn){
   chiama({azione:'invia', id: id, testo: t}).then(function(){ toast(email ? 'Email inviata a ' + p.nome + '.' : 'Segnato come risposto. Premi Invia su WhatsApp.'); return carica(); })
     .catch(function(err){ btn.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a inviare. Riprova.'); });
 }
+var FP = '';
+function prezziVisti(){ try { return localStorage.getItem('prezzi-visti') === String(D.prezziData); } catch(e) { return false; } }
+function contatori(){
+  var S = D.soggiorni || [], Z = D.prezzi || [];
+  var c = {
+    prev: D.preventivi.filter(function(p){ return (p.stato === 'risposto' || p.stato === 'manuale') && !p.rispostaInviata; }),
+    hotel: S.filter(function(o){ return o.problema && !o.problemaRisolto; }).length + S.filter(function(o){ return o.extra.length && !o.extraFatti; }).length,
+    rec: D.recensioni.filter(function(r){ return r.voto && r.voto <= 3 && !r.richiamato; }),
+    osp: D.ospiti.filter(function(o){ return o.stato === 'interessato'; }),
+    prezzi: (D.prezziData && !prezziVisti()) ? Z.filter(function(x){ return x.azione === 'alza' || x.azione === 'imposta'; }).length : 0
+  };
+  c.totale = c.prev.length + c.hotel + c.rec.length + c.osp.length + c.prezzi;
+  [['#b-prev', c.prev.length], ['#b-hotel', c.hotel], ['#b-prezzi', c.prezzi], ['#b-rec', c.rec.length], ['#b-osp', c.osp.length]].forEach(function(x){ var el = $(x[0]); if (el) { el.textContent = x[1]; el.hidden = !x[1]; } });
+  segnaApp(c.totale);
+  return c;
+}
+function segnaApp(n){
+  try { if (navigator.setAppBadge) { n ? navigator.setAppBadge(n) : navigator.clearAppBadge(); } } catch(e) {}
+  try { if (window.caches) caches.open('pannello-badge').then(function(c){ return c.put('conteggio', new Response(String(n))); }).catch(function(){}); } catch(e) {}
+}
+function chiudiNotifiche(){
+  try { if (!swOk()) return; navigator.serviceWorker.getRegistration('./').then(function(reg){ return reg && reg.getNotifications ? reg.getNotifications() : []; }).then(function(ns){ (ns || []).forEach(function(n){ n.close(); }); }).catch(function(){}); } catch(e) {}
+}
 function render(){
   var P = D.preventivi, Z = D.prezzi || [], R = D.risultati, L = D.perdite;
   $('#nome-hotel').textContent = D.hotel; document.title = D.hotel + ' – Pannello';
@@ -333,24 +364,30 @@ function render(){
   var casa = S.filter(function(o){ return o.fase === 'in_casa' || o.fase === 'partenza'; });
   var arrivi = S.filter(function(o){ return o.fase === 'arrivo'; });
   var daFare = probAperti.length + extraDaFare.length;
-  $('#b-hotel').textContent = daFare; $('#b-hotel').hidden = !daFare;
   $('#hotel-tiles').innerHTML = tiles([[casa.length, 'ospiti in casa oggi'], [probAperti.length, probAperti.length === 1 ? 'problema da sistemare' : 'problemi da sistemare'], [eur(extraDaFare.reduce(function(t, o){ return t + (o.valoreExtra || 0); }, 0)), 'extra richiesti da preparare'], [arrivi.length, 'arrivi nei prossimi 14 giorni']]);
   $('#hotel-prob').innerHTML = probAperti.length ? probAperti.map(function(o){ return ospCard(o, 'prob'); }).join('') : '<div class="empty">Nessun problema segnalato. Se un ospite tocca "C’è qualcosa da sistemare" lo trovi qui e ricevi subito una notifica.</div>';
   $('#hotel-extra').innerHTML = extraDaFare.length ? extraDaFare.map(function(o){ return ospCard(o, 'extra'); }).join('') : '<div class="empty">Nessun extra da preparare.</div>';
   $('#hotel-casa').innerHTML = casa.length ? casa.map(function(o){ return ospCard(o, ''); }).join('') : '<div class="empty">Nessun ospite in casa.</div>';
   $('#hotel-arrivi').innerHTML = arrivi.length ? arrivi.map(function(o){ return ospCard(o, ''); }).join('') : '<div class="empty">Nessun arrivo nei prossimi 14 giorni.</div>';
-  $('#b-prev').textContent = aperti.length; $('#b-prev').hidden = !aperti.length;
-  $('#b-prezzi').textContent = alza.length + imposta.length; $('#b-prezzi').hidden = !(alza.length + imposta.length);
-  $('#todo').innerHTML = [
-    [bassi.length, 'Ospiti scontenti da richiamare', bassi.length ? 'Chiamali prima che scrivano online' : 'Nessuno, ottimo', bassi.length ? 'warn' : 'good', 'rec'],
-    [aperti.length, 'Preventivi aperti', (risposti.length || manuali.length) ? [risposti.length ? risposti.length + (risposti.length > 1 ? ' hanno risposto' : ' ha risposto') : '', manuali.length ? manuali.length + ' da ricontattare a mano' : ''].filter(Boolean).join(' \u00b7 ') : 'Segna chi ha prenotato per fermare i solleciti', risposti.length ? 'good' : '', 'prev'],
-    [alza.length + imposta.length, 'Prezzi da sistemare', alza.length + ' da alzare, ' + imposta.length + ' senza prezzo' + (extra ? ' · +' + extra + ' € per camera' : ''), 'warn', 'prezzi'],
-    [vogliono.length, 'Ospiti che vogliono tornare', vogliono.length ? 'Mandagli il preventivo oggi' : D.ospiti.length + ' inviti inviati, nessuna risposta per ora', vogliono.length ? 'good' : '', 'osp']
-    , [daFare, 'Ospiti in hotel', probAperti.length ? probAperti.length + (probAperti.length > 1 ? ' problemi da sistemare' : ' problema da sistemare') + (extraDaFare.length ? ' · ' + extraDaFare.length + ' extra da preparare' : '') : (extraDaFare.length ? extraDaFare.length + ' extra da preparare prima dell’arrivo' : casa.length + ' ospiti in casa, tutto tranquillo'), probAperti.length ? 'warn' : '', 'hotel']
-  ].map(function(x){ return '<button class="t-' + x[4] + (x[0] ? ' on' : '') + '" data-go="' + x[4] + '" type="button"><span class="n">' + x[0] + '</span><span><span class="t">' + x[1] + '</span><br><span class="d">' + x[2] + '</span></span></button>'; }).join('');
+  var C = contatori();
+  var nuovi = C.prev.filter(function(p){ return p.intento === 'prenotare'; }).length;
+  var compiti = [
+    ['hotel', probAperti.length, probAperti.length === 1 ? 'Problema in camera da sistemare' : 'Problemi in camera da sistemare', probAperti.map(function(o){ return o.nome + ' (camera ' + o.camera + ')'; }).join(', '), 'warn', 'prob'],
+    ['rec', C.rec.length, C.rec.length === 1 ? 'Ospite scontento da richiamare' : 'Ospiti scontenti da richiamare', 'Chiamali prima che scrivano online, poi tocca "Richiamato"', 'warn'],
+    ['prev', C.prev.length, C.prev.length === 1 ? 'Cliente aspetta una tua risposta' : 'Clienti aspettano una tua risposta', (nuovi ? nuovi + (nuovi === 1 ? ' vuole prenotare · ' : ' vogliono prenotare · ') : '') + 'usa "Rispondi con bozza"', 'good'],
+    ['hotel', extraDaFare.length, 'Extra da preparare', extraDaFare.map(function(o){ return o.nome; }).join(', '), '', 'extra'],
+    ['osp', C.osp.length, C.osp.length === 1 ? 'Ospite vuole tornare' : 'Ospiti vogliono tornare', 'Mandagli il preventivo, poi tocca "Preventivo inviato"', 'good'],
+    ['prezzi', C.prezzi, 'Nuovi suggerimenti prezzi', alza.length + ' da alzare, ' + imposta.length + ' senza prezzo' + (extra ? ' · +' + extra + ' € per camera' : ''), '']
+  ].filter(function(x){ return x[1] > 0; });
+  $('#todo').innerHTML = compiti.length ? compiti.map(function(x){ return '<button class="t-' + (x[5] || x[0]) + ' on" data-go="' + x[0] + '" type="button"><span class="n">' + x[1] + '</span><span><span class="t">' + x[2] + '</span><br><span class="d">' + esc(x[3]) + '</span></span></button>'; }).join('')
+    : '<div class="fatto"><b>Tutto fatto ✓</b><span>Non c’è niente che richieda una tua decisione. Le automazioni continuano a lavorare: appena serve qualcosa ricevi una notifica.</span></div>';
   $('#tiles').innerHTML = tiles([[R.richieste, 'richieste di preventivo negli ultimi 30 giorni'], [eur(R.valore), 'valore dei preventivi inviati'], [R.prenotati ? eur(R.valorePrenotati) : '–', 'prenotazioni confermate dai preventivi'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato alla reception']]);
   $('#ultime').innerHTML = P.length ? P.slice(0, 3).map(card).join('') : '<div class="empty">Nessuna richiesta per ora. Appena un cliente scrive su WhatsApp o nella chat del sito la trovi qui.</div>';
-  $('#prev').innerHTML = P.length ? P.map(card).join('') : '<div class="empty">Nessuna richiesta di preventivo.</div>';
+  var GRUPPI = { fare: C.prev, attesa: P.filter(function(p){ return (p.stato === 'attesa') || ((p.stato === 'risposto' || p.stato === 'manuale') && p.rispostaInviata); }), chiusi: P.filter(function(p){ return p.stato === 'prenotato' || p.stato === 'non_interessato'; }) };
+  if (!FP) FP = C.prev.length ? 'fare' : 'attesa';
+  $('#prev-filtri').innerHTML = [['fare', 'Da rispondere'], ['attesa', 'In attesa del cliente'], ['chiusi', 'Chiusi']].map(function(f){ return '<button type="button" data-filtro="' + f[0] + '" aria-pressed="' + (FP === f[0]) + '">' + f[1] + ' <span>' + GRUPPI[f[0]].length + '</span></button>'; }).join('');
+  var lista = GRUPPI[FP];
+  $('#prev').innerHTML = lista.length ? lista.map(card).join('') : '<div class="empty">' + (FP === 'fare' ? 'Nessun cliente aspetta una tua risposta. Ottimo!' : FP === 'attesa' ? 'Nessun preventivo in attesa.' : 'Nessun preventivo chiuso.') + '</div>';
 
   var AZ = {alza:'Alza', abbassa:'Abbassa', mantieni:'OK', imposta:'Imposta', attendi:'Attendi'};
   $('#prezzi-sub').textContent = D.prezziData ? 'Camera doppia a notte, confrontata con gli hotel vicini su Google Hotels. Calcolati il ' + gg(D.prezziData) + '.' : 'I suggerimenti arrivano ogni lunedì mattina.';
@@ -362,11 +399,12 @@ function render(){
   }).join('') : '<tr><td colspan="6" class="note">Nessun suggerimento ancora disponibile.</td></tr>';
 
   var voti = D.recensioni.filter(function(r){ return r.voto; }).map(function(r){ return r.voto; });
-  $('#rec-tiles').innerHTML = tiles([[D.recensioni.length, 'richieste di voto inviate'], [voti.length, 'voti ricevuti'], [voti.length ? (voti.reduce(function(a, b){ return a + b; }, 0) / voti.length).toFixed(1).replace('.', ',') + ' / 5' : '–', 'voto medio'], [bassi.length, 'ospiti scontenti segnalati']]);
-  $('#rec-bad').innerHTML = bassi.length ? bassi.map(function(r){ return '<div class="req st-bad"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' <span class="pill p-bad">' + r.voto + ' ★</span></div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + ' · ' + esc(r.email) + '</div></div></div>'; }).join('')
+  $('#rec-tiles').innerHTML = tiles([[D.recensioni.length, 'richieste di voto inviate'], [voti.length, 'voti ricevuti'], [voti.length ? (voti.reduce(function(a, b){ return a + b; }, 0) / voti.length).toFixed(1).replace('.', ',') + ' / 5' : '–', 'voto medio'], [C.rec.length, 'ospiti scontenti da richiamare']]);
+  $('#rec-bad').innerHTML = C.rec.length ? C.rec.map(function(r){ return '<div class="req st-bad"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' <span class="pill p-bad">' + r.voto + ' ★</span></div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + ' · ' + esc(r.email) + '</div></div><div class="actions"><button class="btn primary" data-rich="' + r.id + '" type="button">Richiamato</button></div></div>'; }).join('')
     : '<div class="empty">Nessun ospite scontento da richiamare. Quando arriva un voto da 1 a 3 stelle lo trovi qui e ricevi anche un’email.</div>';
-  $('#rec-list').innerHTML = D.recensioni.length ? D.recensioni.map(function(r){ return '<div class="req ' + (r.voto ? (r.voto >= 4 ? 'st-ok' : 'st-bad') : 'st-attesa') + '"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' ' + lchip(r.lingua) + '</div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + '</div></div><div><span class="pill ' + (r.voto ? (r.voto >= 4 ? 'p-ok' : 'p-bad') : 'p-wait') + '">' + (r.voto ? r.voto + ' ★' : 'In attesa del voto') + '</span></div></div>'; }).join('') : '<div class="empty">Nessuna richiesta di voto inviata.</div>';
-  $('#osp').innerHTML = D.ospiti.length ? D.ospiti.map(function(o){ var on = o.stato === 'interessato'; return '<div class="req ' + (on ? 'st-ok' : (o.stato === 'invito_inviato' ? 'st-invito' : 'st-non_interessato')) + '"><div><div class="who">' + av(o.nome) + esc(o.nome) + ' ' + lchip(o.lingua) + '<span class="pill ' + (on ? 'p-ok' : (o.stato === 'invito_inviato' ? 'p-info' : 'p-no')) + '">' + (on ? 'Vuole il preventivo' : (o.stato === 'invito_inviato' ? 'Invito inviato' : 'Da invitare a gennaio')) + '</span></div><div class="meta">Ultimo soggiorno: ' + esc(o.ultimo) + ' · ' + esc(o.comp) + '</div>' + (o.note ? '<div class="meta">Nota della reception: ' + esc(o.note) + '</div>' : '') + (on ? '<div class="meta">' + esc(o.email) + '</div>' : '') + '</div></div>'; }).join('') : '<div class="empty">Nessun ospite in archivio.</div>';
+  $('#rec-list').innerHTML = D.recensioni.length ? D.recensioni.map(function(r){ return '<div class="req ' + (r.voto ? (r.voto >= 4 ? 'st-ok' : 'st-bad') : 'st-attesa') + '"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' ' + lchip(r.lingua) + '</div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + '</div></div><div><span class="pill ' + (r.voto ? (r.voto >= 4 ? 'p-ok' : 'p-bad') : 'p-wait') + '">' + (r.voto ? r.voto + ' ★' : 'In attesa del voto') + '</span>' + (r.richiamato ? ' <span class="pill p-ok">Richiamato</span>' : '') + '</div></div>'; }).join('') : '<div class="empty">Nessuna richiesta di voto inviata.</div>';
+  var ORD = { interessato: 0, preventivo_inviato: 1, invito_inviato: 2 };
+  $('#osp').innerHTML = D.ospiti.length ? D.ospiti.slice().sort(function(a, b){ return (ORD[a.stato] == null ? 3 : ORD[a.stato]) - (ORD[b.stato] == null ? 3 : ORD[b.stato]); }).map(function(o){ var on = o.stato === 'interessato', inv = o.stato === 'preventivo_inviato'; return '<div class="req ' + (on ? 'st-ok' : (o.stato === 'invito_inviato' || inv ? 'st-invito' : 'st-non_interessato')) + '"><div><div class="who">' + av(o.nome) + esc(o.nome) + ' ' + lchip(o.lingua) + '<span class="pill ' + (on ? 'p-ok' : (o.stato === 'invito_inviato' || inv ? 'p-info' : 'p-no')) + '">' + (on ? 'Vuole il preventivo' : inv ? 'Preventivo inviato' : (o.stato === 'invito_inviato' ? 'Invito inviato' : 'Da invitare a gennaio')) + '</span></div><div class="meta">Ultimo soggiorno: ' + esc(o.ultimo) + ' · ' + esc(o.comp) + '</div>' + (o.note ? '<div class="meta">Nota della reception: ' + esc(o.note) + '</div>' : '') + (on ? '<div class="meta">' + esc(o.email) + '</div>' : '') + '</div>' + (on ? '<div class="actions"><button class="btn primary" data-rit="' + o.id + '" type="button">Preventivo inviato</button></div>' : '') + '</div>'; }).join('') : '<div class="empty">Nessun ospite in archivio.</div>';
 
   $('#resa').innerHTML = '<div><div class="big">' + eur(R.guadagno) + '</div><div class="note">portati dal sistema finora</div></div><div><div class="x">' + String(R.ritorno).replace('.', ',') + '×</div><div class="note">quello che costa</div></div><p>Prenotazioni arrivate dai preventivi: <b>' + eur(R.valorePrenotati) + '</b> · extra venduti prima dell’arrivo: <b>' + eur(R.valoreExtra) + '</b>. Il servizio costa <b>' + eur(R.canone) + '</b> al mese e in 30 giorni ha fatto risparmiare alla reception circa <b>' + String(R.ore).replace('.', ',') + ' ore</b>.</p>';
   $('#ris-tiles').innerHTML = tiles([[R.richieste, 'richieste gestite'], [eur(R.valore), 'valore dei preventivi'], [R.prenotati, 'prenotazioni segnate da te'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato']]);
@@ -377,16 +415,25 @@ function render(){
   $('#kv-rec').innerHTML = kv([['Richieste di voto inviate', R.richiesteVoto], ['Voti ricevuti', R.voti], ['Inviti agli ospiti passati', R.inviti], ['Ospiti interessati a tornare', R.interessati]]);
 }
 
-function apri(t){ document.querySelectorAll('[role=tab]').forEach(function(b){ var on = b.dataset.tab === t; b.setAttribute('aria-selected', on); $('#s-' + b.dataset.tab).hidden = !on; }); window.scrollTo(0, 0); }
+function apri(t){ if (t === 'prezzi' && D && D.prezziData) { try { localStorage.setItem('prezzi-visti', String(D.prezziData)); } catch(e) {} render(); } document.querySelectorAll('[role=tab]').forEach(function(b){ var on = b.dataset.tab === t; b.setAttribute('aria-selected', on); $('#s-' + b.dataset.tab).hidden = !on; }); window.scrollTo(0, 0); }
 document.addEventListener('click', function(e){
   var tab = e.target.closest('[role=tab]'); if (tab) return apri(tab.dataset.tab);
   var go = e.target.closest('[data-go]'); if (go) return apri(go.dataset.go);
   var bz = e.target.closest('[data-bozza]'); if (bz) return apriBozza(bz);
   var iv = e.target.closest('[data-invia]'); if (iv) return inviaBozza(iv);
   var cb = e.target.closest('[data-chiudi-bozza]'); if (cb) { var art = cb.closest('article'); cb.closest('.bozza').remove(); var ob = art.querySelector('[data-bozza]'); if (ob) ob.disabled = false; return; }
+  var fl = e.target.closest('[data-filtro]'); if (fl) { FP = fl.dataset.filtro; return render(); }
+  var ri = e.target.closest('[data-rich]');
+  if (ri) { ri.disabled = true; var sg = (D.soggiorni || []).filter(function(x){ return x.id === Number(ri.dataset.rich); })[0] || {};
+    return chiama({azione:'ospite', id: Number(ri.dataset.rich), richiamato: true, problema_risolto: !!sg.problemaRisolto, extra_fatti: !!sg.extraFatti}).then(function(){ toast('Segnato come richiamato.'); return carica(); })
+      .catch(function(err){ ri.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); }); }
+  var rt = e.target.closest('[data-rit]');
+  if (rt) { rt.disabled = true; return chiama({azione:'ritorno', id: Number(rt.dataset.rit)}).then(function(){ toast('Segnato: preventivo inviato.'); return carica(); })
+      .catch(function(err){ rt.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); }); }
   var os = e.target.closest('[data-osp]');
   if (os) { var o = (D.soggiorni || []).filter(function(x){ return x.id === Number(os.dataset.osp); })[0]; if (!o) return; os.disabled = true;
-    var corpo = {azione:'ospite', id: o.id, problema_risolto: os.dataset.campo === 'problema' ? true : o.problemaRisolto, extra_fatti: os.dataset.campo === 'extra' ? true : o.extraFatti};
+    var rr = D.recensioni.filter(function(x){ return x.id === o.id; })[0];
+    var corpo = {azione:'ospite', id: o.id, problema_risolto: os.dataset.campo === 'problema' ? true : o.problemaRisolto, extra_fatti: os.dataset.campo === 'extra' ? true : o.extraFatti, richiamato: !!(rr && rr.richiamato)};
     return chiama(corpo).then(function(){ toast(os.dataset.campo === 'problema' ? 'Problema segnato come risolto.' : 'Extra segnati come pronti.'); return carica(); })
       .catch(function(err){ os.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); }); }
   var b = e.target.closest('[data-stato]');
@@ -399,7 +446,7 @@ document.addEventListener('click', function(e){
 });
 function inScrittura(){ return !!document.querySelector('.bozza'); }
 setInterval(function(){ if (D && document.visibilityState === 'visible' && !inScrittura()) carica(); }, 900000);
-document.addEventListener('visibilitychange', function(){ if (D && document.visibilityState === 'visible' && Date.now() - ULTIMO > 60000 && !inScrittura()) carica(); });
+document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') chiudiNotifiche(); if (D && document.visibilityState === 'visible' && Date.now() - ULTIMO > 60000 && !inScrittura()) carica(); });
 var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 var NOME = 'Zelda', rec = null, continuo = false, attendoComando = false, parlando = false, timerCmd = null, WAKE = /zelda/i;
 function zeldaNome(){
