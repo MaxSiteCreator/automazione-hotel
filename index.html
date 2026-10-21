@@ -99,7 +99,8 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
 .z-cont{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);padding:6px 14px 0}
 .z-form{display:flex;gap:8px;padding:10px 14px 14px}
 .z-form input{flex:1;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
-.z-mic{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;width:42px;display:grid;place-items:center;cursor:pointer}
+.z-invia{border:0;background:var(--accent);color:var(--accent-ink);border-radius:10px;width:42px;display:grid;place-items:center;cursor:pointer;flex:none}.z-invia:disabled{opacity:.4;cursor:default}.z-invia svg{width:20px;height:20px}
+.z-mic{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;width:42px;display:grid;place-items:center;cursor:pointer}
 .z-mic.on{background:var(--bad);border-color:var(--bad);color:#fff;animation:zp 1.2s infinite}
 @keyframes zp{50%{opacity:.6}}
 .z-attiva{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 16px;background:var(--warn);color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.18)}
@@ -221,7 +222,7 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
     <div class="z-cont" id="z-cont-row"><input type="checkbox" id="z-cont"><label for="z-cont" id="z-cont-l">Ascolto continuo</label></div>
     <div class="z-cont"><button class="btn" id="z-post" type="button">Modalità postazione (schermo intero, sempre in ascolto)</button></div>
     <div class="z-stato" id="z-stato"></div>
-    <form class="z-form" id="z-form"><input id="z-input" type="text" autocomplete="off" placeholder="Chiedi…"><button class="z-mic" id="z-mic" type="button" aria-label="Parla"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></form>
+    <form class="z-form" id="z-form"><input id="z-input" type="text" autocomplete="off" enterkeyhint="send" placeholder="Chiedi…"><button class="z-invia" id="z-invia" type="submit" aria-label="Invia" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button class="z-mic" id="z-mic" type="button" aria-label="Parla"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></form>
   </div>
   <button class="z-attiva" id="z-attiva" type="button" hidden>Tocca per riattivare Zelda</button>
   <button class="z-fab" id="z-fab" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span id="z-fab-nome">Zelda</span></button>
@@ -515,7 +516,8 @@ $('#p-esci').addEventListener('click', function(){ esciPostazione(); });
 $('#z-attiva').addEventListener('click', function(){ sbloccato(); avvia(); });
 $('#p-attiva').addEventListener('click', function(){ sbloccato(); avvia(); });
 document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && continuo) { schermoAcceso(true); setTimeout(avvia, 500); } });
-$('#z-form').addEventListener('submit', function(e){ e.preventDefault(); var v = $('#z-input').value; $('#z-input').value = ''; chiediZelda(v); });
+$('#z-form').addEventListener('submit', function(e){ e.preventDefault(); var v = $('#z-input').value.trim(); if (!v) return; $('#z-input').value = ''; $('#z-invia').disabled = true; chiediZelda(v); });
+$('#z-input').addEventListener('input', function(){ $('#z-invia').disabled = !this.value.trim(); });
 if ('speechSynthesis' in window) { try { speechSynthesis.getVoices(); } catch(e) {} }
 var installaEv = null;
 function standalone(){ return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
