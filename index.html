@@ -4,8 +4,8 @@
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icona.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#f5f1ea;--surface:#fffdf9;--surface-2:#efe8dc;--fg:#1d2a31;--muted:#646b6e;--line:#e3dacb;--mare:#0b6e99;--mare-soft:#dcedf5;--sole:#b86e00;--sole-soft:#fdeed3;--corallo:#c2452d;--corallo-soft:#fbe3dc;--pineta:#2b7a4b;--pineta-soft:#dff1e5;--ametista:#6a4fb0;--ametista-soft:#ebe5f7;--accent:#0b6e99;--accent-ink:#fff;--accent-soft:#dcedf5;--good:#1e7e34;--good-soft:#e3f3e7;--warn:#a15c00;--warn-soft:#fff1dc;--bad:#b02a37;--bad-soft:#fbe7e9;--wa:#1f8f4e;--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#0e161c;--surface:#16222b;--surface-2:#1d2c37;--mare:#4fb3dd;--mare-soft:#173949;--sole:#f0ad4e;--sole-soft:#3a2a12;--corallo:#f08a72;--corallo-soft:#3d1f19;--pineta:#5cc67a;--pineta-soft:#163323;--ametista:#a993ee;--ametista-soft:#2a2245;--fg:#e4edf2;--muted:#93a5b2;--line:#2a3b47;--accent:#4fb3dd;--accent-ink:#06202c;--accent-soft:#173949;--good:#5cc67a;--good-soft:#163323;--warn:#f0a94a;--warn-soft:#3a2a12;--bad:#f07a86;--bad-soft:#3d1a1f;--wa:#4cc983;color-scheme:dark}}
+:root{--bg:#f5f1ea;--surface:#fffdf9;--surface-2:#efe8dc;--fg:#1d2a31;--muted:#646b6e;--line:#e3dacb;--mare:#0b6e99;--mare-soft:#dcedf5;--sole:#b86e00;--sole-soft:#fdeed3;--corallo:#c2452d;--corallo-soft:#fbe3dc;--pineta:#2b7a4b;--pineta-soft:#dff1e5;--ametista:#6a4fb0;--ametista-soft:#ebe5f7;--laguna:#0f7d7a;--laguna-soft:#d8f0ee;--accent:#0b6e99;--accent-ink:#fff;--accent-soft:#dcedf5;--good:#1e7e34;--good-soft:#e3f3e7;--warn:#a15c00;--warn-soft:#fff1dc;--bad:#b02a37;--bad-soft:#fbe7e9;--wa:#1f8f4e;--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0e161c;--surface:#16222b;--surface-2:#1d2c37;--mare:#4fb3dd;--mare-soft:#173949;--sole:#f0ad4e;--sole-soft:#3a2a12;--corallo:#f08a72;--corallo-soft:#3d1f19;--pineta:#5cc67a;--pineta-soft:#163323;--ametista:#a993ee;--ametista-soft:#2a2245;--laguna:#4fd1c5;--laguna-soft:#133a38;--fg:#e4edf2;--muted:#93a5b2;--line:#2a3b47;--accent:#4fb3dd;--accent-ink:#06202c;--accent-soft:#173949;--good:#5cc67a;--good-soft:#163323;--warn:#f0a94a;--warn-soft:#3a2a12;--bad:#f07a86;--bad-soft:#3d1a1f;--wa:#4cc983;color-scheme:dark}}
 *{box-sizing:border-box}html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
 [hidden]{display:none!important}
@@ -64,13 +64,13 @@ td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:l
 .login input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
 .err{color:var(--bad);font-size:14px;min-height:20px}
 /* colori per sezione */
-#s-oggi,#s-prev{--c:var(--mare);--cs:var(--mare-soft)}#s-prezzi{--c:var(--sole);--cs:var(--sole-soft)}#s-rec{--c:var(--corallo);--cs:var(--corallo-soft)}#s-osp{--c:var(--pineta);--cs:var(--pineta-soft)}#s-ris{--c:var(--ametista);--cs:var(--ametista-soft)}
-nav button[data-tab=oggi],nav button[data-tab=prev]{--c:var(--mare)}nav button[data-tab=prezzi]{--c:var(--sole)}nav button[data-tab=rec]{--c:var(--corallo)}nav button[data-tab=osp]{--c:var(--pineta)}nav button[data-tab=ris]{--c:var(--ametista)}
+#s-oggi,#s-prev{--c:var(--mare);--cs:var(--mare-soft)}#s-prezzi{--c:var(--sole);--cs:var(--sole-soft)}#s-rec{--c:var(--corallo);--cs:var(--corallo-soft)}#s-osp{--c:var(--pineta);--cs:var(--pineta-soft)}#s-ris{--c:var(--ametista);--cs:var(--ametista-soft)}#s-hotel{--c:var(--laguna);--cs:var(--laguna-soft)}
+nav button[data-tab=oggi],nav button[data-tab=prev]{--c:var(--mare)}nav button[data-tab=prezzi]{--c:var(--sole)}nav button[data-tab=rec]{--c:var(--corallo)}nav button[data-tab=osp]{--c:var(--pineta)}nav button[data-tab=ris]{--c:var(--ametista)}nav button[data-tab=hotel]{--c:var(--laguna)}
 nav button::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:7px;vertical-align:1px;opacity:.55}
 nav button[aria-selected="true"]{border-bottom-color:var(--c)}nav button[aria-selected="true"]::before{opacity:1}
 section.tab > div:first-child h2::before{content:'';display:inline-block;width:6px;height:20px;border-radius:3px;background:var(--c);margin-right:10px;vertical-align:-3px}
 .tile{border-top:3px solid var(--c,var(--line))}.tile .v{color:var(--c,var(--fg))}.tile.loss{border-top-color:var(--corallo)}.tile.loss .v{color:var(--corallo)}
-.todo .t-rec{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-prev{--c:var(--mare);--cs:var(--mare-soft)}.todo .t-prezzi{--c:var(--sole);--cs:var(--sole-soft)}.todo .t-osp{--c:var(--pineta);--cs:var(--pineta-soft)}
+.todo .t-rec{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-prev{--c:var(--mare);--cs:var(--mare-soft)}.todo .t-prezzi{--c:var(--sole);--cs:var(--sole-soft)}.todo .t-osp{--c:var(--pineta);--cs:var(--pineta-soft)}.todo .t-hotel{--c:var(--laguna);--cs:var(--laguna-soft)}
 .todo button{border-left-color:var(--c)}.todo button.on{background:var(--cs);border-color:transparent;border-left-color:var(--c)}.todo .n{color:var(--c)}
 .req{border-left:4px solid var(--st,var(--line))}
 .st-attesa,.st-manuale{--st:var(--sole)}.st-manuale .pill.p-wait{background:var(--corallo-soft);color:var(--corallo)}.st-risposto{--st:var(--mare)}.st-prenotato,.st-ok{--st:var(--pineta)}.st-non_interessato{--st:var(--line)}.st-bad{--st:var(--corallo)}.st-invito{--st:var(--mare)}
@@ -116,6 +116,25 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
 .p-esci{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px))}
 @media (prefers-reduced-motion:reduce){.p-cerchio.on{animation:none}}
 @media (prefers-reduced-motion:reduce){.z-mic.on{animation:none}}
+#hotel-tiles .tile:nth-child(2){--c:var(--corallo)}#hotel-tiles .tile:nth-child(3){--c:var(--sole)}#hotel-tiles .tile:nth-child(4){--c:var(--pineta)}
+.st-casa{--st:var(--laguna)}.st-arrivo{--st:var(--mare)}.st-partenza{--st:var(--ametista)}
+.p-casa{background:var(--laguna-soft);color:var(--laguna)}.p-arrivo{background:var(--mare-soft);color:var(--mare)}.p-partenza{background:var(--ametista-soft);color:var(--ametista)}
+.prob{grid-column:1/-1;background:var(--corallo-soft);border-radius:8px;padding:10px 12px;font-size:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.prob b{color:var(--corallo)}
+.prob.ok{background:var(--surface-2);color:var(--muted)}.prob.ok b{color:var(--muted)}
+.ex{grid-column:1/-1;display:flex;flex-direction:column;gap:6px}
+.ex div{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--sole-soft);border-radius:8px;padding:8px 12px;font-size:14px}
+.ex div.ok{background:var(--surface-2);color:var(--muted)}
+.flags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.flag{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted)}.flag.good{background:var(--good-soft);color:var(--good)}
+.bozza{grid-column:1/-1;background:var(--surface-2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.bozza textarea{font:inherit;font-size:14px;width:100%;min-height:180px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);resize:vertical}
+.bozza .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bozza .note{flex:1;min-width:200px}
+.inviata{grid-column:1/-1;font-size:13px;color:var(--good)}
+.resa{background:var(--ametista-soft);border-radius:14px;padding:16px 18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.resa .big{font-family:var(--display);font-size:34px;font-weight:700;color:var(--ametista);line-height:1}
+.resa .x{font-family:var(--display);font-size:22px;font-weight:700;color:var(--good)}
+.resa p{margin:0;flex:1;min-width:240px;font-size:14px}
+
 </style></head><body>
 
 <div class="login" id="login" hidden>
@@ -137,6 +156,7 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
     <div class="tools"><span id="agg"></span><button class="btn" id="b-notif" type="button" hidden>Attiva notifiche</button><button class="btn" id="b-agg" type="button">Aggiorna</button><button class="btn" id="b-esci" type="button">Esci</button></div></div>
   <nav role="tablist">
     <button role="tab" data-tab="oggi" aria-selected="true">Oggi</button>
+    <button role="tab" data-tab="hotel" aria-selected="false">In hotel<span class="badge" id="b-hotel"></span></button>
     <button role="tab" data-tab="prev" aria-selected="false">Preventivi<span class="badge" id="b-prev"></span></button>
     <button role="tab" data-tab="prezzi" aria-selected="false">Prezzi<span class="badge" id="b-prezzi"></span></button>
     <button role="tab" data-tab="rec" aria-selected="false">Recensioni</button>
@@ -150,6 +170,13 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
     <div class="todo" id="todo"></div><div class="tiles" id="tiles"></div>
     <div class="head"><div><h2>Ultime richieste di preventivo</h2><p class="sub">Da WhatsApp e dalla chat del sito, già calcolate con il tuo listino.</p></div><button class="btn" data-go="prev" type="button">Vedi tutte</button></div>
     <div class="list" id="ultime"></div>
+  </section>
+  <section class="tab" id="s-hotel" hidden>
+    <div><h2>Ospiti in hotel</h2><p class="sub">Chi è in casa e chi arriva nei prossimi 14 giorni. Tre giorni prima dell'arrivo ricevono il benvenuto con gli extra prenotabili, il giorno dopo l'arrivo la domanda "Come sta andando?".</p></div>
+    <div class="tiles" id="hotel-tiles"></div>
+    <div class="two"><div><h3>Da sistemare subito</h3><div class="list" id="hotel-prob"></div></div><div><h3>Extra da preparare</h3><div class="list" id="hotel-extra"></div></div></div>
+    <div><h3>In casa</h3><div class="list" id="hotel-casa"></div></div>
+    <div><h3>In arrivo</h3><div class="list" id="hotel-arrivi"></div></div>
   </section>
   <section class="tab" id="s-prev" hidden>
     <div><h2>Preventivi</h2><p class="sub">Segna "Prenotato" o "Non interessato" appena lo sai: l'assistente smette di mandare solleciti a quel cliente.</p></div>
@@ -172,10 +199,11 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
   </section>
   <section class="tab" id="s-ris" hidden>
     <div><h2>Risultati degli ultimi 30 giorni</h2><p class="sub">Gli stessi numeri del riepilogo che ricevi via email il 1° di ogni mese.</p></div>
+    <div class="resa" id="resa"></div>
     <div class="tiles" id="ris-tiles"></div>
     <div><h2>Quanto stai perdendo</h2><p class="sub">Soldi in sospeso o persi secondo i dati di questo pannello.</p></div>
     <div class="tiles" id="perdite"></div>
-    <div class="two"><div class="card"><h3>Preventivi</h3><div class="kv" id="kv-prev"></div></div><div class="card"><h3>Recensioni e ospiti che tornano</h3><div class="kv" id="kv-rec"></div></div></div>
+    <div class="two"><div class="card"><h3>Preventivi</h3><div class="kv" id="kv-prev"></div></div><div class="card"><h3>Recensioni e ospiti che tornano</h3><div class="kv" id="kv-rec"></div></div><div class="card"><h3>Ospiti in hotel</h3><div class="kv" id="kv-hotel"></div></div></div>
   </section>
 </main></div>
 <div id="zelda" hidden>
@@ -244,7 +272,8 @@ function card(p){
     + '<div class="meta">' + esc(p.contatto) + ' · richiesta il ' + gg(p.ricevuta) + (p.sollecito ? ' · sollecito inviato il ' + gg(p.sollecito) : '') + '</div></div>'
     + '<div class="price">' + eur(p.prezzo, true) + '</div>'
     + (p.risposta ? '<div class="risp"><b>Risposta del cliente' + (INTENTI[p.intento] ? ' (' + INTENTI[p.intento] + ')' : '') + (p.dataRisposta ? ', ' + gg(p.dataRisposta) : '') + ':</b> “' + esc(p.risposta) + '”</div>' : '')
-    + '<div class="actions">' + (aperto ? '<button class="btn primary" data-id="' + p.id + '" data-stato="prenotato" type="button">Prenotato</button><button class="btn" data-id="' + p.id + '" data-stato="non_interessato" type="button">Non interessato</button>'
+    + (p.rispostaInviata ? '<div class="inviata">✓ Hai risposto il ' + gg(p.rispostaInviata) + (p.rispostaTitolare ? ' · <details style="display:inline"><summary>vedi testo</summary><p>' + esc(p.rispostaTitolare) + '</p></details>' : '') + '</div>' : '')
+    + '<div class="actions">' + ((p.stato === 'risposto' || p.stato === 'manuale') ? '<button class="btn primary" data-bozza="' + p.id + '" type="button">' + (p.rispostaInviata ? 'Rispondi di nuovo' : 'Rispondi con bozza') + '</button>' : '') + (aperto ? '<button class="btn' + ((p.stato === 'risposto' || p.stato === 'manuale') ? '' : ' primary') + '" data-id="' + p.id + '" data-stato="prenotato" type="button">Prenotato</button><button class="btn" data-id="' + p.id + '" data-stato="non_interessato" type="button">Non interessato</button>'
       : '<button class="btn" data-id="' + p.id + '" data-stato="' + (p.sollecito ? 'follow_up_inviato' : 'offerta_inviata') + '" type="button">Annulla</button>') + '</div>'
     + (p.msg ? '<details><summary>Messaggio di sollecito inviato</summary><p>' + esc(p.msg) + '</p></details>' : '') + '</article>';
 }
@@ -252,6 +281,41 @@ function av(nome){ var s = String(nome || '?'), h = 0; for (var i = 0; i < s.len
 function lchip(l){ return '<span class="chip l-' + esc(l) + '">' + esc(l) + '</span>'; }
 function tiles(arr, cls){ return arr.map(function(t){ return '<div class="tile ' + (cls || '') + '"><div class="v">' + t[0] + '</div><div class="l">' + t[1] + '</div></div>'; }).join(''); }
 
+function ospCard(o, modo){
+  var fase = o.fase === 'in_casa' ? ['p-casa', 'In casa fino al ' + gg(o.partenza), 'casa'] : o.fase === 'partenza' ? ['p-partenza', 'Parte oggi', 'partenza'] : o.fase === 'arrivo' ? ['p-arrivo', 'Arriva il ' + gg(o.arrivo), 'arrivo'] : ['p-no', 'Partito il ' + gg(o.partenza), 'non_interessato'];
+  var fl = [];
+  if (o.benvenuto) fl.push(['', 'Benvenuto inviato']);
+  if (o.contento) fl.push(['good', 'Ha risposto: tutto perfetto']); else if (o.domanda && !o.problema) fl.push(['', '“Come sta andando?” inviato']);
+  if (o.extra.length && modo !== 'extra') fl.push([o.extraFatti ? 'good' : '', o.extra.length + (o.extra.length > 1 ? ' extra richiesti' : ' extra richiesto') + (o.extraFatti ? ', pronti' : '')]);
+  if (o.problema && modo !== 'prob') fl.push([o.problemaRisolto ? 'good' : '', o.problemaRisolto ? 'Problema risolto' : 'Ha segnalato un problema']);
+  var h = '<article class="req st-' + (modo === 'prob' ? 'bad' : fase[2]) + '"><div><div class="who">' + av(o.nome) + esc(o.nome) + ' ' + lchip(o.lingua) + '<span class="pill ' + fase[0] + '">' + fase[1] + '</span></div>'
+    + '<div class="meta">Camera ' + esc(o.camera) + ' · ' + gg(o.arrivo) + ' – ' + gg(o.partenza) + ' · ' + esc(o.email) + '</div>'
+    + (fl.length ? '<div class="flags">' + fl.map(function(f){ return '<span class="flag ' + f[0] + '">' + esc(f[1]) + '</span>'; }).join('') + '</div>' : '') + '</div><div></div>';
+  if (modo === 'prob') h += '<div class="prob"><span><b>Ha scritto:</b> “' + esc(o.problema) + '”</span><button class="btn primary" data-osp="' + o.id + '" data-campo="problema" data-val="1" type="button">Risolto</button></div>';
+  if (modo === 'extra') h += '<div class="ex">' + o.extra.map(function(x){ return '<div><span>' + esc(x) + '</span></div>'; }).join('') + '</div><div class="actions"><span class="note" style="flex:1">Valore stimato ' + eur(o.valoreExtra) + '. Prenota o prepara e segna come fatto.</span><button class="btn primary" data-osp="' + o.id + '" data-campo="extra" data-val="1" type="button">Fatto</button></div>';
+  return h + '</article>';
+}
+function apriBozza(btn){
+  var art = btn.closest('article'), id = Number(btn.dataset.bozza), p = D.preventivi.filter(function(x){ return x.id === id; })[0];
+  if (!p || art.querySelector('.bozza')) return;
+  var email = String(p.contatto || '').indexOf('@') > -1;
+  var box = document.createElement('div'); box.className = 'bozza';
+  box.innerHTML = '<textarea aria-label="Bozza della risposta" disabled>Sto scrivendo la bozza nella lingua del cliente…</textarea><div class="row"><span class="note">Controlla il testo e completa le parti tra [parentesi quadre].</span><button class="btn primary" type="button" data-invia="' + id + '" disabled>' + (email ? 'Invia email' : 'Apri WhatsApp e invia') + '</button><button class="btn" type="button" data-chiudi-bozza>Chiudi</button></div>';
+  art.appendChild(box); btn.disabled = true;
+  var ta = box.querySelector('textarea'), inv = box.querySelector('[data-invia]');
+  chiama({azione:'bozza', id: id}).then(function(r){ ta.value = r.bozza || ''; ta.disabled = false; inv.disabled = false; ta.focus(); })
+    .catch(function(err){ if (err.auth) return mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); ta.value = ''; ta.disabled = false; inv.disabled = false; ta.placeholder = 'Non sono riuscito a scrivere la bozza: scrivi qui la tua risposta.'; });
+}
+function inviaBozza(btn){
+  var id = Number(btn.dataset.invia), p = D.preventivi.filter(function(x){ return x.id === id; })[0], ta = btn.closest('.bozza').querySelector('textarea'), t = ta.value.trim();
+  if (!t) return toast('Scrivi la risposta prima di inviarla.');
+  if (/\[[^\]]+\]/.test(t)) { ta.focus(); return toast('Completa le parti tra parentesi quadre prima di inviare.'); }
+  var email = String(p.contatto || '').indexOf('@') > -1;
+  if (!email) { var num = String(p.contatto || '').replace(/\D/g, ''); window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(t), '_blank'); }
+  btn.disabled = true;
+  chiama({azione:'invia', id: id, testo: t}).then(function(){ toast(email ? 'Email inviata a ' + p.nome + '.' : 'Segnato come risposto. Premi Invia su WhatsApp.'); return carica(); })
+    .catch(function(err){ btn.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a inviare. Riprova.'); });
+}
 function render(){
   var P = D.preventivi, Z = D.prezzi || [], R = D.risultati, L = D.perdite;
   $('#nome-hotel').textContent = D.hotel; document.title = D.hotel + ' – Pannello';
@@ -263,6 +327,18 @@ function render(){
   var bassi = D.recensioni.filter(function(r){ return r.voto && r.voto <= 3; });
   var vogliono = D.ospiti.filter(function(o){ return o.stato === 'interessato'; });
   var extra = alza.reduce(function(t, x){ return t + (x.differenza || 0); }, 0);
+  var S = D.soggiorni || [];
+  var probAperti = S.filter(function(o){ return o.problema && !o.problemaRisolto; });
+  var extraDaFare = S.filter(function(o){ return o.extra.length && !o.extraFatti; });
+  var casa = S.filter(function(o){ return o.fase === 'in_casa' || o.fase === 'partenza'; });
+  var arrivi = S.filter(function(o){ return o.fase === 'arrivo'; });
+  var daFare = probAperti.length + extraDaFare.length;
+  $('#b-hotel').textContent = daFare; $('#b-hotel').hidden = !daFare;
+  $('#hotel-tiles').innerHTML = tiles([[casa.length, 'ospiti in casa oggi'], [probAperti.length, probAperti.length === 1 ? 'problema da sistemare' : 'problemi da sistemare'], [eur(extraDaFare.reduce(function(t, o){ return t + (o.valoreExtra || 0); }, 0)), 'extra richiesti da preparare'], [arrivi.length, 'arrivi nei prossimi 14 giorni']]);
+  $('#hotel-prob').innerHTML = probAperti.length ? probAperti.map(function(o){ return ospCard(o, 'prob'); }).join('') : '<div class="empty">Nessun problema segnalato. Se un ospite tocca "C’è qualcosa da sistemare" lo trovi qui e ricevi subito una notifica.</div>';
+  $('#hotel-extra').innerHTML = extraDaFare.length ? extraDaFare.map(function(o){ return ospCard(o, 'extra'); }).join('') : '<div class="empty">Nessun extra da preparare.</div>';
+  $('#hotel-casa').innerHTML = casa.length ? casa.map(function(o){ return ospCard(o, ''); }).join('') : '<div class="empty">Nessun ospite in casa.</div>';
+  $('#hotel-arrivi').innerHTML = arrivi.length ? arrivi.map(function(o){ return ospCard(o, ''); }).join('') : '<div class="empty">Nessun arrivo nei prossimi 14 giorni.</div>';
   $('#b-prev').textContent = aperti.length; $('#b-prev').hidden = !aperti.length;
   $('#b-prezzi').textContent = alza.length + imposta.length; $('#b-prezzi').hidden = !(alza.length + imposta.length);
   $('#todo').innerHTML = [
@@ -270,6 +346,7 @@ function render(){
     [aperti.length, 'Preventivi aperti', (risposti.length || manuali.length) ? [risposti.length ? risposti.length + (risposti.length > 1 ? ' hanno risposto' : ' ha risposto') : '', manuali.length ? manuali.length + ' da ricontattare a mano' : ''].filter(Boolean).join(' \u00b7 ') : 'Segna chi ha prenotato per fermare i solleciti', risposti.length ? 'good' : '', 'prev'],
     [alza.length + imposta.length, 'Prezzi da sistemare', alza.length + ' da alzare, ' + imposta.length + ' senza prezzo' + (extra ? ' · +' + extra + ' € per camera' : ''), 'warn', 'prezzi'],
     [vogliono.length, 'Ospiti che vogliono tornare', vogliono.length ? 'Mandagli il preventivo oggi' : D.ospiti.length + ' inviti inviati, nessuna risposta per ora', vogliono.length ? 'good' : '', 'osp']
+    , [daFare, 'Ospiti in hotel', probAperti.length ? probAperti.length + (probAperti.length > 1 ? ' problemi da sistemare' : ' problema da sistemare') + (extraDaFare.length ? ' · ' + extraDaFare.length + ' extra da preparare' : '') : (extraDaFare.length ? extraDaFare.length + ' extra da preparare prima dell’arrivo' : casa.length + ' ospiti in casa, tutto tranquillo'), probAperti.length ? 'warn' : '', 'hotel']
   ].map(function(x){ return '<button class="t-' + x[4] + (x[0] ? ' on' : '') + '" data-go="' + x[4] + '" type="button"><span class="n">' + x[0] + '</span><span><span class="t">' + x[1] + '</span><br><span class="d">' + x[2] + '</span></span></button>'; }).join('');
   $('#tiles').innerHTML = tiles([[R.richieste, 'richieste di preventivo negli ultimi 30 giorni'], [eur(R.valore), 'valore dei preventivi inviati'], [R.prenotati ? eur(R.valorePrenotati) : '–', 'prenotazioni confermate dai preventivi'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato alla reception']]);
   $('#ultime').innerHTML = P.length ? P.slice(0, 3).map(card).join('') : '<div class="empty">Nessuna richiesta per ora. Appena un cliente scrive su WhatsApp o nella chat del sito la trovi qui.</div>';
@@ -291,10 +368,12 @@ function render(){
   $('#rec-list').innerHTML = D.recensioni.length ? D.recensioni.map(function(r){ return '<div class="req ' + (r.voto ? (r.voto >= 4 ? 'st-ok' : 'st-bad') : 'st-attesa') + '"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' ' + lchip(r.lingua) + '</div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + '</div></div><div><span class="pill ' + (r.voto ? (r.voto >= 4 ? 'p-ok' : 'p-bad') : 'p-wait') + '">' + (r.voto ? r.voto + ' ★' : 'In attesa del voto') + '</span></div></div>'; }).join('') : '<div class="empty">Nessuna richiesta di voto inviata.</div>';
   $('#osp').innerHTML = D.ospiti.length ? D.ospiti.map(function(o){ var on = o.stato === 'interessato'; return '<div class="req ' + (on ? 'st-ok' : (o.stato === 'invito_inviato' ? 'st-invito' : 'st-non_interessato')) + '"><div><div class="who">' + av(o.nome) + esc(o.nome) + ' ' + lchip(o.lingua) + '<span class="pill ' + (on ? 'p-ok' : (o.stato === 'invito_inviato' ? 'p-info' : 'p-no')) + '">' + (on ? 'Vuole il preventivo' : (o.stato === 'invito_inviato' ? 'Invito inviato' : 'Da invitare a gennaio')) + '</span></div><div class="meta">Ultimo soggiorno: ' + esc(o.ultimo) + ' · ' + esc(o.comp) + '</div>' + (o.note ? '<div class="meta">Nota della reception: ' + esc(o.note) + '</div>' : '') + (on ? '<div class="meta">' + esc(o.email) + '</div>' : '') + '</div></div>'; }).join('') : '<div class="empty">Nessun ospite in archivio.</div>';
 
+  $('#resa').innerHTML = '<div><div class="big">' + eur(R.guadagno) + '</div><div class="note">portati dal sistema finora</div></div><div><div class="x">' + String(R.ritorno).replace('.', ',') + '×</div><div class="note">quello che costa</div></div><p>Prenotazioni arrivate dai preventivi: <b>' + eur(R.valorePrenotati) + '</b> · extra venduti prima dell’arrivo: <b>' + eur(R.valoreExtra) + '</b>. Il servizio costa <b>' + eur(R.canone) + '</b> al mese e in 30 giorni ha fatto risparmiare alla reception circa <b>' + String(R.ore).replace('.', ',') + ' ore</b>.</p>';
   $('#ris-tiles').innerHTML = tiles([[R.richieste, 'richieste gestite'], [eur(R.valore), 'valore dei preventivi'], [R.prenotati, 'prenotazioni segnate da te'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato']]);
   $('#perdite').innerHTML = tiles([[eur(L.inSospeso), L.nSospeso + ' preventivi senza risposta da oltre 7 giorni dopo il sollecito'], [eur(L.persi), L.nPersi + ' preventivi segnati come non interessati'], ['+' + L.prezzi + ' €', 'per camera non incassati nelle date con prezzo sotto la zona']], 'loss');
   function kv(rows){ return rows.map(function(r){ return '<div><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; }).join(''); }
   $('#kv-prev').innerHTML = kv([['Richieste ricevute', R.richieste], ['su WhatsApp', R.whatsapp], ['dalla chat del sito', R.sito], ['a reception chiusa (20–8)', R.fuoriOrario], ['Solleciti inviati', R.solleciti], ['Prenotati', R.prenotati]]);
+  $('#kv-hotel').innerHTML = kv([['Benvenuti inviati prima dell’arrivo', R.benvenuti], ['Extra richiesti dagli ospiti', R.extra], ['Valore degli extra', eur(R.valoreExtra)], ['Problemi segnalati durante il soggiorno', R.problemi], ['Problemi risolti', R.problemiRisolti]]);
   $('#kv-rec').innerHTML = kv([['Richieste di voto inviate', R.richiesteVoto], ['Voti ricevuti', R.voti], ['Inviti agli ospiti passati', R.inviti], ['Ospiti interessati a tornare', R.interessati]]);
 }
 
@@ -302,6 +381,14 @@ function apri(t){ document.querySelectorAll('[role=tab]').forEach(function(b){ v
 document.addEventListener('click', function(e){
   var tab = e.target.closest('[role=tab]'); if (tab) return apri(tab.dataset.tab);
   var go = e.target.closest('[data-go]'); if (go) return apri(go.dataset.go);
+  var bz = e.target.closest('[data-bozza]'); if (bz) return apriBozza(bz);
+  var iv = e.target.closest('[data-invia]'); if (iv) return inviaBozza(iv);
+  var cb = e.target.closest('[data-chiudi-bozza]'); if (cb) { var art = cb.closest('article'); cb.closest('.bozza').remove(); var ob = art.querySelector('[data-bozza]'); if (ob) ob.disabled = false; return; }
+  var os = e.target.closest('[data-osp]');
+  if (os) { var o = (D.soggiorni || []).filter(function(x){ return x.id === Number(os.dataset.osp); })[0]; if (!o) return; os.disabled = true;
+    var corpo = {azione:'ospite', id: o.id, problema_risolto: os.dataset.campo === 'problema' ? true : o.problemaRisolto, extra_fatti: os.dataset.campo === 'extra' ? true : o.extraFatti};
+    return chiama(corpo).then(function(){ toast(os.dataset.campo === 'problema' ? 'Problema segnato come risolto.' : 'Extra segnati come pronti.'); return carica(); })
+      .catch(function(err){ os.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); }); }
   var b = e.target.closest('[data-stato]');
   if (b) { b.disabled = true; var st = b.dataset.stato;
     chiama({azione:'stato', id: Number(b.dataset.id), stato: st}).then(function(){
@@ -310,8 +397,9 @@ document.addEventListener('click', function(e){
     }).catch(function(err){ b.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); });
   }
 });
-setInterval(function(){ if (D && document.visibilityState === 'visible') carica(); }, 900000);
-document.addEventListener('visibilitychange', function(){ if (D && document.visibilityState === 'visible' && Date.now() - ULTIMO > 60000) carica(); });
+function inScrittura(){ return !!document.querySelector('.bozza'); }
+setInterval(function(){ if (D && document.visibilityState === 'visible' && !inScrittura()) carica(); }, 900000);
+document.addEventListener('visibilitychange', function(){ if (D && document.visibilityState === 'visible' && Date.now() - ULTIMO > 60000 && !inScrittura()) carica(); });
 var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 var NOME = 'Zelda', rec = null, continuo = false, attendoComando = false, parlando = false, timerCmd = null, WAKE = /zelda/i;
 function zeldaNome(){
