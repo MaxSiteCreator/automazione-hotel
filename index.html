@@ -1,431 +1,355 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pannello hotel</title>
-<meta name="theme-color" content="#0b6e99"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Pannello"><meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icona.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hotel Mare Blu · Rimini</title>
+<meta name="description" content="Hotel Mare Blu, 3 stelle a gestione familiare a Rimini Marina Centro, a 80 metri dal mare. Sito dimostrativo.">
+<meta name="theme-color" content="#0b6e99">
+<link rel="icon" type="image/png" href="icona-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
 <style>
-:root{--bg:#f5f1ea;--surface:#fffdf9;--surface-2:#efe8dc;--fg:#1d2a31;--muted:#646b6e;--line:#e3dacb;--mare:#0b6e99;--mare-soft:#dcedf5;--sole:#b86e00;--sole-soft:#fdeed3;--corallo:#c2452d;--corallo-soft:#fbe3dc;--pineta:#2b7a4b;--pineta-soft:#dff1e5;--ametista:#6a4fb0;--ametista-soft:#ebe5f7;--accent:#0b6e99;--accent-ink:#fff;--accent-soft:#dcedf5;--good:#1e7e34;--good-soft:#e3f3e7;--warn:#a15c00;--warn-soft:#fff1dc;--bad:#b02a37;--bad-soft:#fbe7e9;--wa:#1f8f4e;--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#0e161c;--surface:#16222b;--surface-2:#1d2c37;--mare:#4fb3dd;--mare-soft:#173949;--sole:#f0ad4e;--sole-soft:#3a2a12;--corallo:#f08a72;--corallo-soft:#3d1f19;--pineta:#5cc67a;--pineta-soft:#163323;--ametista:#a993ee;--ametista-soft:#2a2245;--fg:#e4edf2;--muted:#93a5b2;--line:#2a3b47;--accent:#4fb3dd;--accent-ink:#06202c;--accent-soft:#173949;--good:#5cc67a;--good-soft:#163323;--warn:#f0a94a;--warn-soft:#3a2a12;--bad:#f07a86;--bad-soft:#3d1a1f;--wa:#4cc983;color-scheme:dark}}
-*{box-sizing:border-box}html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+:root{
+  --sabbia:#f7f1e6; --sabbia-2:#efe5d3; --carta:#fffcf6; --inchiostro:#17262e; --grigio:#5d6669; --riga:#e6dccb;
+  --mare:#0b6e99; --mare-scuro:#074d6c; --mare-soft:#d9ecf4; --sole:#f2b441; --corallo:#e0614a; --pineta:#2b7a4b; --wa:#1fa855;
+  --serif:"Fraunces",Georgia,serif; --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sabbia:#10191e;--sabbia-2:#16232a;--carta:#15222a;--inchiostro:#eaf1f4;--grigio:#9fb0b8;--riga:#24343d;--mare:#5bbde6;--mare-scuro:#2f8fbd;--mare-soft:#163848;color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sabbia);color:var(--inchiostro);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
 [hidden]{display:none!important}
-.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px 8px;flex-wrap:wrap}
-.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.brand h1{font-family:var(--display);font-size:22px;margin:0}.brand span{color:var(--muted);font-size:13px}
-.tools{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
-nav{display:flex;gap:4px;overflow-x:auto}
-nav button{font:inherit;font-weight:600;font-size:14px;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px;cursor:pointer;white-space:nowrap}
-nav button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
-button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.badge{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:12px;line-height:20px;text-align:center}
-main{padding-block:20px 48px}section.tab{display:flex;flex-direction:column;gap:20px}
-h2{font-family:var(--display);font-size:19px;margin:0}h3{font-family:var(--display);font-size:16px;margin:0 0 10px}
-.sub{color:var(--muted);font-size:13px;margin:2px 0 0}
-.head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.tile .v{font-family:var(--display);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}.tile .l{color:var(--muted);font-size:13px}
-.tile.loss .v{color:var(--bad)}
-.todo{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.todo button{font:inherit;color:inherit;text-align:left;cursor:pointer;display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px}
-.todo .n{font-family:var(--display);font-size:22px;font-weight:700;min-width:28px}.todo .t{font-weight:600}.todo .d{color:var(--muted);font-size:13px}
-.todo .warn{border-left-color:var(--warn)}.todo .good{border-left-color:var(--good)}
-.list{display:flex;flex-direction:column;gap:10px}
-.req{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:8px 16px}
-.req .who{font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.req .meta{color:var(--muted);font-size:13px}
-.req .price{font-family:var(--display);font-weight:700;font-size:20px;text-align:right;font-variant-numeric:tabular-nums}
-.req .actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
-.req details{grid-column:1/-1;font-size:13px;color:var(--muted)}.req details p{white-space:pre-line;background:var(--surface-2);border-radius:8px;padding:10px 12px;margin:8px 0 0;color:var(--fg)}
-.req.done{opacity:.65}
-.risp{grid-column:1/-1;background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:14px}
-.risp b{color:var(--accent)}
-.chip{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted)}.chip.wa{background:var(--good-soft);color:var(--wa)}.chip.web{background:var(--accent-soft);color:var(--accent)}
-.pill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
-.p-wait{background:var(--warn-soft);color:var(--warn)}.p-ok{background:var(--good-soft);color:var(--good)}.p-no{background:var(--surface-2);color:var(--muted)}.p-bad{background:var(--bad-soft);color:var(--bad)}.p-info{background:var(--accent-soft);color:var(--accent)}
-.btn{font:inherit;font-size:13px;font-weight:600;border-radius:8px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn:disabled{opacity:.5;cursor:wait}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
-.note{font-size:13px;color:var(--muted)}
-.gain{background:var(--good-soft);border-radius:12px;padding:14px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}.gain b{font-family:var(--display);font-size:26px;color:var(--good)}
-.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
-table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
-th{text-align:left;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600}
-td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}
-.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.why{color:var(--muted);font-size:13px;min-width:240px}
-.a-alza{background:var(--good-soft);color:var(--good)}.a-abbassa{background:var(--bad-soft);color:var(--bad)}.a-mantieni{background:var(--surface-2);color:var(--muted)}.a-imposta{background:var(--warn-soft);color:var(--warn)}.a-attendi{background:var(--surface-2);color:var(--muted)}
-.empty{border:1px dashed var(--line);border-radius:12px;padding:18px;color:var(--muted);text-align:center}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-.kv div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.kv div:last-child{border-bottom:0}.kv b{font-variant-numeric:tabular-nums}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;max-width:92vw;z-index:20}
-.login{min-height:100vh;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-left,0px))}
-.login form{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;width:min(100%,380px);display:flex;flex-direction:column;gap:14px}
-.login h1{font-family:var(--display);margin:0;font-size:26px}
-.login input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
-.err{color:var(--bad);font-size:14px;min-height:20px}
-/* colori per sezione */
-#s-oggi,#s-prev{--c:var(--mare);--cs:var(--mare-soft)}#s-prezzi{--c:var(--sole);--cs:var(--sole-soft)}#s-rec{--c:var(--corallo);--cs:var(--corallo-soft)}#s-osp{--c:var(--pineta);--cs:var(--pineta-soft)}#s-ris{--c:var(--ametista);--cs:var(--ametista-soft)}
-nav button[data-tab=oggi],nav button[data-tab=prev]{--c:var(--mare)}nav button[data-tab=prezzi]{--c:var(--sole)}nav button[data-tab=rec]{--c:var(--corallo)}nav button[data-tab=osp]{--c:var(--pineta)}nav button[data-tab=ris]{--c:var(--ametista)}
-nav button::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:7px;vertical-align:1px;opacity:.55}
-nav button[aria-selected="true"]{border-bottom-color:var(--c)}nav button[aria-selected="true"]::before{opacity:1}
-section.tab > div:first-child h2::before{content:'';display:inline-block;width:6px;height:20px;border-radius:3px;background:var(--c);margin-right:10px;vertical-align:-3px}
-.tile{border-top:3px solid var(--c,var(--line))}.tile .v{color:var(--c,var(--fg))}.tile.loss{border-top-color:var(--corallo)}.tile.loss .v{color:var(--corallo)}
-.todo .t-rec{--c:var(--corallo);--cs:var(--corallo-soft)}.todo .t-prev{--c:var(--mare);--cs:var(--mare-soft)}.todo .t-prezzi{--c:var(--sole);--cs:var(--sole-soft)}.todo .t-osp{--c:var(--pineta);--cs:var(--pineta-soft)}
-.todo button{border-left-color:var(--c)}.todo button.on{background:var(--cs);border-color:transparent;border-left-color:var(--c)}.todo .n{color:var(--c)}
-.req{border-left:4px solid var(--st,var(--line))}
-.st-attesa{--st:var(--sole)}.st-risposto{--st:var(--mare)}.st-prenotato,.st-ok{--st:var(--pineta)}.st-non_interessato{--st:var(--line)}.st-bad{--st:var(--corallo)}.st-invito{--st:var(--mare)}
-.av{flex:none;width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;font-size:12px;font-weight:700;letter-spacing:.02em}
-.chip.l-IT{background:var(--pineta-soft);color:var(--pineta)}.chip.l-DE{background:var(--sole-soft);color:var(--sole)}.chip.l-EN{background:var(--mare-soft);color:var(--mare)}.chip.l-FR{background:var(--ametista-soft);color:var(--ametista)}
-#tiles .tile:nth-child(2),#ris-tiles .tile:nth-child(2){--c:var(--sole)}#tiles .tile:nth-child(3),#ris-tiles .tile:nth-child(3){--c:var(--pineta)}#tiles .tile:nth-child(4),#ris-tiles .tile:nth-child(4){--c:var(--ametista)}#ris-tiles .tile:nth-child(1){--c:var(--mare)}
-.tools{flex-wrap:wrap}.tools .btn{white-space:nowrap}
-@media (max-width:520px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile .v{font-size:22px}#agg{display:none}}
-.gain{background:var(--sole-soft)}.gain b{color:var(--sole)}
-.inst{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);border-radius:12px;padding:12px 14px;font-size:14px}
-.inst img{width:40px;height:40px;border-radius:9px;flex:none}
-.inst span{flex:1;min-width:200px}
-.inst .btns{display:flex;gap:8px}
-@media (max-width:520px){.req{grid-template-columns:1fr}.req .price{text-align:left}}
-#zelda{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.z-fab{font:inherit;font-weight:700;display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 18px 12px 14px;background:var(--accent);color:var(--accent-ink);box-shadow:0 6px 20px rgba(0,0,0,.18);cursor:pointer}
-.z-fab svg,.z-mic svg{width:20px;height:20px}
-.z-box{width:min(360px,calc(100vw - 32px));max-height:min(520px,70vh);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.22);overflow:hidden}
-.z-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
-.z-head b{font-family:var(--display);font-size:18px}
-.z-log{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-height:120px}
-.z-msg{padding:8px 12px;border-radius:12px;font-size:14px;max-width:88%;white-space:pre-line}
-.z-tu{align-self:flex-end;background:var(--accent-soft);color:var(--fg)}.z-lei{align-self:flex-start;background:var(--surface-2);color:var(--fg)}
-.z-hint{color:var(--muted);font-size:13px}
-.z-stato{font-size:12px;color:var(--accent);padding:0 14px;min-height:18px}
-.z-cont{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);padding:6px 14px 0}
-.z-form{display:flex;gap:8px;padding:10px 14px 14px}
-.z-form input{flex:1;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
-.z-mic{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;width:42px;display:grid;place-items:center;cursor:pointer}
-.z-mic.on{background:var(--bad);border-color:var(--bad);color:#fff;animation:zp 1.2s infinite}
-@keyframes zp{50%{opacity:.6}}
-.z-attiva{font:inherit;font-weight:700;border:0;border-radius:999px;padding:10px 16px;background:var(--warn);color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.18)}
-#postazione{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:calc(24px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
-.p-nome{font-family:var(--display);font-size:clamp(48px,12vw,96px);font-weight:700;letter-spacing:-.02em;color:var(--accent);line-height:1}
-.p-cerchio{width:120px;height:120px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent)}
-.p-cerchio svg{width:56px;height:56px}
-.p-cerchio.on{animation:pp 2s infinite}
-@keyframes pp{0%{box-shadow:0 0 0 0 var(--accent-soft)}70%{box-shadow:0 0 0 28px transparent}100%{box-shadow:0 0 0 0 transparent}}
-.p-stato{font-size:20px;color:var(--muted);min-height:30px}
-.p-dom{font-size:18px;color:var(--muted);max-width:760px;min-height:27px}
-.p-risp{font-size:clamp(22px,3.4vw,32px);max-width:860px;line-height:1.35;min-height:44px}
-.p-hint{font-size:15px;color:var(--muted)}
-.p-esci{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px))}
-@media (prefers-reduced-motion:reduce){.p-cerchio.on{animation:none}}
-@media (prefers-reduced-motion:reduce){.z-mic.on{animation:none}}
-</style></head><body>
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.demo{background:var(--inchiostro);color:var(--sabbia);font-size:13px;text-align:center;padding:7px 16px}
+.demo b{color:var(--sole)}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--carta) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--riga)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo b{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.01em}
+.logo span{font-size:12px;color:var(--grigio);letter-spacing:.14em;text-transform:uppercase}
+.menu{display:flex;gap:22px;font-size:15px;font-weight:500}
+.menu a{text-decoration:none;color:var(--grigio)}.menu a:hover{color:var(--inchiostro)}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:600;font-size:15px;border-radius:999px;padding:11px 20px;border:0;cursor:pointer;text-decoration:none;transition:transform .15s cubic-bezier(.23,1,.32,1),background-color .15s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-mare{background:var(--mare);color:#fff}.btn-mare:hover{background:var(--mare-scuro)}
+.btn-wa{background:var(--wa);color:#fff}.btn-wa:hover{background:#178a45}
+.btn-chiaro{background:var(--carta);color:var(--inchiostro);box-shadow:0 0 0 1px var(--riga)}
+@media (max-width:820px){.menu{display:none}}
 
-<div class="login" id="login" hidden>
-  <form id="f-login">
-    <h1>Pannello hotel</h1>
-    <p class="note" style="margin:0">Inserisci nome utente e password che ti ha dato Macaru Automation.</p>
-    <label for="utente" class="note">Nome utente</label>
-    <input id="utente" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
-    <label for="pwd" class="note">Password</label>
-    <input id="pwd" type="password" autocomplete="current-password" required>
-    <div class="err" id="err"></div>
-    <button class="btn primary" type="submit" id="b-login">Entra</button>
-  </form>
-</div>
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#bfe3f2 0%,#e9f4f6 46%,#fbe9cf 100%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{background:linear-gradient(180deg,#0d2a3a 0%,#123444 50%,#2a2a22 100%)}}
+.hero-in{position:relative;z-index:2;padding-block:72px 260px}.hero-in > *{max-width:640px}
+.kicker{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mare-scuro);background:rgba(255,255,255,.6);padding:6px 12px;border-radius:999px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kicker{background:rgba(0,0,0,.25);color:var(--mare)}}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(40px,7vw,72px);line-height:1.02;letter-spacing:-.025em;margin:18px 0 16px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--mare)}
+.hero p{font-size:clamp(17px,2vw,19px);color:var(--grigio);margin:0 0 26px;max-width:520px;text-wrap:pretty}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.spiaggia{position:absolute;left:0;right:0;bottom:0;z-index:1;width:100%;height:auto}
 
-<div id="app" hidden>
-<header><div class="wrap">
-  <div class="top"><div class="brand"><h1 id="nome-hotel">Hotel</h1><span id="oggi"></span></div>
-    <div class="tools"><span id="agg"></span><button class="btn" id="b-notif" type="button" hidden>Attiva notifiche</button><button class="btn" id="b-agg" type="button">Aggiorna</button><button class="btn" id="b-esci" type="button">Esci</button></div></div>
-  <nav role="tablist">
-    <button role="tab" data-tab="oggi" aria-selected="true">Oggi</button>
-    <button role="tab" data-tab="prev" aria-selected="false">Preventivi<span class="badge" id="b-prev"></span></button>
-    <button role="tab" data-tab="prezzi" aria-selected="false">Prezzi<span class="badge" id="b-prezzi"></span></button>
-    <button role="tab" data-tab="rec" aria-selected="false">Recensioni</button>
-    <button role="tab" data-tab="osp" aria-selected="false">Ospiti che tornano</button>
-    <button role="tab" data-tab="ris" aria-selected="false">Risultati</button>
-  </nav></div></header>
-<main class="wrap">
-  <div class="inst" id="inst" hidden><img src="icona.png" alt=""><span id="inst-t"></span><div class="btns"><button class="btn primary" id="inst-ok" type="button" hidden>Installa</button><button class="btn" id="inst-no" type="button">Non ora</button></div></div>
-  <section class="tab" id="s-oggi">
-    <div><h2>Ecco cosa c'è da fare</h2><p class="sub">Le automazioni lavorano anche di notte. Qui trovi solo quello che richiede una tua decisione.</p></div>
-    <div class="todo" id="todo"></div><div class="tiles" id="tiles"></div>
-    <div class="head"><div><h2>Ultime richieste di preventivo</h2><p class="sub">Da WhatsApp e dalla chat del sito, già calcolate con il tuo listino.</p></div><button class="btn" data-go="prev" type="button">Vedi tutte</button></div>
-    <div class="list" id="ultime"></div>
-  </section>
-  <section class="tab" id="s-prev" hidden>
-    <div><h2>Preventivi</h2><p class="sub">Segna "Prenotato" o "Non interessato" appena lo sai: l'assistente smette di mandare solleciti a quel cliente.</p></div>
-    <div class="list" id="prev"></div>
-  </section>
-  <section class="tab" id="s-prezzi" hidden>
-    <div><h2>Suggerimenti prezzi della settimana</h2><p class="sub" id="prezzi-sub"></p></div>
-    <div class="gain" id="gain"></div>
-    <div class="tablewrap"><table><thead><tr><th>Notte</th><th class="num">Il tuo prezzo</th><th class="num">Media zona</th><th class="num">Suggerito</th><th>Azione</th><th>Perché</th></tr></thead><tbody id="prezzi"></tbody></table></div>
-    <p class="note">La decisione resta tua: conviene alzare gradualmente e controllare le prenotazioni.</p>
-  </section>
-  <section class="tab" id="s-rec" hidden>
-    <div><h2>Recensioni</h2><p class="sub">Il giorno dopo la partenza ogni ospite riceve un'email con 5 stelle da cliccare. Tutti vedono il link per recensire su Google; se il voto è basso ricevi subito un avviso.</p></div>
-    <div class="tiles" id="rec-tiles"></div>
-    <div class="two"><div><h3>Ospiti scontenti da richiamare</h3><div class="list" id="rec-bad"></div></div><div><h3>Richieste di voto inviate</h3><div class="list" id="rec-list"></div></div></div>
-  </section>
-  <section class="tab" id="s-osp" hidden>
-    <div><h2>Ospiti degli anni passati</h2><p class="sub">Ogni 10 gennaio ricevono un invito personale a tornare. Chi clicca compare qui come "Vuole il preventivo".</p></div>
-    <div class="list" id="osp"></div>
-  </section>
-  <section class="tab" id="s-ris" hidden>
-    <div><h2>Risultati degli ultimi 30 giorni</h2><p class="sub">Gli stessi numeri del riepilogo che ricevi via email il 1° di ogni mese.</p></div>
-    <div class="tiles" id="ris-tiles"></div>
-    <div><h2>Quanto stai perdendo</h2><p class="sub">Soldi in sospeso o persi secondo i dati di questo pannello.</p></div>
-    <div class="tiles" id="perdite"></div>
-    <div class="two"><div class="card"><h3>Preventivi</h3><div class="kv" id="kv-prev"></div></div><div class="card"><h3>Recensioni e ospiti che tornano</h3><div class="kv" id="kv-rec"></div></div></div>
-  </section>
-</main></div>
-<div id="zelda" hidden>
-  <div class="z-box" id="z-box" hidden role="dialog" aria-labelledby="z-nome">
-    <div class="z-head"><b id="z-nome">Zelda</b><button class="btn" id="z-chiudi" type="button">Chiudi</button></div>
-    <div class="z-log" id="z-log" aria-live="polite"><div class="z-hint">Chiedimi per esempio: "Quanti preventivi sono in attesa?", "Ci sono ospiti da richiamare?", "A quanto metto Ferragosto?", "Segna come prenotata la richiesta di Anna Müller".</div></div>
-    <div class="z-cont" id="z-cont-row"><input type="checkbox" id="z-cont"><label for="z-cont" id="z-cont-l">Ascolto continuo</label></div>
-    <div class="z-cont"><button class="btn" id="z-post" type="button">Modalità postazione (schermo intero, sempre in ascolto)</button></div>
-    <div class="z-stato" id="z-stato"></div>
-    <form class="z-form" id="z-form"><input id="z-input" type="text" autocomplete="off" placeholder="Chiedi…"><button class="z-mic" id="z-mic" type="button" aria-label="Parla"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></form>
+/* sezioni */
+section{padding-block:72px}
+.tit{font-family:var(--serif);font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 10px;text-wrap:balance}
+.sottotit{color:var(--grigio);margin:0 0 32px;max-width:620px}
+.punti{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:-56px;position:relative;z-index:3}
+.punto{background:var(--carta);border-radius:16px;padding:20px;box-shadow:0 0 0 1px var(--riga),0 12px 30px -18px rgba(23,38,46,.35)}
+.punto .n{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--mare);line-height:1}
+.punto .t{font-weight:600;margin-top:6px}.punto .d{font-size:14px;color:var(--grigio)}
+@media (max-width:820px){.punti{grid-template-columns:repeat(2,1fr)}}
+.camere{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:820px){.camere{grid-template-columns:1fr}}
+.camera{background:var(--carta);border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px var(--riga)}
+.camera .ill{aspect-ratio:16/10;width:100%;height:auto;display:block;object-fit:cover}
+.m img{display:block;width:100%;max-width:280px;border-radius:12px;margin:8px 0}
+.camera .c{padding:18px 20px 22px}
+.camera h3{font-family:var(--serif);font-size:22px;margin:0 0 4px}
+.camera p{margin:0 0 12px;color:var(--grigio);font-size:15px}
+.prezzo{font-size:14px;color:var(--grigio)}.prezzo b{font-size:20px;color:var(--inchiostro)}
+.offerta{background:var(--mare);color:#fff;border-radius:24px;padding:40px;display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:center;position:relative;overflow:hidden}
+.offerta .tit{color:#fff}.offerta p{color:rgba(255,255,255,.85);margin:0}
+.offerta .big{font-family:var(--serif);font-size:clamp(56px,9vw,96px);font-weight:700;line-height:.9;color:var(--sole);text-align:right}
+.offerta .big small{display:block;font-family:var(--sans);font-size:15px;font-weight:600;color:#fff;letter-spacing:.04em;margin-top:8px}
+@media (max-width:720px){.offerta{grid-template-columns:1fr;padding:28px}.offerta .big{text-align:left}}
+.servizi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 28px;padding:0;margin:0;list-style:none}
+.servizi li{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--riga)}
+.servizi li svg{width:22px;height:22px;color:var(--mare);flex:none;margin-top:2px}
+.servizi li span{color:var(--grigio);font-size:14px;display:block}
+@media (max-width:820px){.servizi{grid-template-columns:1fr}}
+.contatti{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:start}
+@media (max-width:820px){.contatti{grid-template-columns:1fr}}
+.box{background:var(--carta);border-radius:20px;padding:28px;box-shadow:0 0 0 1px var(--riga)}
+.box h3{font-family:var(--serif);font-size:24px;margin:0 0 6px}
+.box p{color:var(--grigio);margin:0 0 18px}
+.dati{font-size:15px;line-height:1.9}
+footer{padding:36px 0 120px;color:var(--grigio);font-size:14px;border-top:1px solid var(--riga)}
+
+/* bottoni flottanti */
+.flot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.fab{width:58px;height:58px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 24px -8px rgba(0,0,0,.4);transition:transform .15s cubic-bezier(.23,1,.32,1)}
+.fab:active{transform:scale(.95)}
+.fab svg{width:28px;height:28px}
+.fab-wa{background:var(--wa);color:#fff}
+.fab-chat{background:var(--mare);color:#fff;width:auto;border-radius:999px;padding:0 20px 0 16px;display:flex;gap:10px;font:inherit;font-weight:600}
+.fab-chat .pallino{width:9px;height:9px;border-radius:50%;background:#7CF0A6;box-shadow:0 0 0 3px rgba(124,240,166,.3)}
+
+/* chat */
+.chat{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;width:min(390px,calc(100vw - 32px));height:min(620px,calc(100dvh - 32px));background:var(--carta);border-radius:20px;box-shadow:0 0 0 1px var(--riga),0 24px 60px -20px rgba(0,0,0,.45);display:flex;flex-direction:column;overflow:hidden;transform-origin:bottom right;animation:apri .22s cubic-bezier(.23,1,.32,1)}
+@keyframes apri{from{opacity:0;transform:scale(.95)}}
+@media (prefers-reduced-motion:reduce){.chat{animation:none}}
+.chat[hidden]{display:none}
+.chat-h{background:var(--mare);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.chat-h .av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}
+.chat-h .av svg{width:24px;height:24px}
+.chat-h b{display:block;font-size:16px}.chat-h small{opacity:.85;font-size:12.5px}
+.chat-h button{margin-left:auto;background:rgba(255,255,255,.16);border:0;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.chat-h button svg{width:18px;height:18px}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--sabbia)}
+.m{max-width:85%;padding:10px 14px;border-radius:16px;font-size:15px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
+.m-bot{align-self:flex-start;background:var(--carta);border-bottom-left-radius:6px;box-shadow:0 0 0 1px var(--riga)}
+.m-tu{align-self:flex-end;background:var(--mare);color:#fff;border-bottom-right-radius:6px}
+.scrive{display:inline-flex;gap:4px}.scrive i{width:7px;height:7px;border-radius:50%;background:var(--grigio);opacity:.5;animation:pun 1s infinite}
+.scrive i:nth-child(2){animation-delay:.15s}.scrive i:nth-child(3){animation-delay:.3s}
+@keyframes pun{50%{opacity:1;transform:translateY(-2px)}}
+.suggerimenti{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 10px;background:var(--sabbia)}
+.suggerimenti button{font:inherit;font-size:13.5px;background:var(--carta);border:1px solid var(--riga);color:var(--inchiostro);border-radius:999px;padding:7px 12px;cursor:pointer}
+.chat-f{display:flex;gap:8px;padding:12px;border-top:1px solid var(--riga);background:var(--carta)}
+.chat-f textarea{flex:1;resize:none;font:inherit;font-size:16px;border:1px solid var(--riga);background:var(--sabbia);color:var(--inchiostro);border-radius:14px;padding:10px 12px;max-height:110px;line-height:1.4}
+.chat-f textarea:focus{outline:2px solid var(--mare);outline-offset:0}
+.chat-f button{width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mare);color:#fff;cursor:pointer;display:grid;place-items:center;align-self:flex-end}
+.chat-f button:disabled{opacity:.5}
+.chat-f button svg{width:20px;height:20px}
+.legal{font-size:11.5px;color:var(--grigio);text-align:center;padding:0 12px 10px;background:var(--carta)}
+:focus-visible{outline:2px solid var(--mare);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<div class="demo">Sito dimostrativo · <b>Hotel Mare Blu è un hotel di fantasia</b> creato da Macaru Automation per mostrare l'assistente</div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="#"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="17" fill="var(--mare)"/><path d="M10 19a7 7 0 0 1 14 0z" fill="var(--sole)"/><path d="M5 21c3-2 5-2 8 0s5 2 8 0 5-2 8 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><b>Mare Blu</b><span>Rimini</span></a>
+    <nav class="menu"><a href="#camere">Camere</a><a href="#offerta">Offerte</a><a href="#servizi">Servizi</a><a href="#contatti">Contatti</a></nav>
+    <button class="btn btn-mare" type="button" data-apri-chat>Preventivo</button>
   </div>
-  <button class="z-attiva" id="z-attiva" type="button" hidden>Tocca per riattivare Zelda</button>
-  <button class="z-fab" id="z-fab" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span id="z-fab-nome">Zelda</span></button>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-in">
+    <span class="kicker">★★★ · Marina Centro · a 80 m dal mare</span>
+    <h1>La tua estate a Rimini, <em>a due passi dalla spiaggia</em></h1>
+    <p>Hotel a gestione familiare dal 1978. Camere con balcone, mezza pensione con cucina romagnola e ombrellone incluso.</p>
+    <div class="cta">
+      <button class="btn btn-mare" type="button" data-apri-chat><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Preventivo in 1 minuto</button>
+      <a class="btn btn-wa" href="#" data-wa><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>Scrivici su WhatsApp</a>
+    </div>
+  </div>
+  <!-- spiaggia di Rimini: mare, sabbia e file di ombrelloni a righe -->
+  <svg class="spiaggia" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0 70 C240 50 480 90 720 70 S1200 50 1440 72 V300 H0z" fill="#3a9cc6"/>
+    <path d="M0 98 C220 84 500 112 760 98 S1220 84 1440 100 V300 H0z" fill="#1f86b3"/>
+    <path d="M0 120 C200 112 480 132 760 122 S1200 112 1440 124 V300 H0z" fill="#f3dfb9"/>
+    <path d="M0 150 C260 142 520 160 780 152 S1240 144 1440 154 V300 H0z" fill="#ecd3a3"/>
+    <g id="file"></g>
+  </svg>
 </div>
-<div id="postazione" hidden>
-  <button class="btn p-esci" id="p-esci" type="button">Esci dalla postazione</button>
-  <div class="p-nome" id="p-nome">Zelda</div>
-  <div class="p-cerchio" id="p-cerchio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
-  <div class="p-stato" id="p-stato">In ascolto</div>
-  <div class="p-dom" id="p-dom"></div>
-  <div class="p-risp" id="p-risp"></div>
-  <button class="z-attiva" id="p-attiva" type="button" hidden>Tocca per attivare il microfono</button>
-  <div class="p-hint" id="p-hint"></div>
+
+<div class="wrap">
+  <div class="punti">
+    <div class="punto"><div class="n">80 m</div><div class="t">dalla spiaggia</div><div class="d">Ombrellone e 2 lettini inclusi dal 1 giugno</div></div>
+    <div class="punto"><div class="n">38</div><div class="t">camere con balcone</div><div class="d">Aria condizionata, wifi, cassaforte</div></div>
+    <div class="punto"><div class="n">3–10</div><div class="t">anni: miniclub</div><div class="d">Luglio e agosto, culla e seggiolone gratis</div></div>
+    <div class="punto"><div class="n">24/7</div><div class="t">risposte immediate</div><div class="d">Preventivo in chat o su WhatsApp</div></div>
+  </div>
 </div>
-<div class="toast" id="toast" hidden></div>
+
+<section id="camere">
+  <div class="wrap">
+    <h2 class="tit">Le nostre camere</h2>
+    <p class="sottotit">Tutte con bagno privato, aria condizionata e quasi tutte con balcone. Da 2 a 4 posti letto.</p>
+    <div class="camere">
+      <article class="camera">
+        <img class="ill" src="foto/doppia.jpg" alt="Doppia vista mare" loading="lazy" width="1200" height="750">
+        <div class="c"><h3>Doppia vista mare</h3><p>Letto matrimoniale o due singoli, balcone laterale sul mare.</p><div class="prezzo">da <b>58 €</b> a persona, mezza pensione</div></div>
+      </article>
+      <article class="camera">
+        <img class="ill" src="foto/tripla.jpg" alt="Tripla famiglia" loading="lazy" width="1200" height="750">
+        <div class="c"><h3>Tripla famiglia</h3><p>Matrimoniale più letto singolo, ideale con un bambino.</p><div class="prezzo">bambini fino a 2 anni <b>gratis</b></div></div>
+      </article>
+      <article class="camera">
+        <img class="ill" src="foto/quadrupla.jpg" alt="Quadrupla comfort" loading="lazy" width="1200" height="750">
+        <div class="c"><h3>Quadrupla comfort</h3><p>Due ambienti comunicanti, perfetta per famiglie con due figli.</p><div class="prezzo">dai 3 ai 6 anni <b>-50%</b></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="offerta" style="padding-top:0">
+  <div class="wrap">
+    <div class="offerta">
+      <div>
+        <h2 class="tit">Prenota prima, risparmia</h2>
+        <p>Per i soggiorni dell'estate 2027 prenotati entro il 31 gennaio. Cancellazione gratuita fino a 21 giorni prima dell'arrivo.</p>
+        <div class="cta" style="margin-top:22px"><button class="btn btn-chiaro" type="button" data-apri-chat data-msg="Vorrei un preventivo con lo sconto prenota prima">Calcola il tuo preventivo</button></div>
+      </div>
+      <div class="big">-10%<small>FINO AL 31 GENNAIO</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="servizi" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="tit">Tutto quello che serve per una vacanza tranquilla</h2>
+    <p class="sottotit">Apertura dal 15 maggio al 30 settembre 2027.</p>
+    <ul class="servizi">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11h18M5 11v8M19 11v8M12 3v8M12 3l-7 8M12 3l7 8"/></svg><div>Spiaggia convenzionata<span>1 ombrellone e 2 lettini per camera</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 21V8a8 8 0 0 1 16 0v13M4 15h16"/></svg><div>Colazione a buffet<span>Dalle 7:30 alle 10:00</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 3v8a3 3 0 0 0 6 0V3M10 11v10M17 3c-2 2-2 6 0 8v10"/></svg><div>Cena con menu a scelta<span>3 primi e 3 secondi, opzioni vegetariane e senza glutine</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="17" r="4"/><circle cx="18" cy="17" r="4"/><path d="M6 17l4-8h6l2 8M10 9 8 5H6"/></svg><div>Biciclette gratuite<span>Per girare Rimini e il lungomare</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="11" rx="2"/><path d="M7 18v3M17 18v3M6 7l2-4h8l2 4"/></svg><div>Parcheggio privato<span>12 € al giorno, posti limitati</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14c0-3 2-5 4-5s3 2 4 2 2-2 4-2 4 2 4 5-4 6-8 6-8-3-8-6zM8 9V5M16 9V5"/></svg><div>Animali benvenuti<span>Piccola taglia, 10 € a notte</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="contatti" style="padding-top:0">
+  <div class="wrap contatti">
+    <div class="box">
+      <h3>Chiedi il tuo preventivo</h3>
+      <p>Il nostro assistente risponde subito, a qualsiasi ora, in italiano, tedesco, inglese e francese. Ti calcola il prezzo esatto dal nostro listino e te lo manda via email.</p>
+      <div class="cta">
+        <button class="btn btn-mare" type="button" data-apri-chat>Apri la chat</button>
+        <a class="btn btn-wa" href="#" data-wa><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>WhatsApp</a>
+      </div>
+    </div>
+    <div class="box dati">
+      <h3>Hotel Mare Blu</h3>
+      Viale del Lungomare (indirizzo di fantasia)<br>
+      Rimini · Marina Centro<br>
+      Check-in dalle 14:00 · check-out entro le 10:00<br>
+      <a href="#" data-wa>WhatsApp: <span id="wa-num"></span></a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">Hotel Mare Blu è un hotel di fantasia. Pagina dimostrativa realizzata da Macaru Automation: chat, WhatsApp e preventivi sono gestiti automaticamente.</div></footer>
+
+<div class="flot" id="flot">
+  <a class="fab fab-wa" href="#" data-wa aria-label="Scrivici su WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg></a>
+  <button class="fab fab-chat" type="button" data-apri-chat style="height:52px"><span class="pallino"></span>Chiedi un preventivo</button>
+</div>
+
+<div class="chat" id="chat" hidden role="dialog" aria-label="Chat con l'assistente dell'Hotel Mare Blu">
+  <div class="chat-h">
+    <div class="av"><svg viewBox="0 0 24 24" fill="none"><path d="M6 14a6 6 0 0 1 12 0z" fill="#f2b441"/><path d="M2 16c3-2 5-2 8 0s5 2 8 0 3-1 4 0" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div><b>Hotel Mare Blu</b><small>Assistente · risponde subito</small></div>
+    <button type="button" id="chiudi" aria-label="Chiudi la chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="msgs" id="msgs" aria-live="polite"></div>
+  <div class="suggerimenti" id="sugg">
+    <button type="button">Preventivo per agosto</button>
+    <button type="button">Posso vedere le camere?</button>
+    <button type="button">Ich möchte ein Angebot</button>
+  </div>
+  <form class="chat-f" id="form">
+    <textarea id="testo" rows="1" placeholder="Scriva un messaggio…" aria-label="Messaggio"></textarea>
+    <button type="submit" id="invia" aria-label="Invia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+  <div class="legal">Chat dimostrativa · i dati inseriti servono solo a mostrare il funzionamento</div>
+</div>
 
 <script>
-var API = 'https://macaruautomation.app.n8n.cloud/webhook/pannello-api';
-var D = null, PWD = '', UTENTE = '', ULTIMO = 0;
-function $(s){ return document.querySelector(s); }
-function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-function eur(x, dec){ return Number(x || 0).toLocaleString('it-IT', {minimumFractionDigits: dec ? 2 : 0, maximumFractionDigits: dec ? 2 : 0}) + ' €'; }
-function gg(d){ if (!d) return ''; return new Date(String(d).length === 10 ? d + 'T12:00:00' : d).toLocaleDateString('it-IT', {day:'numeric', month:'short'}); }
-function ggLungo(d){ return new Date(d + 'T12:00:00').toLocaleDateString('it-IT', {weekday:'short', day:'numeric', month:'short', year:'numeric'}); }
-function notti(a, b){ return Math.round((new Date(b) - new Date(a)) / 864e5); }
-var tT; function toast(t){ var el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(tT); tT = setTimeout(function(){ el.hidden = true; }, 3800); }
-function leggiAccesso(){ try { return JSON.parse(localStorage.getItem('pannello-accesso') || 'null'); } catch(e) { return null; } }
-function salvaAccesso(ok){ try { ok ? localStorage.setItem('pannello-accesso', JSON.stringify({u: UTENTE, p: PWD})) : localStorage.removeItem('pannello-accesso'); } catch(e) {} }
+var CHAT_URL = 'https://macaruautomation.app.n8n.cloud/webhook/4d91ed5c-9cc9-456d-b623-b890a0b0aab4/chat';
+var WA_NUMERO = '15556569207';
+var WA_TESTO = 'Buongiorno, vorrei un preventivo per l’estate 2027';
 
-function chiama(corpo){
-  corpo.password = PWD; corpo.utente = UTENTE;
-  return fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(corpo)}).then(function(r){
-    if (r.status === 401) { var e = new Error('password'); e.auth = true; throw e; }
-    if (!r.ok) throw new Error('rete');
-    return r.json();
-  });
-}
-function mostraLogin(msg){ $('#app').hidden = true; $('#zelda').hidden = true; $('#login').hidden = false; $('#err').textContent = msg || ''; ($('#utente').value ? $('#pwd') : $('#utente')).focus(); }
-function carica(){
-  $('#b-agg').disabled = true;
-  return chiama({azione:'dati'}).then(function(d){ D = d; ULTIMO = Date.now(); $('#login').hidden = true; $('#app').hidden = false; $('#zelda').hidden = false; render(); zeldaNome(); avvioAutomatico(); mostraInstalla(); statoNotifiche(); $('#agg').textContent = 'Aggiornato alle ' + new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}); })
-  .catch(function(e){ if (e.auth) { salvaAccesso(false); mostraLogin('Nome utente o password non validi.'); } else toast('Non riesco a caricare i dati. Controlla la connessione e premi Aggiorna.'); })
-  .then(function(){ $('#b-agg').disabled = false; });
-}
-$('#f-login').addEventListener('submit', function(e){ e.preventDefault(); UTENTE = $('#utente').value.trim().toLowerCase(); PWD = $('#pwd').value.trim(); $('#err').textContent = ''; $('#b-login').disabled = true; carica().then(function(){ $('#b-login').disabled = false; if (D) salvaAccesso(true); }); });
-$('#b-agg').addEventListener('click', carica);
-$('#b-esci').addEventListener('click', function(){ zeldaStop(); autoFatto = false; salvaAccesso(false); PWD = ''; UTENTE = ''; D = null; $('#pwd').value = ''; $('#utente').value = ''; mostraLogin(''); });
-
-var STATI = { attesa:['p-wait','In attesa di risposta'], risposto:['p-info','Ha risposto'], prenotato:['p-ok','Prenotato'], non_interessato:['p-no','Non interessato'] };
-var INTENTI = { prenotare:'vuole prenotare', domanda:'ha una domanda', non_interessato:'non è interessato', altro:'' };
-function card(p){
-  var s = STATI[p.stato] || STATI.attesa, aperto = p.stato === 'attesa' || p.stato === 'risposto';
-  var osp = p.adulti + ' adulti' + (p.bambini ? ' + bambini (' + esc(p.bambini) + ' anni)' : '');
-  return '<article class="req st-' + p.stato + (aperto ? '' : ' done') + '"><div><div class="who">' + av(p.nome) + esc(p.nome) + ' <span class="chip ' + p.canale + '">' + (p.canale === 'wa' ? 'WhatsApp' : 'Chat del sito') + '</span>' + lchip(p.lingua) + '<span class="pill ' + s[0] + '">' + s[1] + '</span></div>'
-    + '<div class="meta">' + gg(p.arrivo) + ' – ' + gg(p.partenza) + ' ' + String(p.partenza).slice(0, 4) + ' · ' + notti(p.arrivo, p.partenza) + ' notti · ' + osp + ' · ' + esc(p.tratt) + '</div>'
-    + '<div class="meta">' + esc(p.contatto) + ' · richiesta il ' + gg(p.ricevuta) + (p.sollecito ? ' · sollecito inviato il ' + gg(p.sollecito) : '') + '</div></div>'
-    + '<div class="price">' + eur(p.prezzo, true) + '</div>'
-    + (p.risposta ? '<div class="risp"><b>Risposta del cliente' + (INTENTI[p.intento] ? ' (' + INTENTI[p.intento] + ')' : '') + (p.dataRisposta ? ', ' + gg(p.dataRisposta) : '') + ':</b> “' + esc(p.risposta) + '”</div>' : '')
-    + '<div class="actions">' + (aperto ? '<button class="btn primary" data-id="' + p.id + '" data-stato="prenotato" type="button">Prenotato</button><button class="btn" data-id="' + p.id + '" data-stato="non_interessato" type="button">Non interessato</button>'
-      : '<button class="btn" data-id="' + p.id + '" data-stato="' + (p.sollecito ? 'follow_up_inviato' : 'offerta_inviata') + '" type="button">Annulla</button>') + '</div>'
-    + (p.msg ? '<details><summary>Messaggio di sollecito inviato</summary><p>' + esc(p.msg) + '</p></details>' : '') + '</article>';
-}
-function av(nome){ var s = String(nome || '?'), h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; var p = s.replace(/^(famiglia|familie|famille|family)\s+/i, '').split(/\s+/).filter(Boolean); var ini = (p[0] || '?').charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : ''); return '<span class="av" style="background:hsl(' + h + ' 60% 88%);color:hsl(' + h + ' 55% 28%)" aria-hidden="true">' + esc(ini.toUpperCase()) + '</span>'; }
-function lchip(l){ return '<span class="chip l-' + esc(l) + '">' + esc(l) + '</span>'; }
-function tiles(arr, cls){ return arr.map(function(t){ return '<div class="tile ' + (cls || '') + '"><div class="v">' + t[0] + '</div><div class="l">' + t[1] + '</div></div>'; }).join(''); }
-
-function render(){
-  var P = D.preventivi, Z = D.prezzi || [], R = D.risultati, L = D.perdite;
-  $('#nome-hotel').textContent = D.hotel; document.title = D.hotel + ' – Pannello';
-  $('#oggi').textContent = new Date().toLocaleDateString('it-IT', {weekday:'long', day:'numeric', month:'long'});
-  var aperti = P.filter(function(p){ return p.stato === 'attesa' || p.stato === 'risposto'; });
-  var risposti = P.filter(function(p){ return p.stato === 'risposto'; });
-  var alza = Z.filter(function(x){ return x.azione === 'alza'; }), imposta = Z.filter(function(x){ return x.azione === 'imposta'; });
-  var bassi = D.recensioni.filter(function(r){ return r.voto && r.voto <= 3; });
-  var vogliono = D.ospiti.filter(function(o){ return o.stato === 'interessato'; });
-  var extra = alza.reduce(function(t, x){ return t + (x.differenza || 0); }, 0);
-  $('#b-prev').textContent = aperti.length; $('#b-prev').hidden = !aperti.length;
-  $('#b-prezzi').textContent = alza.length + imposta.length; $('#b-prezzi').hidden = !(alza.length + imposta.length);
-  $('#todo').innerHTML = [
-    [bassi.length, 'Ospiti scontenti da richiamare', bassi.length ? 'Chiamali prima che scrivano online' : 'Nessuno, ottimo', bassi.length ? 'warn' : 'good', 'rec'],
-    [aperti.length, 'Preventivi aperti', risposti.length ? risposti.length + (risposti.length > 1 ? ' clienti hanno risposto: ricontattali' : ' cliente ha risposto: ricontattalo') : 'Segna chi ha prenotato per fermare i solleciti', risposti.length ? 'good' : '', 'prev'],
-    [alza.length + imposta.length, 'Prezzi da sistemare', alza.length + ' da alzare, ' + imposta.length + ' senza prezzo' + (extra ? ' · +' + extra + ' € per camera' : ''), 'warn', 'prezzi'],
-    [vogliono.length, 'Ospiti che vogliono tornare', vogliono.length ? 'Mandagli il preventivo oggi' : D.ospiti.length + ' inviti inviati, nessuna risposta per ora', vogliono.length ? 'good' : '', 'osp']
-  ].map(function(x){ return '<button class="t-' + x[4] + (x[0] ? ' on' : '') + '" data-go="' + x[4] + '" type="button"><span class="n">' + x[0] + '</span><span><span class="t">' + x[1] + '</span><br><span class="d">' + x[2] + '</span></span></button>'; }).join('');
-  $('#tiles').innerHTML = tiles([[R.richieste, 'richieste di preventivo negli ultimi 30 giorni'], [eur(R.valore), 'valore dei preventivi inviati'], [R.prenotati ? eur(R.valorePrenotati) : '–', 'prenotazioni confermate dai preventivi'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato alla reception']]);
-  $('#ultime').innerHTML = P.length ? P.slice(0, 3).map(card).join('') : '<div class="empty">Nessuna richiesta per ora. Appena un cliente scrive su WhatsApp o nella chat del sito la trovi qui.</div>';
-  $('#prev').innerHTML = P.length ? P.map(card).join('') : '<div class="empty">Nessuna richiesta di preventivo.</div>';
-
-  var AZ = {alza:'Alza', abbassa:'Abbassa', mantieni:'OK', imposta:'Imposta', attendi:'Attendi'};
-  $('#prezzi-sub').textContent = D.prezziData ? 'Camera doppia a notte, confrontata con gli hotel vicini su Google Hotels. Calcolati il ' + gg(D.prezziData) + '.' : 'I suggerimenti arrivano ogni lunedì mattina.';
-  $('#gain').hidden = !extra;
-  $('#gain').innerHTML = '<b>+' + extra + ' € per camera</b><span>se segui i ' + alza.length + ' suggerimenti "Alza", sommando le notti indicate.</span>';
-  $('#prezzi').innerHTML = Z.length ? Z.map(function(x){
-    var diff = (x.differenza ? '<div style="font-size:12px;font-weight:600;color:var(' + (x.differenza > 0 ? '--good' : '--bad') + ')">' + (x.differenza > 0 ? '+' : '') + x.differenza + ' €</div>' : '');
-    return '<tr><td style="white-space:nowrap">' + ggLungo(x.data) + '</td><td class="num">' + (x.attuale != null ? x.attuale + ' €' : '–') + '</td><td class="num">' + (x.media != null ? x.media + ' €' : '–') + '</td><td class="num"><b>' + (x.suggerito != null ? x.suggerito + ' €' : '–') + '</b>' + diff + '</td><td><span class="pill a-' + x.azione + '">' + (AZ[x.azione] || x.azione) + '</span></td><td class="why">' + esc(String(x.motivo || '').replace(/ EUR/g, ' €')) + '</td></tr>';
-  }).join('') : '<tr><td colspan="6" class="note">Nessun suggerimento ancora disponibile.</td></tr>';
-
-  var voti = D.recensioni.filter(function(r){ return r.voto; }).map(function(r){ return r.voto; });
-  $('#rec-tiles').innerHTML = tiles([[D.recensioni.length, 'richieste di voto inviate'], [voti.length, 'voti ricevuti'], [voti.length ? (voti.reduce(function(a, b){ return a + b; }, 0) / voti.length).toFixed(1).replace('.', ',') + ' / 5' : '–', 'voto medio'], [bassi.length, 'ospiti scontenti segnalati']]);
-  $('#rec-bad').innerHTML = bassi.length ? bassi.map(function(r){ return '<div class="req st-bad"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' <span class="pill p-bad">' + r.voto + ' ★</span></div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + ' · ' + esc(r.email) + '</div></div></div>'; }).join('')
-    : '<div class="empty">Nessun ospite scontento da richiamare. Quando arriva un voto da 1 a 3 stelle lo trovi qui e ricevi anche un’email.</div>';
-  $('#rec-list').innerHTML = D.recensioni.length ? D.recensioni.map(function(r){ return '<div class="req ' + (r.voto ? (r.voto >= 4 ? 'st-ok' : 'st-bad') : 'st-attesa') + '"><div><div class="who">' + av(r.nome) + esc(r.nome) + ' ' + lchip(r.lingua) + '</div><div class="meta">Camera ' + esc(r.camera) + ' · partito il ' + gg(r.partenza) + '</div></div><div><span class="pill ' + (r.voto ? (r.voto >= 4 ? 'p-ok' : 'p-bad') : 'p-wait') + '">' + (r.voto ? r.voto + ' ★' : 'In attesa del voto') + '</span></div></div>'; }).join('') : '<div class="empty">Nessuna richiesta di voto inviata.</div>';
-  $('#osp').innerHTML = D.ospiti.length ? D.ospiti.map(function(o){ var on = o.stato === 'interessato'; return '<div class="req ' + (on ? 'st-ok' : (o.stato === 'invito_inviato' ? 'st-invito' : 'st-non_interessato')) + '"><div><div class="who">' + av(o.nome) + esc(o.nome) + ' ' + lchip(o.lingua) + '<span class="pill ' + (on ? 'p-ok' : (o.stato === 'invito_inviato' ? 'p-info' : 'p-no')) + '">' + (on ? 'Vuole il preventivo' : (o.stato === 'invito_inviato' ? 'Invito inviato' : 'Da invitare a gennaio')) + '</span></div><div class="meta">Ultimo soggiorno: ' + esc(o.ultimo) + ' · ' + esc(o.comp) + '</div>' + (o.note ? '<div class="meta">Nota della reception: ' + esc(o.note) + '</div>' : '') + (on ? '<div class="meta">' + esc(o.email) + '</div>' : '') + '</div></div>'; }).join('') : '<div class="empty">Nessun ospite in archivio.</div>';
-
-  $('#ris-tiles').innerHTML = tiles([[R.richieste, 'richieste gestite'], [eur(R.valore), 'valore dei preventivi'], [R.prenotati, 'prenotazioni segnate da te'], [String(R.ore).replace('.', ',') + ' h', 'tempo risparmiato']]);
-  $('#perdite').innerHTML = tiles([[eur(L.inSospeso), L.nSospeso + ' preventivi senza risposta da oltre 7 giorni dopo il sollecito'], [eur(L.persi), L.nPersi + ' preventivi segnati come non interessati'], ['+' + L.prezzi + ' €', 'per camera non incassati nelle date con prezzo sotto la zona']], 'loss');
-  function kv(rows){ return rows.map(function(r){ return '<div><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; }).join(''); }
-  $('#kv-prev').innerHTML = kv([['Richieste ricevute', R.richieste], ['su WhatsApp', R.whatsapp], ['dalla chat del sito', R.sito], ['a reception chiusa (20–8)', R.fuoriOrario], ['Solleciti inviati', R.solleciti], ['Prenotati', R.prenotati]]);
-  $('#kv-rec').innerHTML = kv([['Richieste di voto inviate', R.richiesteVoto], ['Voti ricevuti', R.voti], ['Inviti agli ospiti passati', R.inviti], ['Ospiti interessati a tornare', R.interessati]]);
-}
-
-function apri(t){ document.querySelectorAll('[role=tab]').forEach(function(b){ var on = b.dataset.tab === t; b.setAttribute('aria-selected', on); $('#s-' + b.dataset.tab).hidden = !on; }); window.scrollTo(0, 0); }
-document.addEventListener('click', function(e){
-  var tab = e.target.closest('[role=tab]'); if (tab) return apri(tab.dataset.tab);
-  var go = e.target.closest('[data-go]'); if (go) return apri(go.dataset.go);
-  var b = e.target.closest('[data-stato]');
-  if (b) { b.disabled = true; var st = b.dataset.stato;
-    chiama({azione:'stato', id: Number(b.dataset.id), stato: st}).then(function(){
-      toast(st === 'prenotato' ? 'Segnato come prenotato: niente più solleciti.' : st === 'non_interessato' ? 'Segnato come non interessato: i solleciti si fermano.' : 'Ripristinato: la richiesta torna in attesa.');
-      return carica();
-    }).catch(function(err){ b.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); });
-  }
-});
-setInterval(function(){ if (D && document.visibilityState === 'visible') carica(); }, 900000);
-document.addEventListener('visibilitychange', function(){ if (D && document.visibilityState === 'visible' && Date.now() - ULTIMO > 60000) carica(); });
-var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-var NOME = 'Zelda', rec = null, continuo = false, attendoComando = false, parlando = false, timerCmd = null, WAKE = /zelda/i;
-function zeldaNome(){
-  NOME = (D && D.assistente) || 'Zelda';
-  var n = NOME.toLowerCase();
-  var varianti = [n, n.replace(/^z/, 's'), n.replace(/d/, 't'), n.replace(/d/, 'l'), n.replace(/^z/, 's').replace(/d/, 't')];
-  WAKE = new RegExp('(^|\\s|,)(' + varianti.join('|') + ')[\\s,.!?]*', 'i');
-  $('#z-nome').textContent = NOME; $('#z-fab-nome').textContent = NOME; $('#p-nome').textContent = NOME; $('#p-hint').textContent = 'Di\' "' + NOME + '" e poi la tua domanda. Per esempio: "' + NOME + ', quanti preventivi sono in attesa?"';
-  $('#z-input').placeholder = 'Chiedi a ' + NOME + '…';
-  $('#z-cont-l').textContent = 'Ascolto continuo: di\' "' + NOME + '" e poi la domanda';
-  if (!SR) { $('#z-mic').hidden = true; $('#z-cont-row').hidden = true; $('#z-stato').textContent = 'Questo browser non supporta la voce: puoi scrivere la domanda. Per parlare usa Chrome o Safari.'; }
-}
-function zStato(t){ $('#z-stato').textContent = t || ''; $('#p-stato').textContent = t || (continuo ? 'In ascolto' : ''); }
-var wl = null, postazione = false, autoFatto = false;
-function schermoAcceso(on){ try { if (on && navigator.wakeLock && !wl) navigator.wakeLock.request('screen').then(function(w){ wl = w; w.addEventListener('release', function(){ wl = null; }); }).catch(function(){}); if (!on && wl) { wl.release(); wl = null; } } catch(e) {} }
-function bloccato(){ $('#z-attiva').hidden = false; $('#p-attiva').hidden = !postazione; }
-function sbloccato(){ $('#z-attiva').hidden = true; $('#p-attiva').hidden = true; }
-function setContinuo(on){ continuo = on; $('#z-cont').checked = on; try { on ? localStorage.setItem('zelda-continuo', '1') : localStorage.removeItem('zelda-continuo'); } catch(e) {} schermoAcceso(on); if (on) avvia(); else { pausa(); zStato(''); } }
-function entraPostazione(){ postazione = true; $('#postazione').hidden = false; $('#z-box').hidden = true; try { localStorage.setItem('zelda-postazione', '1'); } catch(e) {} setContinuo(true); }
-function esciPostazione(){ postazione = false; $('#postazione').hidden = true; try { localStorage.removeItem('zelda-postazione'); } catch(e) {} sbloccato(); }
-function avvioAutomatico(){ if (autoFatto || !SR) return; autoFatto = true; var cont = false, post = false; try { cont = localStorage.getItem('zelda-continuo') === '1'; post = localStorage.getItem('zelda-postazione') === '1'; } catch(e) {} if (location.hash === '#postazione') post = true; if (post) entraPostazione(); else if (cont) setContinuo(true); }
-function zLog(chi, testo){ if (chi === 'tu') { $('#p-dom').textContent = '“' + testo + '”'; $('#p-risp').textContent = ''; } else $('#p-risp').textContent = testo; var el = document.createElement('div'); el.className = 'z-msg ' + (chi === 'tu' ? 'z-tu' : 'z-lei'); el.textContent = testo; $('#z-log').appendChild(el); $('#z-log').scrollTop = 99999; }
-function parla(t){
-  if (!('speechSynthesis' in window)) return riprendi();
-  try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'it-IT'; u.rate = 1.05;
-    var voce = speechSynthesis.getVoices().filter(function(v){ return /^it/i.test(v.lang); })[0]; if (voce) u.voice = voce;
-    parlando = true; u.onend = u.onerror = function(){ parlando = false; riprendi(); }; speechSynthesis.speak(u);
-  } catch(e) { parlando = false; riprendi(); }
-}
-function chiediZelda(testo){
-  testo = String(testo || '').trim(); if (!testo) return;
-  zLog('tu', testo); zStato(NOME + ' sta pensando…'); pausa();
-  chiama({azione:'chiedi', domanda: testo}).then(function(r){
-    var risp = (r && r.risposta) || 'Non ho una risposta.'; zLog('lei', risp); zStato(''); parla(risp);
-    if (/segnat|prenotat|interessat/i.test(risp)) carica();
-  }).catch(function(e){ zStato(''); if (e.auth) mostraLogin('Sessione scaduta: accedi di nuovo.'); else { zLog('lei', 'Non riesco a rispondere adesso. Controlla la connessione.'); riprendi(); } });
-}
-function nuovoRec(){
-  var r = new SR(); r.lang = 'it-IT'; r.interimResults = false; r.maxAlternatives = 1; r.continuous = continuo;
-  r.onresult = function(ev){
-    for (var i = ev.resultIndex; i < ev.results.length; i++) { if (!ev.results[i].isFinal) continue;
-      var t = ev.results[i][0].transcript.trim();
-      if (!continuo) { chiediZelda(t.replace(WAKE, ' ').trim() || t); continue; }
-      if (attendoComando) { attendoComando = false; clearTimeout(timerCmd); chiediZelda(t); continue; }
-      var m = t.match(WAKE);
-      if (m) { var dopo = t.slice(m.index + m[0].length).trim();
-        if (dopo.length > 3) chiediZelda(dopo);
-        else { attendoComando = true; zStato('Ti ascolto…'); clearTimeout(timerCmd); timerCmd = setTimeout(function(){ attendoComando = false; zStato('In ascolto di "' + NOME + '"'); }, 8000); }
-      }
+/* file di ombrelloni nella spiaggia */
+(function(){
+  var g = document.getElementById('file'), ns = 'http://www.w3.org/2000/svg', colori = [['#e0614a','#fff3e2'],['#2b7a4b','#fff3e2'],['#f2b441','#e0614a'],['#0b6e99','#fff3e2']];
+  [[176, 0.9, 70], [214, 1.15, 92], [258, 1.4, 118]].forEach(function(f, fila){
+    var y = f[0], s = f[1], passo = f[2];
+    for (var x = 30 + (fila % 2) * passo / 2, i = 0; x < 1440; x += passo, i++) {
+      var c = colori[(i + fila) % colori.length], w = 34 * s, h = 14 * s;
+      var palo = document.createElementNS(ns, 'rect'); palo.setAttribute('x', x - 1.2 * s); palo.setAttribute('y', y - h); palo.setAttribute('width', 2.4 * s); palo.setAttribute('height', 26 * s); palo.setAttribute('fill', '#8a6d4b'); g.appendChild(palo);
+      var tela = document.createElementNS(ns, 'path'); tela.setAttribute('d', 'M' + (x - w / 2) + ' ' + (y - h + 2) + ' Q' + x + ' ' + (y - h - 16 * s) + ' ' + (x + w / 2) + ' ' + (y - h + 2) + 'Z'); tela.setAttribute('fill', c[0]); g.appendChild(tela);
+      var riga = document.createElementNS(ns, 'path'); riga.setAttribute('d', 'M' + (x - w / 6) + ' ' + (y - h + 2) + ' Q' + x + ' ' + (y - h - 12 * s) + ' ' + (x + w / 6) + ' ' + (y - h + 2) + 'Z'); riga.setAttribute('fill', c[1]); g.appendChild(riga);
+      var lettino = document.createElementNS(ns, 'rect'); lettino.setAttribute('x', x + 4 * s); lettino.setAttribute('y', y + 8 * s); lettino.setAttribute('width', 16 * s); lettino.setAttribute('height', 4 * s); lettino.setAttribute('rx', 2 * s); lettino.setAttribute('fill', '#fffaf0'); g.appendChild(lettino);
     }
-  };
-  r.onerror = function(ev){ if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { bloccato(); zStato('Microfono in pausa: tocca il pulsante per riattivarlo.'); r.bloccato = true; } };
-  r.onend = function(){ rec = null; $('#z-mic').classList.remove('on'); $('#p-cerchio').classList.remove('on'); if (r.bloccato) return; if (continuo && !parlando && document.visibilityState === 'visible') setTimeout(avvia, 300); else if (!continuo && !parlando) zStato(''); };
-  return r;
+  });
+})();
+
+/* WhatsApp */
+document.getElementById('wa-num').textContent = '+1 555 656 9207';
+document.querySelectorAll('[data-wa]').forEach(function(a){ a.href = 'https://wa.me/' + WA_NUMERO + '?text=' + encodeURIComponent(WA_TESTO); a.target = '_blank'; a.rel = 'noopener'; });
+
+/* chat */
+var chat = document.getElementById('chat'), msgs = document.getElementById('msgs'), form = document.getElementById('form'), testo = document.getElementById('testo'), invia = document.getElementById('invia'), flot = document.getElementById('flot'), sugg = document.getElementById('sugg');
+var SESSIONE, occupato = false, aperta = false;
+try { SESSIONE = localStorage.getItem('mareblu-chat'); } catch (e) {}
+if (!SESSIONE) { SESSIONE = 'demo-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); try { localStorage.setItem('mareblu-chat', SESSIONE); } catch (e) {} }
+
+function bolla(chi, t){ var d = document.createElement('div'); d.className = 'm ' + (chi === 'tu' ? 'm-tu' : 'm-bot'); if (t != null) d.textContent = t; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; }
+function pulisci(t){ return String(t).replace(/\*\*(.+?)\*\*/g, '$1').replace(/(^|\s)\*(\S[^*]*\S|\S)\*(?=\s|$|[.,!?:;)])/g, '$1$2').replace(/^#+\s*/gm, ''); }
+
+function mostra(b, t, fine){
+  if (!fine) t = t.replace(/!\[[^\n]*$/, '');
+  b.textContent = '';
+  var re = /!\[([^\]]*)\]\((https:\/\/maxsitecreator\.github\.io\/automazione-hotel\/foto\/[a-z]+\.jpg)\)/g, i = 0, m;
+  while ((m = re.exec(t))) {
+    if (m.index > i) b.appendChild(document.createTextNode(t.slice(i, m.index).replace(/\n+$/, '\n')));
+    var img = document.createElement('img'); img.src = m[2]; img.alt = m[1]; img.onload = function(){ msgs.scrollTop = msgs.scrollHeight; }; b.appendChild(img);
+    i = re.lastIndex;
+  }
+  if (i < t.length) b.appendChild(document.createTextNode(t.slice(i).replace(/^\n+/, '')));
 }
-function avvia(){ if (!SR || rec || parlando) return; try { rec = nuovoRec(); rec.start(); sbloccato(); $('#z-mic').classList.add('on'); $('#p-cerchio').classList.add('on'); zStato(continuo ? 'In ascolto di "' + NOME + '"' : 'Parla pure…'); } catch(e) { rec = null; bloccato(); } }
-function pausa(){ if (rec) { try { rec.abort(); } catch(e) {} rec = null; } $('#z-mic').classList.remove('on'); }
-function riprendi(){ if (continuo) setTimeout(avvia, 400); }
-function zeldaStop(){ attendoComando = false; esciPostazione(); setContinuo(false); try { speechSynthesis.cancel(); } catch(e) {} $('#z-box').hidden = true; }
-$('#z-fab').addEventListener('click', function(){ var b = $('#z-box'); b.hidden = !b.hidden; if (!b.hidden) $('#z-input').focus(); });
-$('#z-chiudi').addEventListener('click', function(){ $('#z-box').hidden = true; });
-$('#z-mic').addEventListener('click', function(){ if (rec && !continuo) { pausa(); zStato(''); return; } try { speechSynthesis.cancel(); } catch(e) {} if (continuo) { attendoComando = true; zStato('Ti ascolto…'); } else avvia(); });
-$('#z-cont').addEventListener('change', function(e){ pausa(); setContinuo(e.target.checked); });
-$('#z-post').addEventListener('click', entraPostazione);
-$('#p-esci').addEventListener('click', function(){ esciPostazione(); });
-$('#z-attiva').addEventListener('click', function(){ sbloccato(); avvia(); });
-$('#p-attiva').addEventListener('click', function(){ sbloccato(); avvia(); });
-document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && continuo) { schermoAcceso(true); setTimeout(avvia, 500); } });
-$('#z-form').addEventListener('submit', function(e){ e.preventDefault(); var v = $('#z-input').value; $('#z-input').value = ''; chiediZelda(v); });
-if ('speechSynthesis' in window) { try { speechSynthesis.getVoices(); } catch(e) {} }
-var installaEv = null;
-function standalone(){ return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
-function mostraInstalla(){
-  var no = false; try { no = localStorage.getItem('pannello-no-installa') === '1'; } catch(e) {}
-  if (standalone() || no) { $('#inst').hidden = true; return; }
-  var ios = isIOS();
-  if (installaEv) { $('#inst-t').textContent = 'Installa il pannello come app: icona sulla schermata Home e apertura a schermo intero.'; $('#inst-ok').hidden = false; $('#inst').hidden = false; }
-  else if (ios) { $('#inst-t').textContent = 'Installa il pannello come app: tocca il pulsante Condividi di Safari (il quadrato con la freccia) e poi “Aggiungi alla schermata Home”.'; $('#inst-ok').hidden = true; $('#inst').hidden = false; }
+function apriChat(msg){
+  chat.hidden = false; flot.hidden = true;
+  if (!aperta) { aperta = true; bolla('bot', 'Buongiorno! 👋 Benvenuto all’Hotel Mare Blu di Rimini.\nWillkommen! Hello! Mi scriva nella sua lingua: posso calcolarle subito un preventivo e mostrarle le camere.'); }
+  if (msg) manda(msg); else setTimeout(function(){ testo.focus(); }, 50);
 }
-window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); installaEv = e; if (D) mostraInstalla(); });
-window.addEventListener('appinstalled', function(){ $('#inst').hidden = true; toast('App installata: la trovi sulla schermata Home.'); });
-$('#inst-ok').addEventListener('click', function(){ if (!installaEv) return; installaEv.prompt(); installaEv.userChoice.then(function(){ installaEv = null; $('#inst').hidden = true; }); });
-$('#inst-no').addEventListener('click', function(){ $('#inst').hidden = true; try { localStorage.setItem('pannello-no-installa', '1'); } catch(e) {} });
-function swOk(){ try { return !!navigator.serviceWorker; } catch(e) { return false; } }
-if (swOk()) { window.addEventListener('load', function(){ try { navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function(){}); } catch(e) {} }); }
-var VAPID = 'BOAxxdHEuqOcAme-RvzNK062TPpTQpZ7yjrTPvFue95CHxjCKafzhX9MveAgETaIG6gilRJgyPAHbMWWcUxf314';
-function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
-function pushOk(){ return swOk() && 'PushManager' in window && 'Notification' in window; }
-function u8(b64){ var s = atob((b64 + '==='.slice((b64.length + 3) % 4)).replace(/-/g, '+').replace(/_/g, '/')); var a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
-function dispositivo(){ var ua = navigator.userAgent; return /iphone/i.test(ua) ? 'iPhone' : /ipad/i.test(ua) ? 'iPad' : /android/i.test(ua) ? 'Android' : /mac/i.test(ua) ? 'Mac' : /windows/i.test(ua) ? 'Windows' : 'Altro'; }
-function chiamaPush(azione, sub){ return fetch('https://macaruautomation.app.n8n.cloud/webhook/pannello-push', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({azione: azione, utente: UTENTE, password: PWD, sub: sub.toJSON(), dispositivo: dispositivo()})}).then(function(r){ if (!r.ok) throw new Error('rete'); return r.json(); }); }
-function statoNotifiche(){
-  var b = $('#b-notif');
-  if (!pushOk()) { b.hidden = true; b.dataset.on = ''; return; }
-  b.hidden = false;
-  try { navigator.serviceWorker.getRegistration('./').then(function(reg){ return reg ? reg.pushManager.getSubscription() : null; }).then(function(s){
-    var on = !!s && Notification.permission === 'granted'; b.textContent = on ? 'Notifiche attive' : 'Attiva notifiche'; b.dataset.on = on ? '1' : '';
-  }).catch(function(){}); } catch(e) { b.hidden = true; }
-}
-$('#b-notif').addEventListener('click', function(){
-  if (!pushOk()) { toast(isIOS() ? 'Per ricevere le notifiche installa prima il pannello sulla schermata Home e aprilo dall’icona.' : 'Questo browser non supporta le notifiche.'); return; }
-  var b = this; b.disabled = true;
-  navigator.serviceWorker.ready.then(function(reg){
-    return reg.pushManager.getSubscription().then(function(s){
-      if (s && b.dataset.on) return chiamaPush('disattiva', s).then(function(){ return s.unsubscribe(); }).then(function(){ toast('Notifiche disattivate su questo dispositivo.'); });
-      return Notification.requestPermission().then(function(p){
-        if (p !== 'granted') throw new Error('negato');
-        return (s ? Promise.resolve(s) : reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: u8(VAPID) }))
-          .then(function(sub){ return chiamaPush('iscrivi', sub); })
-          .then(function(r){ toast(r && r.stato >= 200 && r.stato < 300 ? 'Notifiche attive: ti ho appena mandato una notifica di prova.' : 'Notifiche attivate su questo dispositivo.'); });
-      });
+function chiudiChat(){ chat.hidden = true; flot.hidden = false; }
+document.querySelectorAll('[data-apri-chat]').forEach(function(b){ b.addEventListener('click', function(){ apriChat(b.dataset.msg); }); });
+document.getElementById('chiudi').addEventListener('click', chiudiChat);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !chat.hidden) chiudiChat(); });
+sugg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ manda(b.textContent); }); });
+
+function manda(t){
+  t = String(t || '').trim(); if (!t || occupato) return;
+  occupato = true; invia.disabled = true; sugg.hidden = true;
+  bolla('tu', t); testo.value = ''; testo.style.height = '';
+  var b = bolla('bot'); b.innerHTML = '<span class="scrive" aria-label="Sta scrivendo"><i></i><i></i><i></i></span>';
+  var scritto = '';
+  fetch(CHAT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'sendMessage', sessionId: SESSIONE, chatInput: t }) })
+    .then(function(r){
+      if (!r.ok) throw new Error('rete');
+      if (!r.body || !window.TextDecoder) return r.text().then(function(x){ elabora(x, true); });
+      var reader = r.body.getReader(), dec = new TextDecoder(), buf = '';
+      function leggi(){ return reader.read().then(function(p){ if (p.done) { elabora(buf, true); return; } buf += dec.decode(p.value, { stream: true }); var righe = buf.split('\n'); buf = righe.pop(); elabora(righe.join('\n'), false); return leggi(); }); }
+      return leggi();
+    })
+    .catch(function(){ if (!scritto) b.textContent = 'Mi scusi, in questo momento non riesco a rispondere. Riprovi tra poco oppure ci scriva su WhatsApp.'; })
+    .then(function(){ occupato = false; invia.disabled = false; if (!scritto && b.querySelector('.scrive')) b.textContent = 'Mi scusi, non ho capito. Può riscrivere la domanda?'; });
+
+  function elabora(x, fine){
+    String(x).split('\n').forEach(function(riga){
+      riga = riga.trim(); if (!riga) return;
+      var o; try { o = JSON.parse(riga); } catch (e) { return; }
+      if (o.type === 'item' && o.content) scritto += o.content;
+      else if (!o.type && o.output) scritto = o.output;
     });
-  }).catch(function(e){ toast(e && e.message === 'negato' ? 'Permesso negato: puoi riattivarlo dalle impostazioni del telefono, alla voce Notifiche.' : 'Non sono riuscito ad attivare le notifiche. Riprova tra poco.'); })
-  .then(function(){ b.disabled = false; statoNotifiche(); });
-});
-if (swOk()) navigator.serviceWorker.addEventListener('message', function(e){ if (e.data && e.data.tipo === 'aggiorna' && D) carica(); });
-var acc0 = leggiAccesso(); if (acc0 && acc0.u && acc0.p) { UTENTE = acc0.u; PWD = acc0.p; $('#utente').value = acc0.u; carica(); } else mostraLogin('');
-</script></body></html>
+    if (scritto) { mostra(b, pulisci(scritto), fine); msgs.scrollTop = msgs.scrollHeight; }
+  }
+}
+form.addEventListener('submit', function(e){ e.preventDefault(); manda(testo.value); });
+testo.addEventListener('keydown', function(e){ if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); manda(testo.value); } });
+testo.addEventListener('input', function(){ testo.style.height = ''; testo.style.height = Math.min(testo.scrollHeight, 110) + 'px'; });
+if (location.hash === '#chat') apriChat();
+</script>
+</body>
+</html>
