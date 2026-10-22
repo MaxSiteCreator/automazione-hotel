@@ -687,4 +687,4 @@ var RESET = new URLSearchParams(location.search).get('reset');
 try { if (!$('#utente').value) $('#utente').value = localStorage.getItem('pannello-utente') || ''; $('#resta').checked = localStorage.getItem('pannello-resta') === '1'; } catch(e) {}
 var acc0 = leggiAccesso(); try { if (acc0 && localStorage.getItem('pannello-accesso')) $('#resta').checked = true; } catch(e) {} if (RESET) { mostraLogin(''); $('#f-login').hidden = true; $('#f-reset').hidden = false; } else if (acc0 && acc0.u && acc0.p) { UTENTE = acc0.u; PWD = acc0.p; $('#utente').value = acc0.u; carica(); } else mostraLogin('');
 </script>
-<script src="gestione.js"></script></body></html>
+<script src="gestione.js?v=13"></script></body></html>
