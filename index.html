@@ -163,7 +163,7 @@ table.pl td.vuota.we{background:var(--surface-2)}table.pl tr.off th.cam{opacity:
 .ob-chiusa{background:repeating-linear-gradient(135deg,var(--muted) 0 6px,#8a9196 6px 12px)}
 .tabw{overflow-x:auto}
 table.ed{border-collapse:collapse;width:100%;font-size:14px;min-width:0}table.ed th{font-size:12px;padding:8px 6px}table.ed td{padding:6px;border-bottom:1px solid var(--line);vertical-align:middle}
-table.ed input{width:100%}table.ed input.n{max-width:90px}table.ed td.x{width:40px;text-align:right}
+table.ed input{width:100%}table.ed input.n{max-width:90px;min-width:64px}table.ed input:not(.n):not([type=date]){min-width:150px}table.ed input[type=date]{min-width:135px}table.ed td.x{width:40px;text-align:right}
 .xbtn{font:inherit;border:0;background:none;color:var(--bad);font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px}.xbtn:hover{background:var(--bad-soft)}
 .salvabar.fermo{position:static;box-shadow:none;padding-right:12px!important}
 .kvf input{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
