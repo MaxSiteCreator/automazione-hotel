@@ -364,7 +364,7 @@ window.caricaG = function(){
   var h = f.querySelector('h1'), n = f.querySelector('p.note');
   var hotel = (q.get('h') || '').slice(0, 80);
   if (h) h.textContent = 'Benvenuto!';
-  if (n) n.textContent = 'Scegli la password per entrare nel pannello' + (hotel ? ' di ' + hotel : '') + '. Almeno 8 caratteri: il Portachiavi dell’iPhone può suggerirne e ricordarne una sicura.';
+  if (n) n.textContent = 'Scegli nome utente e password per entrare nel pannello' + (hotel ? ' di ' + hotel : '') + '. La password deve avere almeno 8 caratteri: il Portachiavi dell’iPhone può suggerirne e ricordarne una sicura.';
   var u = (q.get('u') || '').slice(0, 60);
   if (u) { var iu = $('#utente'); if (iu) iu.value = u; }
   var lab = f.querySelector('label[for="r-nuova"]');
@@ -373,7 +373,7 @@ window.caricaG = function(){
     d.innerHTML = '<label for="r-utente" class="note">Scegli il tuo nome utente</label><input id="r-utente" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required minlength="3" maxlength="31" value="' + esc(u) + '"><p class="note" style="margin:2px 0 6px;font-size:12.5px">Solo lettere minuscole, numeri, punto o trattino. Ti servirà ogni volta che entri.</p>';
     while (d.firstChild) f.insertBefore(d.firstChild, lab);
   }
-  var b = $('#b-reset'); if (b) b.textContent = 'Crea la password ed entra';
+  var b = $('#b-reset'); if (b) b.textContent = 'Attiva l’accesso ed entra';
 })();
 
 /* ---------- AMMINISTRATORE: crea un nuovo hotel e invita il titolare ---------- */
