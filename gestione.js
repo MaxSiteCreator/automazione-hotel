@@ -14,6 +14,7 @@ function chiamaG(corpo, senzaAccesso){
     });
   });
 }
+window.chiamaG = function(c){ return chiamaG(c); };
 function errore(e, dove){ if (e.auth) return mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); var t = e.msg || 'Non sono riuscito a salvare. Controlla la connessione e riprova.'; if (dove) dove.textContent = t; else toast(t); }
 function iso(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 function piu(s, n){ var d = new Date(s + 'T12:00:00'); d.setDate(d.getDate() + n); return iso(d); }
@@ -193,11 +194,12 @@ $('#cm-add').addEventListener('click', function(){
 
 /* ---------- IMPOSTAZIONI ---------- */
 var SEZIONI = [
-  { t: 'L\'hotel', k: 'hotel', campi: [['nome', 'Come si chiama l\'hotel?'], ['stelle', 'Quante stelle ha?', 'number'], ['indirizzo', 'Indirizzo completo'], ['zona', 'In che zona si trova?', '', 'Es. Marina Centro, vicino al Grand Hotel'], ['telefono', 'Telefono della reception'], ['email_reception', 'Email della reception (qui arrivano gli avvisi)', 'email'], ['whatsapp', 'Numero WhatsApp per i clienti'], ['sito', 'Sito internet'], ['gestione', 'Da chi è gestito?', '', 'Es. familiare dal 1978'], ['descrizione', 'Descrivi l\'hotel in due righe, come lo diresti a un cliente', 'area']] },
+  { t: 'L\'hotel', k: 'hotel', campi: [['nome', 'Come si chiama l\'hotel?'], ['stelle', 'Quante stelle ha?', 'number'], ['indirizzo', 'Indirizzo completo'], ['zona', 'In che zona si trova?', '', 'Es. Marina Centro, vicino al Grand Hotel'], ['telefono', 'Telefono della reception'], ['email_reception', 'Email della reception (qui arrivano gli avvisi)', 'email'], ['whatsapp', 'Numero WhatsApp per i clienti'], ['sito', 'Sito internet'], ['link_recensioni', 'Link per lasciare una recensione su Google', '', 'Si trova nella scheda Google dell\'hotel: Chiedi recensioni > copia link'], ['gestione', 'Da chi è gestito?', '', 'Es. familiare dal 1978'], ['descrizione', 'Descrivi l\'hotel in due righe, come lo diresti a un cliente', 'area']] },
   { t: 'La stagione', k: 'stagione', campi: [['apertura', 'Quando apre?', 'date'], ['chiusura', 'Quando chiude (ultima notte)?', 'date']] },
   { t: 'Orari', k: 'orari', campi: [['checkin', 'Da che ora si può fare il check-in?'], ['checkout', 'Entro che ora il check-out?'], ['colazione', 'Colazione: orari e com\'è', '', 'Es. 7:30-10:00 a buffet'], ['cena', 'Cena: orari e com\'è'], ['reception', 'Orari della reception']] },
   { t: 'Servizi', k: 'servizi', campi: [['distanza_mare', 'Quanto dista dal mare?'], ['spiaggia', 'Spiaggia: cosa è incluso?'], ['parcheggio', 'Parcheggio: c\'è? quanto costa?'], ['animali', 'Animali: sono ammessi? a che condizioni?'], ['bambini', 'Servizi per i bambini (miniclub, culla, seggiolone)'], ['biciclette', 'Biciclette'], ['wifi', 'Wifi'], ['ascensore', 'C\'è l\'ascensore?'], ['diete', 'Diete particolari (vegetariano, senza glutine)'], ['altro', 'Altro da sapere sulle camere e sull\'hotel', 'area']] },
   { t: 'Condizioni di prenotazione', k: 'condizioni', campi: [['caparra', 'Caparra per confermare (%)', 'number'], ['cancellazione_giorni', 'Cancellazione gratuita fino a quanti giorni prima dell\'arrivo?', 'number'], ['pagamenti', 'Come si paga la caparra?', '', 'Es. bonifico o carta'], ['tassa_soggiorno', 'Tassa di soggiorno'], ['prenota_prima_percento', 'Sconto "prenota prima" (%), 0 se non c\'è', 'number'], ['prenota_prima_entro', 'Lo sconto "prenota prima" vale fino al', 'date']] },
+  { t: 'Messaggi agli ospiti', k: 'messaggi', nota: 'Scrivete in italiano cosa volete dire, con parole vostre. Il sistema lo adatta a ogni ospite (saluto per nome, lei o voi) e lo traduce nella sua lingua. Non aggiunge mai prezzi, sconti o servizi che non avete scritto voi.', campi: [['firma', 'Come firmate le email?', '', 'Es. La famiglia dell\'Hotel Mare Blu'], ['benvenuto', '3 giorni prima dell\'arrivo: cosa volete ricordare all\'ospite?', 'area', 'Es. orario del check-in, parcheggio da prenotare, spiaggia inclusa, orario della cena'], ['secondo_giorno', 'Il giorno dopo l\'arrivo: come chiedete se va tutto bene?', 'area', 'Sotto il messaggio aggiungiamo noi i pulsanti Tutto perfetto / C\'è qualcosa da sistemare'], ['sollecito', 'Preventivo senza risposta da 2 giorni: cosa scrivete?', 'area', 'Sotto aggiungiamo noi il pulsante Blocca la camera'], ['recensione', 'Il giorno dopo la partenza: come chiedete un voto?', 'area', 'Sotto aggiungiamo noi le 5 stelle da cliccare'], ['ritorno', 'A gennaio, agli ospiti degli anni passati: cosa offrite a chi torna?', 'area', 'Es. sconto del 10% prenotando entro il 31 gennaio e parcheggio gratuito']] },
   { t: 'Assistente virtuale', k: 'assistente', campi: [['nome', 'Che nome ha l\'assistente?'], ['tono', 'Che tono deve usare con i clienti?', '', 'Es. caldo, familiare e cortese, sempre dando del Lei'], ['regole', 'Regole da rispettare sempre', 'area', 'Es. non confermare mai una prenotazione, non offrire sconti non previsti']] }
 ];
 var CF = null;
@@ -210,7 +212,7 @@ function campoHtml(sez, c, val){
 function disegnaImpostazioni(){
   if (!G) return;
   CF = clone(G.config || {});
-  var h = SEZIONI.map(function(s){ var o = CF[s.k] || {}; return '<div class="sez"><h3>' + esc(s.t) + '</h3><div class="griglia">' + s.campi.map(function(c){ return campoHtml(s.k, c, o[c[0]] == null ? '' : o[c[0]]); }).join('') + '</div></div>'; }).join('');
+  var h = SEZIONI.map(function(s){ var o = CF[s.k] || {}; return '<div class="sez"><h3>' + esc(s.t) + '</h3>' + (s.nota ? '<p class="note">' + esc(s.nota) + '</p>' : '') + '<div class="griglia">' + s.campi.map(function(c){ return campoHtml(s.k, c, o[c[0]] == null ? '' : o[c[0]]); }).join('') + '</div></div>'; }).join('');
   h += '<div class="sez"><h3>Tipologie di camera</h3><p class="note">Il codice serve all\'assistente e alle foto (es. doppia, tripla). Il supplemento è in euro a persona a notte, 0 se non c\'è.</p><div id="cf-tip">' + (CF.tipologie || []).map(function(t, i){
     return '<div class="rip" style="margin-bottom:10px"><button class="xbtn" type="button" data-cf-del="tipologie" data-i="' + i + '" aria-label="Togli tipologia">×</button>' + [['codice', 'Codice'], ['nome', 'Nome per i clienti'], ['posti', 'Posti letto', 'number'], ['supplemento', 'Supplemento €', 'number'], ['descrizione', 'Descrizione']].map(function(f){ return '<div class="campo"' + (f[0] === 'descrizione' ? ' style="grid-column:1/-1"' : '') + '><label>' + f[1] + '</label><input type="' + (f[2] || 'text') + '" data-cf-arr="tipologie" data-i="' + i + '" data-k="' + f[0] + '" value="' + esc(t[f[0]] == null ? '' : t[f[0]]) + '"></div>'; }).join('') + '</div>';
   }).join('') + '</div><div><button class="btn" type="button" data-cf-add="tipologie">+ Aggiungi tipologia</button></div></div>';
@@ -281,6 +283,8 @@ $('#f-reset').addEventListener('submit', function(e){
   chiamaG({ azione: 'reset_conferma', token: token, nuova: n }, true).then(function(){
     try { history.replaceState(null, '', location.pathname); } catch (x) {}
     $('#f-reset').hidden = true; $('#f-login').hidden = false; $('#err').style.color = 'var(--good)'; $('#err').textContent = 'Password aggiornata: ora puoi entrare.'; $('#pwd').focus();
+    var uu = $('#utente').value.trim().toLowerCase();
+    if (uu && new URLSearchParams(location.search).get('nuovo') !== '0') { UTENTE = uu; PWD = n; $('#pwd').value = n; carica().then(function(){ if (D) salvaAccesso(true); }); }
   }).catch(function(e2){ $('#r-msg').textContent = e2.msg || 'Non sono riuscito a salvare. Riprova.'; }).then(function(){ b.disabled = false; });
 });
 
@@ -346,4 +350,91 @@ window.caricaG = function(){
   return Promise.resolve(prima()).then(function(){ if (G && !toccato) { CONC = (G.concorrenti || []).slice(); disegna(); } });
 };
 })();
+
+
+/* ---------- INVITO: benvenuto nella pagina della password ---------- */
+(function(){
+  var q = new URLSearchParams(location.search);
+  if (!q.get('reset') || q.get('nuovo') !== '1') return;
+  var f = $('#f-reset'); if (!f) return;
+  var h = f.querySelector('h1'), n = f.querySelector('p.note');
+  var hotel = (q.get('h') || '').slice(0, 80);
+  if (h) h.textContent = 'Benvenuto!';
+  if (n) n.textContent = 'Scegli la password per entrare nel pannello' + (hotel ? ' di ' + hotel : '') + '. Almeno 8 caratteri: il Portachiavi dell’iPhone può suggerirne e ricordarne una sicura.';
+  var u = (q.get('u') || '').slice(0, 60);
+  if (u) { var iu = $('#utente'); if (iu) iu.value = u; }
+  var b = $('#b-reset'); if (b) b.textContent = 'Crea la password ed entra';
+})();
+
+/* ---------- AMMINISTRATORE: crea un nuovo hotel e invita il titolare ---------- */
+function slug(t){ return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/^hotel\s+/, '').replace(/[^a-z0-9]+/g, '').slice(0, 24); }
+function disegnaAdmin(){
+  var box = $('#adm-card');
+  if (!G || !G.admin) { if (box) box.remove(); return; }
+  if (box) return;
+  box = document.createElement('div'); box.className = 'card'; box.id = 'adm-card';
+  box.innerHTML = '<h3>Nuovo hotel cliente <span class="chip">solo amministratore</span></h3>'
+    + '<p class="note" style="margin-top:0">Crea l’accesso per un nuovo hotel: il titolare riceve un’email per scegliere la password (il link vale 7 giorni) e al primo accesso il pannello lo guida a compilare tutto.</p>'
+    + '<div class="griglia"><div class="campo"><label for="adm-nome">Nome dell’hotel</label><input id="adm-nome" placeholder="Es. Hotel Sole"></div>'
+    + '<div class="campo"><label for="adm-utente">Nome utente per entrare</label><input id="adm-utente" autocapitalize="none" spellcheck="false" placeholder="Es. sole"></div>'
+    + '<div class="campo"><label for="adm-email">Email del titolare</label><input id="adm-email" type="email" placeholder="nome@esempio.it"></div></div>'
+    + '<div class="riga" style="margin-top:10px"><button class="btn primary" type="button" id="adm-crea">Crea e manda l’invito</button><span class="note" id="adm-stato"></span></div>';
+  $('#s-impost').appendChild(box);
+  var toccatoU = false;
+  $('#adm-nome').addEventListener('input', function(){ if (!toccatoU) $('#adm-utente').value = slug(this.value); });
+  $('#adm-utente').addEventListener('input', function(){ toccatoU = true; });
+  $('#adm-crea').addEventListener('click', function(){
+    var b = this, st = $('#adm-stato');
+    var nome = $('#adm-nome').value.trim(), ut = $('#adm-utente').value.trim().toLowerCase(), em = $('#adm-email').value.trim();
+    if (nome.length < 2) { st.textContent = 'Scrivi il nome dell’hotel.'; return; }
+    if (!/^[a-z0-9][a-z0-9.-]{2,30}$/.test(ut)) { st.textContent = 'Nome utente: almeno 3 caratteri, solo lettere minuscole, numeri, punto o trattino.'; return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { st.textContent = 'Email non valida.'; return; }
+    b.disabled = true; st.style.color = ''; st.textContent = 'Creo l’accesso…';
+    chiamaG({ azione: 'crea_hotel', nome: nome, nuovo_utente: ut, email: em }).then(function(){
+      st.style.color = 'var(--good)'; st.textContent = 'Fatto: invito mandato a ' + em + '. Nome utente: ' + ut + '.';
+      $('#adm-nome').value = ''; $('#adm-utente').value = ''; $('#adm-email').value = ''; toccatoU = false;
+    }).catch(function(e){ st.style.color = ''; errore(e, st); }).then(function(){ b.disabled = false; });
+  });
+}
+
+/* ---------- PROCEDURA GUIDATA al primo accesso ---------- */
+var WZ = { passo: 0, aperta: false };
+var PASSI_WZ = ['intro', 'hotel', 'stagione', 'orari', 'servizi', 'condizioni', 'messaggi', 'assistente', 'fine'];
+function sezione(k){ return SEZIONI.filter(function(s){ return s.k === k; })[0]; }
+function disegnaWizard(){
+  var w = $('#wizard');
+  if (!w) { w = document.createElement('div'); w.id = 'wizard'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true'); w.setAttribute('aria-labelledby', 'wz-tit'); document.body.appendChild(w);
+    w.addEventListener('input', function(e){ var t = e.target; if (!t.dataset.cf) return; var val = t.type === 'number' ? (t.value === '' ? '' : Number(t.value)) : t.value; CF[t.dataset.cf] = CF[t.dataset.cf] || {}; CF[t.dataset.cf][t.dataset.k] = val; });
+    w.addEventListener('click', function(e){ var t = e.target.closest('button'); if (!t) return; if (t.id === 'wz-avanti') avantiWz(1); if (t.id === 'wz-indietro') avantiWz(-1); if (t.id === 'wz-dopo') chiudiWz(); });
+  }
+  var k = PASSI_WZ[WZ.passo], tot = PASSI_WZ.length - 2, n = Math.min(Math.max(WZ.passo, 1), tot);
+  var corpo;
+  if (k === 'intro') corpo = '<h2 id="wz-tit">Benvenuto' + (CF.hotel && CF.hotel.nome ? ' all’' + esc(CF.hotel.nome) : '') + '!</h2><p>Ti faccio qualche domanda sul tuo hotel: servono all’assistente per rispondere ai clienti su WhatsApp e sul sito, e per scrivere le email agli ospiti. Ci vogliono circa 10 minuti.</p><p class="note">Ogni passo viene salvato subito e puoi cambiare tutto quando vuoi da Impostazioni. Se un campo non ti riguarda, lascialo vuoto.</p>';
+  else if (k === 'fine') corpo = '<h2 id="wz-tit">Ottimo, ci siamo quasi</h2><p>Manca l’ultima cosa: le <b>camere</b> e i <b>prezzi</b>. Nella pagina Camere e listino inserisci le tue camere (numero e tipologia) e i prezzi della stagione: l’assistente li usa per ogni preventivo.</p><p class="note">Le tipologie di camera (doppia, tripla…) e gli extra prenotabili li trovi in fondo a Impostazioni.</p>';
+  else { var s = sezione(k), o = CF[k] || {}; corpo = '<p class="note" style="margin:0">Passo ' + n + ' di ' + tot + '</p><h2 id="wz-tit">' + esc(s.t) + '</h2>' + (s.nota ? '<p class="note">' + esc(s.nota) + '</p>' : '') + '<div class="griglia">' + s.campi.map(function(c){ return campoHtml('wz-' + k, c, o[c[0]] == null ? '' : o[c[0]]).replace(/data-cf="wz-/, 'data-cf="'); }).join('') + '</div>'; }
+  w.innerHTML = '<div class="wz-box">' + corpo + '<p class="note" id="wz-stato" aria-live="polite"></p><div class="wz-azioni">'
+    + (WZ.passo > 0 ? '<button class="btn" type="button" id="wz-indietro">Indietro</button>' : '<button class="btn" type="button" id="wz-dopo">Lo faccio dopo</button>')
+    + '<button class="btn primary" type="button" id="wz-avanti">' + (k === 'intro' ? 'Iniziamo' : k === 'fine' ? 'Vai a Camere e listino' : 'Salva e continua') + '</button></div></div>';
+  w.hidden = false; WZ.aperta = true;
+  var primo = w.querySelector('input,textarea'); if (primo) primo.focus(); else $('#wz-avanti').focus();
+}
+function salvaWz(fine){
+  var dati = clone(CF); if (fine) dati.da_completare = false;
+  return chiamaG({ azione: 'salva_config', dati: dati }).then(function(){ if (G) G.config = clone(dati); CF = clone(dati); });
+}
+function avantiWz(d){
+  var k = PASSI_WZ[WZ.passo];
+  if (d < 0) { WZ.passo = Math.max(0, WZ.passo - 1); return disegnaWizard(); }
+  if (k === 'hotel' && !(CF.hotel && String(CF.hotel.nome || '').trim())) { $('#wz-stato').textContent = 'Scrivi almeno il nome dell’hotel.'; return; }
+  var b = $('#wz-avanti'); b.disabled = true; $('#wz-stato').textContent = '';
+  var fine = k === 'fine';
+  (k === 'intro' ? Promise.resolve() : salvaWz(fine)).then(function(){
+    if (fine) { chiudiWz(); disegnaImpostazioni(); if (window.apri) apri('camere'); toast('Impostazioni salvate. Ora inserisci camere e prezzi.'); return; }
+    WZ.passo++; disegnaWizard();
+  }).catch(function(e){ b.disabled = false; errore(e, $('#wz-stato')); });
+}
+function chiudiWz(){ var w = $('#wizard'); if (w) w.hidden = true; WZ.aperta = false; }
+function forseWizard(){ if (G && G.config && G.config.da_completare === true && !WZ.aperta) { CF = clone(G.config); WZ.passo = 0; disegnaWizard(); } }
+var primaW = window.caricaG;
+window.caricaG = function(){ return Promise.resolve(primaW()).then(function(){ disegnaAdmin(); forseWizard(); }); };
 })();

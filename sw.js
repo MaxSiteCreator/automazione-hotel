@@ -1,4 +1,4 @@
-const C = 'pannello-v9';
+const C = 'pannello-v10';
 self.addEventListener('install', function(e){ self.skipWaiting(); e.waitUntil(caches.open(C).then(function(c){ return c.addAll(['./', 'icona.png', 'manifest.webmanifest']); }).catch(function(){})); });
 self.addEventListener('activate', function(e){ e.waitUntil(caches.keys().then(function(k){ return Promise.all(k.filter(function(x){ return x !== C && x !== 'pannello-badge'; }).map(function(x){ return caches.delete(x); })); }).then(function(){ return self.clients.claim(); })); });
 self.addEventListener('fetch', function(e){

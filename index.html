@@ -175,6 +175,8 @@ table.ed input{width:100%}table.ed input.n{max-width:90px;min-width:64px}table.e
 .campo textarea{min-height:70px;resize:vertical}
 .griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
 .conc-lista{display:flex;flex-wrap:wrap;gap:8px}.conc-c{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 12px;border-radius:999px;background:var(--sole-soft);font-size:14px;font-weight:600}.conc-c button{border:0;background:transparent;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:2px 6px;border-radius:999px}.conc-c button:hover{background:var(--surface)}.conc-r{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.conc-r .i{flex:1;min-width:0}.conc-r .i b{display:block}.conc-r .i span{font-size:13px;color:var(--muted)}#conc-ris{margin-top:6px}
+.resta{display:flex;gap:10px;align-items:flex-start;text-align:left;margin:6px 0 2px;cursor:pointer;font-size:15px}.resta input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--accent)}.resta .note{font-size:12.5px}
+#wizard{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--fg) 45%,transparent);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}#wizard[hidden]{display:none}#wizard .wz-box{background:var(--surface);border-radius:16px;max-width:640px;width:100%;padding:22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.25)}#wizard h2{margin:6px 0 10px}#wizard .griglia{margin-top:12px}.wz-azioni{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
 .riga{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.riga input{flex:1;min-width:180px}
 .riga2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rip{border:1px dashed var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;position:relative}
@@ -194,6 +196,7 @@ dialog::backdrop{background:rgba(0,0,0,.35)}dialog form{display:flex;flex-direct
     <input id="utente" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
     <label for="pwd" class="note">Password</label>
     <input id="pwd" type="password" autocomplete="current-password" required>
+    <label class="resta"><input type="checkbox" id="resta"> <span><b>Resta connesso</b><br><span class="note">Su questo telefono non ti chiederemo più la password. Non spuntarlo su un computer condiviso.</span></span></label>
     <div class="err" id="err"></div>
     <button class="btn primary" type="submit" id="b-login">Entra</button>
     <button class="linkbtn" type="button" id="b-dimenticata">Password dimenticata?</button>
@@ -353,9 +356,14 @@ function eur(x, dec){ return Number(x || 0).toLocaleString('it-IT', {minimumFrac
 function gg(d){ if (!d) return ''; return new Date(String(d).length === 10 ? d + 'T12:00:00' : d).toLocaleDateString('it-IT', {day:'numeric', month:'short'}); }
 function ggLungo(d){ return new Date(d + 'T12:00:00').toLocaleDateString('it-IT', {weekday:'short', day:'numeric', month:'short', year:'numeric'}); }
 function notti(a, b){ return Math.round((new Date(b) - new Date(a)) / 864e5); }
-var tT; function toast(t){ var el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(tT); tT = setTimeout(function(){ el.hidden = true; }, 3800); }
-function leggiAccesso(){ try { return JSON.parse(localStorage.getItem('pannello-accesso') || 'null'); } catch(e) { return null; } }
-function salvaAccesso(ok){ try { ok ? localStorage.setItem('pannello-accesso', JSON.stringify({u: UTENTE, p: PWD})) : localStorage.removeItem('pannello-accesso'); } catch(e) {} }
+var tT; function toast(t){ var el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(tT); tT = setTimeout(function(){ el.hidden = true; }, Math.max(3800, String(t).length * 65)); }
+function leggiAccesso(){ var a = null; try { a = JSON.parse(localStorage.getItem('pannello-accesso') || 'null'); } catch(e) {} if (!a) { try { a = JSON.parse(sessionStorage.getItem('pannello-accesso') || 'null'); } catch(e) {} } return a; }
+function salvaAccesso(ok){
+  var v = JSON.stringify({u: UTENTE, p: PWD}), resta = $('#resta') && $('#resta').checked;
+  try { if (ok && resta) localStorage.setItem('pannello-accesso', v); else localStorage.removeItem('pannello-accesso'); } catch(e) {}
+  try { if (ok) sessionStorage.setItem('pannello-accesso', v); else sessionStorage.removeItem('pannello-accesso'); } catch(e) {}
+  try { if (ok) { localStorage.setItem('pannello-utente', UTENTE); localStorage.setItem('pannello-resta', resta ? '1' : '0'); } } catch(e) {}
+}
 
 function chiama(corpo){
   corpo.password = PWD; corpo.utente = UTENTE;
@@ -544,9 +552,14 @@ document.addEventListener('click', function(e){
       .catch(function(err){ os.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); }); }
   var b = e.target.closest('[data-stato]');
   if (b) { b.disabled = true; var st = b.dataset.stato;
-    chiama({azione:'stato', id: Number(b.dataset.id), stato: st}).then(function(){
-      toast(st === 'prenotato' ? 'Segnato come prenotato: niente più solleciti.' : st === 'non_interessato' ? 'Segnato come non interessato: i solleciti si fermano.' : 'Ripristinato: la richiesta torna in attesa.');
-      return carica();
+    var idp = Number(b.dataset.id);
+    chiama({azione:'stato', id: idp, stato: st}).then(function(){
+      var msg = st === 'prenotato' ? 'Segnato come prenotato: niente più solleciti.' : st === 'non_interessato' ? 'Segnato come non interessato: i solleciti si fermano.' : 'Ripristinato: la richiesta torna in attesa.';
+      if (!window.chiamaG) { toast(msg); return carica(); }
+      var extra = st === 'prenotato' ? window.chiamaG({azione:'blocca_preventivo', id: idp}).then(function(r){ return msg + ' ' + (r && r.messaggio ? r.messaggio : ''); })
+        : window.chiamaG({azione:'sblocca_preventivo', id: idp}).then(function(){ return msg; });
+      return extra.catch(function(){ return msg + (st === 'prenotato' ? ' Ricordati di bloccare la camera nel planning.' : ''); })
+        .then(function(m){ toast(m); if (window.caricaG) window.caricaG(); return carica(); });
     }).catch(function(err){ b.disabled = false; if (err.auth) mostraLogin('Sessione scaduta: inserisci di nuovo la password.'); else toast('Non sono riuscito a salvare. Riprova.'); });
   }
 });
@@ -671,6 +684,7 @@ $('#b-notif').addEventListener('click', function(){
 });
 if (swOk()) navigator.serviceWorker.addEventListener('message', function(e){ if (e.data && e.data.tipo === 'aggiorna' && D) carica(); });
 var RESET = new URLSearchParams(location.search).get('reset');
-var acc0 = leggiAccesso(); if (RESET) { mostraLogin(''); $('#f-login').hidden = true; $('#f-reset').hidden = false; } else if (acc0 && acc0.u && acc0.p) { UTENTE = acc0.u; PWD = acc0.p; $('#utente').value = acc0.u; carica(); } else mostraLogin('');
+try { if (!$('#utente').value) $('#utente').value = localStorage.getItem('pannello-utente') || ''; $('#resta').checked = localStorage.getItem('pannello-resta') === '1'; } catch(e) {}
+var acc0 = leggiAccesso(); try { if (acc0 && localStorage.getItem('pannello-accesso')) $('#resta').checked = true; } catch(e) {} if (RESET) { mostraLogin(''); $('#f-login').hidden = true; $('#f-reset').hidden = false; } else if (acc0 && acc0.u && acc0.p) { UTENTE = acc0.u; PWD = acc0.p; $('#utente').value = acc0.u; carica(); } else mostraLogin('');
 </script>
 <script src="gestione.js"></script></body></html>
