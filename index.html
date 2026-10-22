@@ -145,7 +145,7 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
 nav button[data-tab=camere]{--c:var(--laguna)}nav button[data-tab=impost]{--c:var(--muted)}
 .linkbtn{font:inherit;font-size:14px;background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0;text-align:center}
 .pl-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.pl-tools input,.pl-tools select,.campo input,.campo select,.campo textarea,table.ed input,table.ed select,dialog input,dialog select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0}
+#conc-q,.pl-tools input,.pl-tools select,.campo input,.campo select,.campo textarea,table.ed input,table.ed select,dialog input,dialog select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0}
 .pl-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .lg::before{content:'';display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--b)}
 .lg-prenotazione,.ob-prenotazione{--b:var(--mare)}.lg-amico,.ob-amico{--b:var(--ametista)}.lg-chiusa,.ob-chiusa{--b:var(--muted)}
@@ -174,6 +174,7 @@ table.ed input{width:100%}table.ed input.n{max-width:90px;min-width:64px}table.e
 .campo{display:flex;flex-direction:column;gap:5px;font-size:14px}.campo label{font-weight:600}.campo .aiuto{color:var(--muted);font-size:12px;font-weight:400}
 .campo textarea{min-height:70px;resize:vertical}
 .griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.conc-lista{display:flex;flex-wrap:wrap;gap:8px}.conc-c{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 12px;border-radius:999px;background:var(--sole-soft);font-size:14px;font-weight:600}.conc-c button{border:0;background:transparent;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:2px 6px;border-radius:999px}.conc-c button:hover{background:var(--surface)}.conc-r{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.conc-r .i{flex:1;min-width:0}.conc-r .i b{display:block}.conc-r .i span{font-size:13px;color:var(--muted)}#conc-ris{margin-top:6px}
 .riga{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.riga input{flex:1;min-width:180px}
 .riga2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rip{border:1px dashed var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;position:relative}
@@ -258,6 +259,13 @@ dialog::backdrop{background:rgba(0,0,0,.35)}dialog form{display:flex;flex-direct
     <div class="gain" id="gain"></div>
     <div class="tablewrap"><table><thead><tr><th>Notte</th><th class="num">Il tuo prezzo</th><th class="num">Media zona</th><th class="num">Suggerito</th><th>Azione</th><th>Perché</th></tr></thead><tbody id="prezzi"></tbody></table></div>
     <p class="note">La decisione resta tua: conviene alzare gradualmente e controllare le prenotazioni.</p>
+    <div class="card" id="conc-card"><h3>Hotel con cui ti confronti</h3>
+      <p class="note" style="margin-top:0">Scegli tu gli hotel da tenere d'occhio, fino a 8: ogni lunedì mattina confrontiamo i loro prezzi su Google Hotels con i tuoi. Meglio hotel simili al tuo per zona e categoria.</p>
+      <div class="conc-lista" id="conc-lista"><div class="empty">Caricamento…</div></div>
+      <div class="riga" style="margin-top:12px"><input id="conc-q" type="search" placeholder="Cerca un hotel per nome, es. Hotel Corallo" aria-label="Nome dell'hotel da cercare"><button class="btn" type="button" id="conc-cerca">Cerca</button></div>
+      <div id="conc-ris"></div>
+      <div class="salvabar fermo"><span class="note" id="conc-stato"></span><button class="btn primary" type="button" id="conc-salva">Salva i concorrenti</button></div>
+    </div>
   </section>
   <section class="tab" id="s-rec" hidden>
     <div><h2>Recensioni</h2><p class="sub">Il giorno dopo la partenza ogni ospite riceve un'email con 5 stelle da cliccare. Tutti vedono il link per recensire su Google; se il voto è basso ricevi subito un avviso.</p></div>

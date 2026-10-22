@@ -283,4 +283,67 @@ $('#f-reset').addEventListener('submit', function(e){
     $('#f-reset').hidden = true; $('#f-login').hidden = false; $('#err').style.color = 'var(--good)'; $('#err').textContent = 'Password aggiornata: ora puoi entrare.'; $('#pwd').focus();
   }).catch(function(e2){ $('#r-msg').textContent = e2.msg || 'Non sono riuscito a salvare. Riprova.'; }).then(function(){ b.disabled = false; });
 });
+
+/* ---------- CONCORRENTI (scelti dal titolare) ---------- */
+(function(){
+var CONC = null, MAX = 8, toccato = false;
+function stato(t, ok){ var el = $('#conc-stato'); if (el) { el.textContent = t || ''; el.style.color = ok ? 'var(--good)' : ''; } }
+function disegna(){
+  var box = $('#conc-lista'); if (!box) return;
+  if (!CONC) { box.innerHTML = '<div class="empty">Caricamento…</div>'; return; }
+  box.innerHTML = CONC.length ? CONC.map(function(n, i){ return '<span class="conc-c">' + esc(n) + '<button type="button" data-i="' + i + '" aria-label="Togli ' + esc(n) + '">✕</button></span>'; }).join('')
+    : '<div class="empty" style="width:100%">Nessun hotel scelto: cercane uno qui sotto.</div>';
+  $('#conc-cerca').disabled = CONC.length >= MAX;
+  if (CONC.length >= MAX) stato('Hai già scelto ' + MAX + ' hotel: togline uno per aggiungerne un altro.');
+}
+function aggiungi(n){
+  n = String(n || '').trim(); if (!n || !CONC) return;
+  if (CONC.some(function(x){ return x.toLowerCase() === n.toLowerCase(); })) return stato(n + ' è già nella lista.');
+  if (CONC.length >= MAX) return stato('Massimo ' + MAX + ' hotel.');
+  CONC.push(n); toccato = true; disegna(); stato('Modifiche da salvare.'); mostraRis(ULTIMI);
+}
+var ULTIMI = null;
+function mostraRis(r){
+  var box = $('#conc-ris'); if (!box) return; ULTIMI = r;
+  if (!r) { box.innerHTML = ''; return; }
+  var q = $('#conc-q').value.trim();
+  var gia = function(n){ return CONC.some(function(x){ return x.toLowerCase() === String(n).toLowerCase(); }); };
+  var data = r.data ? new Date(r.data + 'T12:00:00').toLocaleDateString('it-IT', { day: 'numeric', month: 'long' }) : '';
+  var righe = (r.risultati || []).map(function(h){
+    var info = [];
+    if (h.stelle) info.push(h.stelle + ' stelle');
+    if (h.voto) info.push('★ ' + String(h.voto).replace('.', ',') + (h.recensioni ? ' (' + h.recensioni + ' recensioni)' : ''));
+    info.push(h.prezzo ? 'da ' + h.prezzo + ' € a notte il ' + data : 'prezzo non ancora pubblicato');
+    return '<div class="conc-r"><div class="i"><b>' + esc(h.nome) + '</b><span>' + esc(info.join(' · ')) + '</span></div>'
+      + (gia(h.nome) ? '<span class="chip">Aggiunto</span>' : '<button class="btn" type="button" data-agg="' + esc(h.nome) + '">+ Aggiungi</button>') + '</div>';
+  }).join('');
+  if (r.errore) righe = '<p class="note">' + esc(r.errore) + '</p>';
+  if (q && !gia(q)) righe += '<p class="note" style="margin-bottom:0">Non è nella lista? <button class="btn" type="button" data-agg="' + esc(q) + '">Aggiungi "' + esc(q) + '" così com\'è</button></p>';
+  box.innerHTML = righe;
+}
+function cerca(){
+  var q = $('#conc-q').value.trim(), b = $('#conc-cerca');
+  if (q.length < 3) return stato('Scrivi almeno 3 lettere del nome.');
+  b.disabled = true; stato(''); $('#conc-ris').innerHTML = '<p class="note">Cerco su Google Hotels…</p>';
+  chiamaG({ azione: 'cerca_hotel', q: q }).then(mostraRis).catch(function(e){ $('#conc-ris').innerHTML = ''; errore(e, $('#conc-stato')); }).then(function(){ b.disabled = CONC && CONC.length >= MAX; });
+}
+document.addEventListener('click', function(e){
+  var t = e.target;
+  if (t.closest && t.closest('.conc-c button')) { var i = Number(t.closest('button').dataset.i); CONC.splice(i, 1); toccato = true; disegna(); stato('Modifiche da salvare.'); mostraRis(ULTIMI); return; }
+  if (t.dataset && t.dataset.agg) { aggiungi(t.dataset.agg); return; }
+  if (t.id === 'conc-cerca') cerca();
+  if (t.id === 'conc-salva') {
+    if (!CONC) return;
+    if (CONC.length < 2) return stato('Scegli almeno 2 hotel: con meno il confronto non è affidabile.');
+    t.disabled = true;
+    chiamaG({ azione: 'salva_concorrenti', concorrenti: CONC }).then(function(){ toccato = false; stato('Salvato. I prezzi dei nuovi hotel arrivano lunedì mattina.', true); })
+      .catch(function(e2){ errore(e2, $('#conc-stato')); }).then(function(){ t.disabled = false; });
+  }
+});
+document.addEventListener('keydown', function(e){ if (e.target && e.target.id === 'conc-q' && e.key === 'Enter') { e.preventDefault(); cerca(); } });
+var prima = window.caricaG;
+window.caricaG = function(){
+  return Promise.resolve(prima()).then(function(){ if (G && !toccato) { CONC = (G.concorrenti || []).slice(); disegna(); } });
+};
+})();
 })();
