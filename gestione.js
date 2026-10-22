@@ -280,7 +280,11 @@ $('#f-reset').addEventListener('submit', function(e){
   if (n !== r) { $('#r-msg').textContent = 'Le due password non coincidono.'; return; }
   var b = $('#b-reset'); b.disabled = true;
   var token = new URLSearchParams(location.search).get('reset') || '';
-  chiamaG({ azione: 'reset_conferma', token: token, nuova: n }, true).then(function(){
+  var ru = $('#r-utente'), scelto = ru ? ru.value.trim().toLowerCase() : '';
+  if (ru && !/^[a-z0-9][a-z0-9.-]{2,30}$/.test(scelto)) { $('#r-msg').textContent = 'Nome utente: almeno 3 caratteri, solo lettere minuscole, numeri, punto o trattino.'; b.disabled = false; return; }
+  var corpoR = { azione: 'reset_conferma', token: token, nuova: n }; if (scelto) corpoR.nuovo_utente = scelto;
+  chiamaG(corpoR, true).then(function(){
+    if (scelto) $('#utente').value = scelto;
     try { history.replaceState(null, '', location.pathname); } catch (x) {}
     $('#f-reset').hidden = true; $('#f-login').hidden = false; $('#err').style.color = 'var(--good)'; $('#err').textContent = 'Password aggiornata: ora puoi entrare.'; $('#pwd').focus();
     var uu = $('#utente').value.trim().toLowerCase();
@@ -363,6 +367,12 @@ window.caricaG = function(){
   if (n) n.textContent = 'Scegli la password per entrare nel pannello' + (hotel ? ' di ' + hotel : '') + '. Almeno 8 caratteri: il Portachiavi dell’iPhone può suggerirne e ricordarne una sicura.';
   var u = (q.get('u') || '').slice(0, 60);
   if (u) { var iu = $('#utente'); if (iu) iu.value = u; }
+  var lab = f.querySelector('label[for="r-nuova"]');
+  if (lab && !$('#r-utente')) {
+    var d = document.createElement('div');
+    d.innerHTML = '<label for="r-utente" class="note">Scegli il tuo nome utente</label><input id="r-utente" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required minlength="3" maxlength="31" value="' + esc(u) + '"><p class="note" style="margin:2px 0 6px;font-size:12.5px">Solo lettere minuscole, numeri, punto o trattino. Ti servirà ogni volta che entri.</p>';
+    while (d.firstChild) f.insertBefore(d.firstChild, lab);
+  }
   var b = $('#b-reset'); if (b) b.textContent = 'Crea la password ed entra';
 })();
 
