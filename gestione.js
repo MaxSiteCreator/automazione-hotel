@@ -436,5 +436,5 @@ function avantiWz(d){
 function chiudiWz(){ var w = $('#wizard'); if (w) w.hidden = true; WZ.aperta = false; }
 function forseWizard(){ if (G && G.config && G.config.da_completare === true && !WZ.aperta) { CF = clone(G.config); WZ.passo = 0; disegnaWizard(); } }
 var primaW = window.caricaG;
-window.caricaG = function(){ return Promise.resolve(primaW()).then(function(){ disegnaAdmin(); forseWizard(); }); };
+window.caricaG = function(){ return Promise.resolve(primaW()).then(function(){ forseWizard(); }); };
 })();
