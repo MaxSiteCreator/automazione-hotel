@@ -444,7 +444,168 @@ function avantiWz(d){
   }).catch(function(e){ b.disabled = false; errore(e, $('#wz-stato')); });
 }
 function chiudiWz(){ var w = $('#wizard'); if (w) w.hidden = true; WZ.aperta = false; }
-function forseWizard(){ if (G && G.config && G.config.da_completare === true && !WZ.aperta) { CF = clone(G.config); WZ.passo = 0; disegnaWizard(); } }
+function forseWizard(){ if (G && G.ruolo !== 'reception' && G.config && G.config.da_completare === true && !WZ.aperta) { CF = clone(G.config); WZ.passo = 0; disegnaWizard(); } }
 var primaW = window.caricaG;
 window.caricaG = function(){ return Promise.resolve(primaW()).then(function(){ forseWizard(); }); };
+
+
+/* ---------- COLLABORATORI (solo titolare) ---------- */
+function disegnaCollaboratori(){
+  var box = $('#col-lista'); if (!box || !G) return;
+  var L = G.collaboratori || [];
+  box.innerHTML = L.length ? L.map(function(c){
+    return '<div class="col-r"><div class="i"><b>' + esc(c.utente || c.email) + '</b><span>' + esc(c.email) + ' · ' + (c.attivo ? 'Accesso attivo' : 'Invito inviato, non ancora attivato') + '</span></div><button class="btn" type="button" data-col-togli="' + c.id + '">Togli accesso</button></div>';
+  }).join('') : '<p class="note">Per ora entri solo tu.</p>';
+}
+document.addEventListener('click', function(e){
+  var t = e.target.closest ? e.target.closest('[data-col-togli]') : null;
+  if (t) {
+    if (!confirm('Togliere l’accesso a questa persona? Non potrà più entrare nel pannello.')) return;
+    t.disabled = true;
+    chiamaG({ azione: 'togli_collaboratore', id: Number(t.dataset.colTogli) }).then(function(){ toast('Accesso tolto.'); return window.caricaG(); }).catch(function(x){ t.disabled = false; errore(x, $('#col-stato')); });
+    return;
+  }
+  if (e.target.id === 'col-invita') {
+    var b = e.target, em = $('#col-email').value.trim(), nome = $('#col-nome').value.trim(), st = $('#col-stato');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { st.textContent = 'Scrivi un’email valida.'; return; }
+    b.disabled = true; st.style.color = ''; st.textContent = 'Mando l’invito…';
+    chiamaG({ azione: 'invita_collaboratore', email: em, nome: nome }).then(function(){
+      st.style.color = 'var(--good)'; st.textContent = 'Invito mandato a ' + em + ': sceglierà da solo nome utente e password.';
+      $('#col-email').value = ''; $('#col-nome').value = ''; return window.caricaG();
+    }).catch(function(x){ st.style.color = ''; errore(x, st); }).then(function(){ b.disabled = false; });
+  }
+});
+
+/* ---------- CAMERE: aggiungi più camere insieme ---------- */
+function disegnaBlocco(){
+  var sel = $('#cb-tipo'); if (!sel || !G) return;
+  var cur = sel.value;
+  sel.innerHTML = tipologie().map(function(t){ return '<option value="' + esc(t.codice) + '">' + esc(t.nome || t.codice) + '</option>'; }).join('') || '<option value="">Prima aggiungi le tipologie in Impostazioni</option>';
+  if (cur) sel.value = cur;
+}
+document.addEventListener('click', function(e){
+  if (e.target.id !== 'cb-ok' || !G) return;
+  var b = e.target, st = $('#cb-stato');
+  var da = parseInt($('#cb-da').value, 10), a = parseInt($('#cb-a').value, 10), tip = $('#cb-tipo').value, piano = $('#cb-piano').value.trim();
+  if (!(da > 0) || !(a > 0)) { st.textContent = 'Scrivi il primo e l’ultimo numero.'; return; }
+  if (a < da) { var x = da; da = a; a = x; }
+  if (a - da > 299) { st.textContent = 'Massimo 300 camere alla volta.'; return; }
+  if (!tip) { st.textContent = 'Scegli la tipologia.'; return; }
+  var esistenti = {}; G.camere.forEach(function(c){ esistenti[String(c.numero)] = true; });
+  var nuove = [], saltate = 0;
+  for (var n = da; n <= a; n++) { if (esistenti[String(n)]) saltate++; else nuove.push(String(n)); }
+  if (!nuove.length) { st.textContent = 'Queste camere esistono già.'; return; }
+  b.disabled = true; st.style.color = ''; st.textContent = 'Aggiungo ' + nuove.length + ' camere…';
+  chiamaG({ azione: 'salva_camere', numeri: nuove, tipologia: tip, piano: piano }).then(function(){
+    st.style.color = 'var(--good)'; st.textContent = 'Aggiunte ' + nuove.length + ' camere' + (saltate ? ' (' + saltate + ' c’erano già)' : '') + '.';
+    $('#cb-da').value = ''; $('#cb-a').value = ''; return window.caricaG();
+  }).catch(function(x){ st.style.color = ''; errore(x, st); }).then(function(){ b.disabled = false; });
+});
+
+/* ---------- IMPORTA OSPITI DA EXCEL ---------- */
+var IMP = null;
+var CAMPI_IMP = {
+  arrivi: [['nome', 'Nome', true], ['email', 'Email', false], ['check_in', 'Arrivo', true], ['check_out', 'Partenza', true], ['camera', 'Camera', false], ['lingua', 'Lingua o nazione', false]],
+  passati: [['nome', 'Nome', true], ['email', 'Email', true], ['ultimo_soggiorno', 'Ultimo soggiorno', false], ['composizione', 'Persone', false], ['note', 'Note', false], ['lingua', 'Lingua o nazione', false]]
+};
+var SINONIMI = {
+  nome: /^(nome|nominativo|ospite|cliente|cognome e nome|nome e cognome|name|guest|intestatario)/i,
+  email: /(e-?mail|mail)/i,
+  check_in: /(arrivo|check.?in|dal\b|data arrivo|arrival|inizio)/i,
+  check_out: /(partenza|check.?out|\bal\b|data partenza|departure|fine)/i,
+  camera: /(camera|stanza|room|n\.? ?cam)/i,
+  lingua: /(lingua|language|nazion|paese|country|nazionalit)/i,
+  ultimo_soggiorno: /(ultimo|soggiorno|anno|periodo|last stay)/i,
+  composizione: /(persone|ospiti|pax|composizione|adulti)/i,
+  note: /(note|commenti|osservazioni|notes)/i
+};
+function tipoImp(){ var r = document.querySelector('input[name=imp-tipo]:checked'); return r ? r.value : 'arrivi'; }
+function caricaXlsx(){
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  return new Promise(function(ok, ko){ var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload = function(){ ok(window.XLSX); }; sc.onerror = function(){ ko(new Error('Non riesco a leggere il file: controlla la connessione.')); }; document.head.appendChild(sc); });
+}
+function isoData(v){
+  if (v == null || v === '') return '';
+  if (v instanceof Date && !isNaN(v)) return iso(v);
+  if (typeof v === 'number' && v > 20000 && v < 80000) { var d = new Date(Math.round((v - 25569) * 864e5)); return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0'); }
+  var t = String(v).trim(), m;
+  if ((m = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return m[1] + '-' + m[2].padStart(2, '0') + '-' + m[3].padStart(2, '0');
+  if ((m = t.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})/))) { var y = m[3].length === 2 ? '20' + m[3] : m[3]; return y + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0'); }
+  return '';
+}
+function linguaDa(v, email){
+  var t = String(v || '').toLowerCase().trim();
+  if (/^(it|ita|italia|italy|italiano|italiana)/.test(t)) return 'it';
+  if (/^(de|deu|ger|germania|germany|deutsch|tedesc|austria|österreich|osterreich|at$|ch$|svizzera|schweiz)/.test(t)) return 'de';
+  if (/^(fr|fra|francia|france|frances|belgio|belgique)/.test(t)) return 'fr';
+  if (/^(en|eng|ing|uk|gb|regno unito|united kingdom|inghilterra|england|usa|stati uniti|irlanda|ireland|olanda|netherlands|nl$|danimarca|svezia|norvegia|polonia)/.test(t)) return 'en';
+  if (t) return 'en';
+  var dom = String(email || '').toLowerCase().split('.').pop();
+  return { de: 'de', at: 'de', ch: 'de', fr: 'fr', be: 'fr', it: 'it', uk: 'en', nl: 'en' }[dom] || 'it';
+}
+function disegnaImp(){
+  var box = $('#imp-anteprima'); if (!box) return;
+  if (!IMP) { box.innerHTML = ''; return; }
+  var campi = CAMPI_IMP[tipoImp()];
+  var opz = function(sel){ return '<option value="">—</option>' + IMP.intest.map(function(h, i){ return '<option value="' + i + '"' + (String(sel) === String(i) ? ' selected' : '') + '>' + esc(h || ('Colonna ' + (i + 1))) + '</option>'; }).join(''); };
+  var righe = convertiImp().slice(0, 5);
+  box.innerHTML = '<p class="note" style="margin-bottom:6px">Ho trovato <b>' + IMP.righe.length + '</b> righe. Controlla che ogni dato prenda la colonna giusta:</p>'
+    + '<div class="tabw"><table class="ed"><thead><tr>' + campi.map(function(c){ return '<th>' + esc(c[1]) + (c[2] ? ' *' : '') + '</th>'; }).join('') + '</tr></thead><tbody><tr>'
+    + campi.map(function(c){ return '<td><select data-imp="' + c[0] + '">' + opz(IMP.mappa[c[0]]) + '</select></td>'; }).join('') + '</tr>'
+    + righe.map(function(r){ return '<tr>' + campi.map(function(c){ return '<td>' + esc(r[c[0]] || '') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>'
+    + '<div class="riga" style="margin-top:10px"><button class="btn primary" type="button" id="imp-ok">Importa ' + IMP.righe.length + ' righe</button><button class="btn" type="button" id="imp-annulla">Annulla</button></div>';
+}
+function convertiImp(){
+  var tipo = tipoImp(), M = IMP.mappa;
+  var val = function(r, k){ return M[k] === '' || M[k] == null ? '' : r[Number(M[k])]; };
+  return IMP.righe.map(function(r){
+    var o = { nome: String(val(r, 'nome') || '').trim(), email: String(val(r, 'email') || '').trim() };
+    o.lingua = linguaDa(val(r, 'lingua'), o.email);
+    if (tipo === 'arrivi') { o.check_in = isoData(val(r, 'check_in')); o.check_out = isoData(val(r, 'check_out')); o.camera = String(val(r, 'camera') || '').trim(); }
+    else { var u = val(r, 'ultimo_soggiorno'); o.ultimo_soggiorno = u instanceof Date ? isoData(u) : String(u || '').trim(); o.composizione = String(val(r, 'composizione') || '').trim(); o.note = String(val(r, 'note') || '').trim(); }
+    return o;
+  }).filter(function(o){ return o.nome; });
+}
+function indovinaMappa(){
+  var M = {}, usate = {};
+  Object.keys(SINONIMI).forEach(function(k){
+    for (var i = 0; i < IMP.intest.length; i++) { if (!usate[i] && SINONIMI[k].test(String(IMP.intest[i] || ''))) { M[k] = i; usate[i] = true; return; } }
+    M[k] = '';
+  });
+  IMP.mappa = M;
+}
+document.addEventListener('change', function(e){
+  var t = e.target;
+  if (t.id === 'imp-file' && t.files && t.files[0]) {
+    var f = t.files[0], st = $('#imp-stato'); st.style.color = ''; st.textContent = 'Leggo il file…';
+    caricaXlsx().then(function(X){ return f.arrayBuffer().then(function(buf){
+      var wb = X.read(buf, { type: 'array', cellDates: true });
+      var ws = wb.Sheets[wb.SheetNames[0]];
+      var aoa = X.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }).filter(function(r){ return r.some(function(c){ return String(c).trim() !== ''; }); });
+      if (aoa.length < 2) throw new Error('Il file sembra vuoto: serve una riga di intestazione e almeno un ospite.');
+      IMP = { intest: aoa[0].map(function(h){ return String(h).trim(); }), righe: aoa.slice(1, 3001) };
+      indovinaMappa(); st.textContent = ''; disegnaImp();
+    }); }).catch(function(x){ IMP = null; disegnaImp(); st.textContent = x.message || 'Non riesco a leggere il file.'; });
+  }
+  if (t.name === 'imp-tipo' && IMP) disegnaImp();
+  if (t.dataset && t.dataset.imp && IMP) { IMP.mappa[t.dataset.imp] = t.value; disegnaImp(); }
+});
+document.addEventListener('click', function(e){
+  if (e.target.id === 'imp-annulla') { IMP = null; $('#imp-file').value = ''; $('#imp-stato').textContent = ''; disegnaImp(); }
+  if (e.target.id !== 'imp-ok' || !IMP) return;
+  var tipo = tipoImp(), st = $('#imp-stato'), b = e.target;
+  var mancano = CAMPI_IMP[tipo].filter(function(c){ return c[2] && (IMP.mappa[c[0]] === '' || IMP.mappa[c[0]] == null); });
+  if (mancano.length) { st.textContent = 'Scegli la colonna per: ' + mancano.map(function(c){ return c[1]; }).join(', ') + '.'; return; }
+  var righe = convertiImp();
+  b.disabled = true; st.style.color = ''; st.textContent = 'Importo ' + righe.length + ' righe…';
+  chiamaG({ azione: 'importa_ospiti', tipo: tipo, righe: righe }).then(function(r){
+    st.style.color = 'var(--good)';
+    st.textContent = 'Fatto: importati ' + (r.importati || 0) + (r.saltati ? ', saltati ' + r.saltati + ' (doppioni o dati mancanti)' : '') + '.';
+    IMP = null; $('#imp-file').value = ''; disegnaImp();
+    if (window.carica) window.carica();
+  }).catch(function(x){ st.style.color = ''; b.disabled = false; errore(x, st); });
+});
+
+var primaR = window.caricaG;
+window.caricaG = function(){ return Promise.resolve(primaR()).then(function(){ if (G) document.body.classList.toggle('ruolo-reception', G.ruolo === 'reception'); disegnaCollaboratori(); disegnaBlocco(); }); };
 })();

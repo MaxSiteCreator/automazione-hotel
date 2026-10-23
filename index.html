@@ -145,7 +145,7 @@ section.tab > div:first-child h2::before{content:'';display:inline-block;width:6
 nav button[data-tab=camere]{--c:var(--laguna)}nav button[data-tab=impost]{--c:var(--muted)}
 .linkbtn{font:inherit;font-size:14px;background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0;text-align:center}
 .pl-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-#conc-q,.pl-tools input,.pl-tools select,.campo input,.campo select,.campo textarea,table.ed input,table.ed select,dialog input,dialog select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0}
+#col-nome,#col-email,#conc-q,.pl-tools input,.pl-tools select,.campo input,.campo select,.campo textarea,table.ed input,table.ed select,dialog input,dialog select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0}
 .pl-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .lg::before{content:'';display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--b)}
 .lg-prenotazione,.ob-prenotazione{--b:var(--mare)}.lg-amico,.ob-amico{--b:var(--ametista)}.lg-chiusa,.ob-chiusa{--b:var(--muted)}
@@ -177,6 +177,8 @@ table.ed input{width:100%}table.ed input.n{max-width:90px;min-width:64px}table.e
 .conc-lista{display:flex;flex-wrap:wrap;gap:8px}.conc-c{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 12px;border-radius:999px;background:var(--sole-soft);font-size:14px;font-weight:600}.conc-c button{border:0;background:transparent;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:2px 6px;border-radius:999px}.conc-c button:hover{background:var(--surface)}.conc-r{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.conc-r .i{flex:1;min-width:0}.conc-r .i b{display:block}.conc-r .i span{font-size:13px;color:var(--muted)}#conc-ris{margin-top:6px}
 .resta{display:flex;gap:10px;align-items:flex-start;text-align:left;margin:6px 0 2px;cursor:pointer;font-size:15px}.resta input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--accent)}.resta .note{font-size:12.5px}
 #wizard{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--fg) 45%,transparent);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}#wizard[hidden]{display:none}#wizard .wz-box{background:var(--surface);border-radius:16px;max-width:640px;width:100%;padding:22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.25)}#wizard h2{margin:6px 0 10px}#wizard .griglia{margin-top:12px}.wz-azioni{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.ruolo-reception .solo-titolare{display:none!important}.riga .resta input{flex:none;min-width:0;width:20px}.riga .resta{flex:none}.campo select{min-width:0}#imp-anteprima table{font-size:13px}#imp-anteprima select{font:inherit;font-size:13px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg);max-width:140px}.col-r{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.col-r .i{flex:1;min-width:0}.col-r .i span{display:block;font-size:13px;color:var(--muted)}
+.pp{font-size:11.5px;color:var(--muted);font-weight:500;white-space:nowrap}
 .riga{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.riga input{flex:1;min-width:180px}
 .riga2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rip{border:1px dashed var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;position:relative}
@@ -230,18 +232,18 @@ dialog::backdrop{background:rgba(0,0,0,.35)}dialog form{display:flex;flex-direct
     <button role="tab" data-tab="oggi" aria-selected="true">Oggi</button>
     <button role="tab" data-tab="hotel" aria-selected="false">In hotel<span class="badge" id="b-hotel"></span></button>
     <button role="tab" data-tab="prev" aria-selected="false">Preventivi<span class="badge" id="b-prev"></span></button>
-    <button role="tab" data-tab="prezzi" aria-selected="false">Prezzi<span class="badge" id="b-prezzi"></span></button>
+    <button role="tab" data-tab="prezzi" aria-selected="false" class="solo-titolare">Prezzi<span class="badge" id="b-prezzi"></span></button>
     <button role="tab" data-tab="rec" aria-selected="false">Recensioni<span class="badge" id="b-rec"></span></button>
     <button role="tab" data-tab="osp" aria-selected="false">Ospiti che tornano<span class="badge" id="b-osp"></span></button>
     <button role="tab" data-tab="camere" aria-selected="false">Camere e listino</button>
-    <button role="tab" data-tab="ris" aria-selected="false">Risultati</button>
+    <button role="tab" data-tab="ris" aria-selected="false" class="solo-titolare">Risultati</button>
     <button role="tab" data-tab="impost" aria-selected="false">Impostazioni</button>
   </nav></div></header>
 <main class="wrap">
   <div class="inst" id="inst" hidden><img src="icona.png" alt=""><span id="inst-t"></span><div class="btns"><button class="btn primary" id="inst-ok" type="button" hidden>Installa</button><button class="btn" id="inst-no" type="button">Non ora</button></div></div>
   <section class="tab" id="s-oggi">
     <div><h2>Ecco cosa c'è da fare</h2><p class="sub">Le automazioni lavorano anche di notte. Qui trovi solo quello che richiede una tua decisione.</p></div>
-    <div class="todo" id="todo"></div><div class="tiles" id="tiles"></div>
+    <div class="todo" id="todo"></div><div class="tiles solo-titolare" id="tiles"></div>
     <div class="head"><div><h2>Ultime richieste di preventivo</h2><p class="sub">Da WhatsApp e dalla chat del sito, già calcolate con il tuo listino.</p></div><button class="btn" data-go="prev" type="button">Vedi tutte</button></div>
     <div class="list" id="ultime"></div>
   </section>
@@ -258,7 +260,7 @@ dialog::backdrop{background:rgba(0,0,0,.35)}dialog form{display:flex;flex-direct
     <div class="list" id="prev"></div>
   </section>
   <section class="tab" id="s-prezzi" hidden>
-    <div><h2>Suggerimenti prezzi della settimana</h2><p class="sub" id="prezzi-sub"></p></div>
+    <div><h2>Suggerimenti prezzi della settimana</h2><p class="sub" id="prezzi-sub"></p><p class="note" style="margin-top:4px">I siti mostrano il prezzo della <b>camera doppia con colazione</b>: per confrontarlo, il tuo prezzo a persona in mezza pensione viene convertito (2 persone, meno la differenza della colazione nel tuo listino). Sotto ogni cifra trovi il valore a persona da scrivere nel listino.</p></div>
     <div class="gain" id="gain"></div>
     <div class="tablewrap"><table><thead><tr><th>Notte</th><th class="num">Il tuo prezzo</th><th class="num">Media zona</th><th class="num">Suggerito</th><th>Azione</th><th>Perché</th></tr></thead><tbody id="prezzi"></tbody></table></div>
     <p class="note">La decisione resta tua: conviene alzare gradualmente e controllare le prenotazioni.</p>
@@ -292,24 +294,40 @@ dialog::backdrop{background:rgba(0,0,0,.35)}dialog form{display:flex;flex-direct
     <div class="pl-tools"><button class="btn" type="button" id="pl-prima" aria-label="Settimane precedenti">◀</button><input type="date" id="pl-dal" aria-label="Dal giorno"><button class="btn" type="button" id="pl-dopo" aria-label="Settimane successive">▶</button><button class="btn" type="button" id="pl-oggi">Oggi</button><select id="pl-tipo" aria-label="Tipologia"></select><button class="btn primary" type="button" id="pl-nuova">+ Blocca una camera</button></div>
     <div class="pl-leg"><span class="lg lg-prenotazione">Prenotazione</span><span class="lg lg-amico">Amico o ospite del titolare</span><span class="lg lg-chiusa">Camera chiusa</span></div>
     <div class="pl-wrap" id="pl-wrap"><div class="empty">Caricamento del planning…</div></div>
-    <div><h2>Listino prezzi</h2><p class="sub">Prezzi a persona a notte in mezza pensione. L'assistente li usa per ogni preventivo: cambiandoli qui, il prossimo preventivo esce già aggiornato.</p></div>
-    <div class="card"><h3>Periodi della stagione</h3><div class="tabw"><table class="ed" id="ls-periodi"></table></div><button class="btn" type="button" id="ls-add-periodo">+ Aggiungi periodo</button></div>
-    <div class="card"><h3>Prezzi speciali per date</h3><p class="note" style="margin-top:0">Per un evento, un ponte o un'offerta: sostituiscono il prezzo del periodo solo in quelle notti.</p><div class="tabw"><table class="ed" id="ls-speciali"></table></div><button class="btn" type="button" id="ls-add-speciale">+ Aggiungi prezzo speciale</button></div>
-    <div class="two"><div class="card"><h3>Trattamenti</h3><p class="note" style="margin-top:0">Differenza a persona a notte rispetto alla mezza pensione.</p><div class="kvf" id="ls-tratt"></div></div><div class="card"><h3>Sconti bambini</h3><div class="tabw"><table class="ed" id="ls-bambini"></table></div></div></div>
-    <div class="salvabar fermo"><span class="note" id="ls-stato"></span><button class="btn primary" type="button" id="ls-salva">Salva il listino</button></div>
-    <div><h2>Elenco camere</h2><p class="sub">Numero, tipologia e piano di ogni camera. Una camera "non in uso" non viene mai offerta.</p></div>
-    <div class="tabw card" style="padding:0"><table class="ed" id="cm-lista"></table></div>
-    <div><button class="btn" type="button" id="cm-add">+ Aggiungi camera</button></div>
+    <div class="solo-titolare"><h2>Listino prezzi</h2><p class="sub">Prezzi a persona a notte in mezza pensione. L'assistente li usa per ogni preventivo: cambiandoli qui, il prossimo preventivo esce già aggiornato.</p></div>
+    <div class="card solo-titolare"><h3>Periodi della stagione</h3><div class="tabw"><table class="ed" id="ls-periodi"></table></div><button class="btn" type="button" id="ls-add-periodo">+ Aggiungi periodo</button></div>
+    <div class="card solo-titolare"><h3>Prezzi speciali per date</h3><p class="note" style="margin-top:0">Per un evento, un ponte o un'offerta: sostituiscono il prezzo del periodo solo in quelle notti.</p><div class="tabw"><table class="ed" id="ls-speciali"></table></div><button class="btn" type="button" id="ls-add-speciale">+ Aggiungi prezzo speciale</button></div>
+    <div class="two solo-titolare"><div class="card"><h3>Trattamenti</h3><p class="note" style="margin-top:0">Differenza a persona a notte rispetto alla mezza pensione.</p><div class="kvf" id="ls-tratt"></div></div><div class="card"><h3>Sconti bambini</h3><div class="tabw"><table class="ed" id="ls-bambini"></table></div></div></div>
+    <div class="salvabar fermo solo-titolare"><span class="note" id="ls-stato"></span><button class="btn primary" type="button" id="ls-salva">Salva il listino</button></div>
+    <div class="solo-titolare"><h2>Elenco camere</h2><p class="sub">Numero, tipologia e piano di ogni camera. Una camera "non in uso" non viene mai offerta.</p></div>
+    <div class="tabw card solo-titolare" style="padding:0"><table class="ed" id="cm-lista"></table></div>
+    <div class="solo-titolare"><button class="btn" type="button" id="cm-add">+ Aggiungi camera</button></div>
+    <div class="card solo-titolare" id="cm-blocco"><h3>Aggiungi più camere insieme</h3><p class="note" style="margin-top:0">Per esempio dalla 1 alla 6, tutte doppie al primo piano. Le camere che esistono già vengono saltate.</p>
+      <div class="riga"><div class="campo"><label for="cb-da">Dalla camera n.</label><input id="cb-da" type="number" min="1" inputmode="numeric"></div><div class="campo"><label for="cb-a">Alla camera n.</label><input id="cb-a" type="number" min="1" inputmode="numeric"></div><div class="campo"><label for="cb-tipo">Tipologia</label><select id="cb-tipo"></select></div><div class="campo"><label for="cb-piano">Piano</label><input id="cb-piano" maxlength="10"></div></div>
+      <div class="riga" style="margin-top:10px"><button class="btn primary" type="button" id="cb-ok">Aggiungi le camere</button><span class="note" id="cb-stato" aria-live="polite"></span></div></div>
   </section>
   <section class="tab" id="s-impost" hidden>
-    <div><h2>Impostazioni dell'hotel</h2><p class="sub">Rispondi alle domande una volta sola: l'assistente in chat e su WhatsApp risponde ai clienti usando queste informazioni. Se un dato cambia, aggiornalo qui.</p></div>
-    <div id="cf-form"><div class="empty">Caricamento…</div></div>
-    <div class="salvabar"><span class="note" id="cf-stato"></span><button class="btn primary" type="button" id="cf-salva">Salva le impostazioni</button></div>
+    <div class="solo-titolare"><h2>Impostazioni dell'hotel</h2><p class="sub">Rispondi alle domande una volta sola: l'assistente in chat e su WhatsApp risponde ai clienti usando queste informazioni. Se un dato cambia, aggiornalo qui.</p></div>
+    <div id="cf-form" class="solo-titolare"><div class="empty">Caricamento…</div></div>
+    <div class="salvabar solo-titolare"><span class="note" id="cf-stato"></span><button class="btn primary" type="button" id="cf-salva">Salva le impostazioni</button></div>
     <div class="card"><h3>Il tuo accesso</h3>
       <div class="campo"><label for="ac-email">Email per recuperare la password</label><div class="riga"><input id="ac-email" type="email" autocomplete="email" placeholder="nome@esempio.it"><button class="btn" type="button" id="ac-email-salva">Salva email</button></div></div>
       <div class="campo"><label for="ac-nuova">Nuova password (almeno 8 caratteri)</label><input id="ac-nuova" type="password" autocomplete="new-password" minlength="8"></div>
       <div class="campo"><label for="ac-ripeti">Ripeti la nuova password</label><input id="ac-ripeti" type="password" autocomplete="new-password" minlength="8"></div>
       <div><button class="btn primary" type="button" id="ac-pwd">Cambia password</button> <span class="note" id="ac-msg"></span></div>
+    </div>
+    <div class="card solo-titolare" id="col-card"><h3>Chi può usare il pannello</h3>
+      <p class="note" style="margin-top:0">Invita la reception o i collaboratori: ognuno sceglie il suo nome utente e la sua password. Possono gestire preventivi, ospiti in hotel, recensioni e planning, ma non vedono Prezzi, Risultati e Impostazioni e non cambiano il listino.</p>
+      <div class="list" id="col-lista"></div>
+      <div class="riga" style="margin-top:12px"><input id="col-nome" placeholder="Nome (es. Giulia)" aria-label="Nome del collaboratore" style="max-width:200px"><input id="col-email" type="email" placeholder="Email del collaboratore" aria-label="Email del collaboratore"><button class="btn primary" type="button" id="col-invita">Invita</button></div>
+      <p class="note" id="col-stato" aria-live="polite"></p>
+    </div>
+    <div class="card solo-titolare" id="imp-card"><h3>Importa ospiti da Excel</h3>
+      <p class="note" style="margin-top:0">Carica il file esportato dal tuo gestionale (Excel o CSV). Gli arrivi della stagione ricevono benvenuto, "come sta andando" e richiesta di recensione; gli ospiti degli anni passati ricevono l'invito a tornare a gennaio. I doppioni vengono saltati.</p>
+      <div class="riga"><label class="resta" style="margin:0"><input type="radio" name="imp-tipo" value="arrivi" checked> <span>Arrivi della stagione</span></label><label class="resta" style="margin:0"><input type="radio" name="imp-tipo" value="passati"> <span>Ospiti degli anni passati</span></label></div>
+      <div class="riga" style="margin-top:10px"><input id="imp-file" type="file" accept=".xlsx,.xls,.csv" aria-label="File da importare"></div>
+      <div id="imp-anteprima"></div>
+      <p class="note" id="imp-stato" aria-live="polite"></p>
     </div>
   </section>
 </main></div>
@@ -376,7 +394,7 @@ function chiama(corpo){
 function mostraLogin(msg){ $('#app').hidden = true; $('#zelda').hidden = true; $('#login').hidden = false; $('#err').textContent = msg || ''; ($('#utente').value ? $('#pwd') : $('#utente')).focus(); }
 function carica(){
   $('#b-agg').disabled = true;
-  return chiama({azione:'dati'}).then(function(d){ D = d; ULTIMO = Date.now(); $('#login').hidden = true; $('#app').hidden = false; $('#zelda').hidden = false; render(); chiudiNotifiche(); if (window.caricaG) caricaG(); zeldaNome(); avvioAutomatico(); mostraInstalla(); statoNotifiche(); $('#agg').textContent = 'Aggiornato alle ' + new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}); })
+  return chiama({azione:'dati'}).then(function(d){ D = d; var rec = D.ruolo === 'reception'; document.body.classList.toggle('ruolo-reception', rec); if (rec) { var at = document.querySelector('[role=tab][aria-selected=true]'); if (at && at.classList.contains('solo-titolare')) apri('oggi'); } ULTIMO = Date.now(); $('#login').hidden = true; $('#app').hidden = false; $('#zelda').hidden = false; render(); chiudiNotifiche(); if (window.caricaG) caricaG(); zeldaNome(); avvioAutomatico(); mostraInstalla(); statoNotifiche(); $('#agg').textContent = 'Aggiornato alle ' + new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}); })
   .catch(function(e){ if (e.auth) { salvaAccesso(false); mostraLogin('Nome utente o password non validi.'); } else toast('Non riesco a caricare i dati. Controlla la connessione e premi Aggiorna.'); })
   .then(function(){ $('#b-agg').disabled = false; });
 }
@@ -509,7 +527,7 @@ function render(){
   $('#gain').innerHTML = '<b>+' + extra + ' € per camera</b><span>se segui i ' + alza.length + ' suggerimenti "Alza", sommando le notti indicate.</span>';
   $('#prezzi').innerHTML = Z.length ? Z.map(function(x){
     var diff = (x.differenza ? '<div style="font-size:12px;font-weight:600;color:var(' + (x.differenza > 0 ? '--good' : '--bad') + ')">' + (x.differenza > 0 ? '+' : '') + x.differenza + ' €</div>' : '');
-    return '<tr><td style="white-space:nowrap">' + ggLungo(x.data) + '</td><td class="num">' + (x.attuale != null ? x.attuale + ' €' : '–') + '</td><td class="num">' + (x.media != null ? x.media + ' €' : '–') + '</td><td class="num"><b>' + (x.suggerito != null ? x.suggerito + ' €' : '–') + '</b>' + diff + '</td><td><span class="pill a-' + x.azione + '">' + (AZ[x.azione] || x.azione) + '</span></td><td class="why">' + esc(String(x.motivo || '').replace(/ EUR/g, ' €')) + '</td></tr>';
+    return '<tr><td style="white-space:nowrap">' + ggLungo(x.data) + '</td><td class="num">' + (x.attuale != null ? x.attuale + ' €' : '–') + (x.attuale_persona ? '<div class="pp">' + x.attuale_persona + ' € a persona HB</div>' : '') + '</td><td class="num">' + (x.media != null ? x.media + ' €' : '–') + '</td><td class="num"><b>' + (x.suggerito != null ? x.suggerito + ' €' : '–') + '</b>' + diff + (x.suggerito_persona && x.suggerito_persona !== x.attuale_persona ? '<div class="pp"><b>' + x.suggerito_persona + ' €</b> a persona HB</div>' : '') + '</td><td><span class="pill a-' + x.azione + '">' + (AZ[x.azione] || x.azione) + '</span></td><td class="why">' + esc(String(x.motivo || '').replace(/ EUR/g, ' €')) + '</td></tr>';
   }).join('') : '<tr><td colspan="6" class="note">Nessun suggerimento ancora disponibile.</td></tr>';
 
   var voti = D.recensioni.filter(function(r){ return r.voto; }).map(function(r){ return r.voto; });
@@ -687,4 +705,4 @@ var RESET = new URLSearchParams(location.search).get('reset');
 try { if (!$('#utente').value) $('#utente').value = localStorage.getItem('pannello-utente') || ''; $('#resta').checked = localStorage.getItem('pannello-resta') === '1'; } catch(e) {}
 var acc0 = leggiAccesso(); try { if (acc0 && localStorage.getItem('pannello-accesso')) $('#resta').checked = true; } catch(e) {} if (RESET) { mostraLogin(''); $('#f-login').hidden = true; $('#f-reset').hidden = false; } else if (acc0 && acc0.u && acc0.p) { UTENTE = acc0.u; PWD = acc0.p; $('#utente').value = acc0.u; carica(); } else mostraLogin('');
 </script>
-<script src="gestione.js?v=13"></script></body></html>
+<script src="gestione.js?v=14"></script></body></html>
