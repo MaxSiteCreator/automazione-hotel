@@ -608,4 +608,28 @@ document.addEventListener('click', function(e){
 
 var primaR = window.caricaG;
 window.caricaG = function(){ return Promise.resolve(primaR()).then(function(){ if (G) document.body.classList.toggle('ruolo-reception', G.ruolo === 'reception'); disegnaCollaboratori(); disegnaBlocco(); }); };
+
+
+/* ---------- CONVERSAZIONE INTERA di un preventivo ---------- */
+function dlgChat(){
+  var d = $('#chat-dlg'); if (d) return d;
+  d = document.createElement('dialog'); d.id = 'chat-dlg'; d.setAttribute('aria-labelledby', 'chat-tit');
+  d.innerHTML = '<div class="hd"><b id="chat-tit">Conversazione</b><button class="btn" type="button" id="chat-chiudi">Chiudi</button></div><div class="bd" id="chat-bd"></div>';
+  document.body.appendChild(d);
+  d.addEventListener('click', function(e){ if (e.target.id === 'chat-chiudi' || e.target === d) d.close(); });
+  return d;
+}
+document.addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('[data-chat]') : null; if (!b) return;
+  var d = dlgChat(); $('#chat-tit').textContent = 'Conversazione'; $('#chat-bd').innerHTML = '<p class="note">Carico i messaggi…</p>';
+  try { d.showModal(); } catch (x) { d.setAttribute('open', ''); }
+  chiamaG({ azione: 'conversazione', id: Number(b.dataset.chat) }).then(function(r){
+    $('#chat-tit').textContent = (r.nome || 'Cliente') + ' · ' + (r.canale || '');
+    var ora = function(q){ try { return new Date(q).toLocaleString('it-IT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (x) { return ''; } };
+    $('#chat-bd').innerHTML = (r.messaggi || []).length ? r.messaggi.map(function(m){
+      return (m.domanda ? '<div class="bb cl">' + esc(m.domanda) + '<small>Cliente · ' + ora(m.quando) + '</small></div>' : '') + (m.risposta ? '<div class="bb as">' + esc(m.risposta) + '<small>Assistente</small></div>' : '');
+    }).join('') : '<p class="note">Per questa richiesta non ci sono messaggi salvati: le conversazioni vengono registrate da oggi in poi.</p>';
+    var bd = $('#chat-bd'); bd.scrollTop = bd.scrollHeight;
+  }).catch(function(x){ errore(x, $('#chat-bd')); });
+});
 })();
